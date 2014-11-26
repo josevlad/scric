@@ -41,15 +41,7 @@
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
-				$bind_values = array(
-						':dni' 		 => $_POST['dni'],
-						':name' 	 => $_POST['name'],
-						':last_name' => $_POST['last_name']
-				);				
-				
-				$this->_person->savePerson($bind_values);
-				
-				$this->redirect('persons','insert');
+				App::varDump($_REQUEST);
 				
 			}else{
 				

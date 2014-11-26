@@ -20,15 +20,70 @@
 				
 				case 'tpPersona_id':
 					//$result = $this->_select->getModelos($_POST["id"]);
-					$data = array();
-						
+					$data = array();						
 					for ($i = 0; $i < '3'; $i++) {
 						$j = $i + 1;
 						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
 					}
 				break;
 				
-				case 'edocivil':
+				case 'estado':
+					$data = array();						
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break; 
+
+				case 'tipoTelf_id':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+				
+				case 'marca':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+				
+				case 'trans':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+
+				case 'clase':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+
+				case '':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+
+				case '':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+				
+				case '':
 					$result = $this->_select->getEdoCivil();
 					$data = array();
 					for ($i = 0; $i < count($result); $i++) {
@@ -36,29 +91,7 @@
 					}
 				break;
 				
-				case 'lugares':
-					$result = $this->_select->getLugares();
-					$data = array();
-					for ($i = 0; $i < count($result); $i++) {
-						$data[$i] = array("id"=>$result[$i]['id'],"option"=>$result[$i]['lugar']);
-					}
-				break;
 				
-				case 'tp_telf':
-					$result = $this->_select->getTpPhone();
-					$data = array();
-					for ($i = 0; $i < count($result); $i++) {
-						$data[$i] = array("id"=>$result[$i]['id'],"option"=>$result[$i]['tipo']);
-					}
-				break;
-				
-				case 'marca':
-					$result = $this->_select->getMarcas();
-					$data = array();
-					for ($i = 0; $i < count($result); $i++) {
-						$data[$i] = array("id"=>$result[$i]['id'],"option"=>$result[$i]['marca']);
-					}
-				break;
 				//=====================================================================================
 				default:
 					throw new Exception('Atributo nombre no encontrado');
@@ -71,12 +104,77 @@
 		function loadSelectDepent() {
 			
 			switch ($_POST['name']) {
-				case 'marca':
+				
+				case 'marca2':
 					$result = $this->_select->getModelos($_POST["id"]);
 					$data = array();
 						
 					for ($i = 0; $i < count($result); $i++) {
 						$data[$i] = array("id"=>$result[$i]["id"],"option"=>$result[$i]["modelo"]);
+					}
+				break;
+				
+				case 'estado':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+
+				case 'municipio':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+
+				case 'marca':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+				
+				case 'clase':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+
+				case 'tpVehiculo':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+
+				case '':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+
+				case '':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+
+				case '':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
 					}
 				break;
 				

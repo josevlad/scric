@@ -53,6 +53,7 @@ function loadSelectUpdate( element, url){
 
 function selectDependent( origin, element, url){
 	
+	element.append('<option value="">Seleccione...</option>');	
 	var idOrigin = '#'+origin.attr('id');	
 	var name = origin.attr('name');
 	
@@ -66,7 +67,7 @@ function selectDependent( origin, element, url){
          		url, 
      			{ name: name, id: selected }, 
      			function(data){
-     				alert(data);
+     				//alert(data);
      				select.empty();
 					select.append('<option value="">Seleccione...</option>');
      				for (var i=0; i<data.length; i++) {
@@ -89,6 +90,11 @@ $(document).ready(function() {
 	strToUpper('#dni');
 	strToUpper('#nombres');
 	strToUpper('#apellidos');
+	strToUpper('#direccion');
+	strToUpper('#color');
+	strToUpper('#placa');
+	strToUpper('#serial_c');
+	strToUpper('#serial_m');
 	strToUpper('#');
 	strToUpper('#');
 	strToUpper('#');
@@ -110,82 +116,83 @@ $(document).ready(function() {
 	var select10 = $("#clase");
 	var select11 = $("#tpVehiculo");
 	var select12 = $("#numero");
-	var select13 = $("#");
+	var select13 = $("#trans");
 	var select14 = $("#");
 	var select15 = $("#");
 	var select16 = $("#");
 	
 	
-	loadSelect(
+	loadSelect( // Tipo de persona
 		select1, 
 		BASE_URL + "select/loadSelect/"
 	);
 
-	loadSelect(
+	loadSelect( // Estados
 		select2, 
 		BASE_URL + "select/loadSelect/"
 	);
 	
-	selectDependent(
+	selectDependent( // Municipios
 		select2, 
 		select3, 
 		BASE_URL+"select/loadSelectDepent/"
 	);
 	
-	selectDependent(
+	selectDependent( // Parroquia
 		select3, 
 		select4, 
 		BASE_URL+"select/loadSelectDepent/"
 	);
 
-	loadSelect(
+	loadSelect( // Tipo Telefono
 		select5, 
 		BASE_URL + "select/loadSelect/"
 	);
 
-	loadSelect(
+	loadSelect( // Tipo Telefono (clone) 
 		select6, 
 		BASE_URL + "select/loadSelect/"
 	);
 
-	loadSelect(
-		select5, 
-		BASE_URL + "select/loadSelect/"
-	);
-
-	loadSelect(
+	loadSelect( // Marcas
 		select7, 
 		BASE_URL + "select/loadSelect/"
 	);
 	
-	selectDependent(
+	selectDependent( // Modelos
 		select7, 
 		select8, 
 		BASE_URL+"select/loadSelectDepent"
 	);
 	
-	var yy = new Date();
+	var yy = new Date(); // Año
 	select9.append('<option value="">Seleccione...</option>');
 	for (var i=0; i<40; i++) {
 		select9.append('<option value="' + (yy.getFullYear()-i) + '">' + (yy.getFullYear()-i) + '</option>');
 	}
 	
-	loadSelect(
-		select11, 
+	loadSelect( // Clase
+		select10, 
 		BASE_URL + "select/loadSelect/"
 	);
 	
-	selectDependent(
+	selectDependent( // Tipo de Vehiculo
+		select10, 
+		select11, 
+		BASE_URL+"select/loadSelectDepent"
+	);
+	
+	selectDependent( // Numero de Puestos
 		select11, 
 		select12, 
 		BASE_URL+"select/loadSelectDepent"
 	);
 	
-	selectDependent(
-		select12, 
+	loadSelect( // trnas
 		select13, 
-		BASE_URL+"select/loadSelectDepent"
+		BASE_URL + "select/loadSelect/"
 	);
+	
 	
 	
 
@@ -343,11 +350,12 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var form = $('#contracts_newContract');
+	var myForm = $('#contracts_newContract');
 	
 	$.validator.setDefaults({
 		errorClass: 'form_error',
-		errorElement: 'div'		
+		errorElement: 'div',
+		validClass: "success"
 	})
 	
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
@@ -387,10 +395,10 @@ $(document).ready(function() {
 	    return age >= min;
 	}, "You are not old enough!");
 	
-	form.validate({
+	myForm.validate({
 		rules:{
 			tpPersona_id:		"required",			
-			dni:{
+			/*dni:{
 				required: 		true,
 				//remote: 		BASE_URL + "partners/remoteQuery", 
 			},
@@ -409,10 +417,7 @@ $(document).ready(function() {
 			estado:				"required",
 			municipio:			"required",
 			parroquias_id:		"required",
-			direccion:{
-				required: 		true,
-				lettersonly: 	true,				
-			},
+			direccion:			"required",
 			tipoTelf_id:		"required",
 			num_Telf:			"required",
 			marca:				"required",
@@ -437,27 +442,11 @@ $(document).ready(function() {
 			},
 			clase:				"required",
 			tpVehiculo:			"required",
-			numero:				"required",
-			
-			
-			
-			foto_s:				"required",
-			img_dni:			"required",
-			n_socio:{
-				required: 		true,
-				number: 		true,
-				remote: 		BASE_URL + "partners/remoteQuery",
-			},
-			fecha_ldc:			"required",
-			fecha_cds:			"required",
-			fecha_rcv:			"required",
-			img_carro:			"required",
-			
-			
-		},
+			numero:				"required"			
+		*/},
 		messages: {
 			tpPersona_id:		"Selección requerida",
-			dni:{
+			/*dni:{
 				required: 		"Campo requerido",
 				number: 		"Introduzca un número válido.",
 				remote: 		"Cédula ya está registrada.",
@@ -477,10 +466,7 @@ $(document).ready(function() {
 			estado:				"Selección requerida",
 			municipio:			"Selección requerida",
 			parroquias_id:		"Selección requerida",
-			direccion:{
-				required: 		"Campo requerido",
-				lettersonly: 	"Introduzca carácteres válidos.",				
-			},
+			direccion: 			"Campo requerido",
 			tipoTelf_id:		"Selección requerida",
 			num_Telf:			"Campo requerido",
 			marca:				"Selección requerida",
@@ -505,26 +491,25 @@ $(document).ready(function() {
 			},
 			clase:				"Selección requerida",
 			tpVehiculo:			"Selección requerida",
-			numero:				"Selección requerida",
+			numero:				"Selección requerida"
 			
+		*/},
+		submitHandler: function() {
+			//$(location).attr('href', myForm.attr('action'));
+			//location.reload();
 			
-			
-			
-			foto_s:				".",
-			img_dni:			".",
-			n_socio:{
-				required: 		"Campo requerido",
-				number: 		"Introduzca un número válido.",
-				remote: 		"N° de socio ya registrado.",
-			},
-			fecha_ldc:			"Campo requerido",
-			fecha_cds:			"Campo requerido",
-			fecha_rcv:			"Campo requerido",
-			img_carro:			".",			
-			
-		},
+			$.ajax({
+	            url:	myForm.attr('action'),
+	            type:	myForm.attr('method'),
+	            data:	myForm.serialize(),
+	            success: function(response) {
+	                console.log(response);
+	            }            
+	        });
+        },
 		success: function(element) {
 			element.remove();
+			
 		}
 	});
 	
