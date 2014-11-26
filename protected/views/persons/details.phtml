@@ -1,0 +1,40 @@
+<!-- content -->	
+	<div class="col-lg-9">
+
+		<div class="page-header">
+			<h2>DETALLES DE LA PERSONA</h2>
+		</div>
+		
+		<div class="col-md-2">
+			<img src="<?php echo PUBLIC_URL; ?>img/user.png" class="img-thumbnail">
+		</div>
+							
+		<div class="col-md-10">
+			<table class="table">
+				<tbody>
+								
+					<tr>
+						<td class="info">Cedula:</td>
+						<td><h2><?php echo $this->registre['dni']; ?></h2></td>
+					</tr>
+					<tr>
+						<td class="info">Nombres:</td>
+						<td><h2><?php echo $this->registre['name']; ?></h2></td>
+					</tr>
+					<tr>
+						<td class="info">Apellidos: </td>
+						<td><h2><?php echo $this->registre['last_name']; ?></h2></td>
+					</tr>
+								
+				</tbody>
+			</table>	
+		</div>
+		
+		<a href="" class="btn btn-primary">Regresar</a>
+		<br><br>
+		
+	</div>
+	      
+</div> <!-- este div es obligatorio -->
+<!-- end content -->
+

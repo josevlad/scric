@@ -1,0 +1,20 @@
+	
+	</div> <!-- #wrapper -->
+	
+	<script src="<?php echo PUBLIC_URL; ?>js/libs/jquery-1.9.1.min.js"></script>
+	<script src="<?php echo PUBLIC_URL; ?>js/libs/jquery-ui-1.9.2.custom.min.js"></script>
+	<script src="<?php echo PUBLIC_URL; ?>js/libs/bootstrap.min.js"></script>
+	<script src="<?php echo PUBLIC_URL; ?>js/App.js"></script>
+	
+	<!-- / START - page related files and scripts [optional] -->
+    <?php  if (isset($_view_params['js']) && count($_view_params['js'])): ?>
+	<?php  	for ($i = 0; $i < count($_view_params['js']); $i++):  ?>
+		<script src="<?php echo $_view_params['js'][$i]; ?>"></script>
+	<?php  	endfor; ?>
+	<?php  endif;?>
+    <!-- / END - page related files and scripts [optional] -->
+ 	
+	
+
+</body>
+</html>

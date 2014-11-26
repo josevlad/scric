@@ -1,0 +1,74 @@
+<!-- content -->	
+	<div class="col-lg-9">
+
+		<div class="page-header">
+			<h2>Listado de Personas</h2>
+		</div>
+		
+		<form method="post" action="<?php echo BASE_URL; ?>persons/listed">
+
+				<div class="form-group col-xs-5">										
+					<input type="text" class="form-control" name="criterial">
+				</div>
+				<input type="submit" class="btn btn-primary" value="Buscar"/>
+		</form>
+		<?php //echo '<pre>';print_r($this->data);?>
+		<?php if (isset($this->data) && count($this->data)): ?>
+									
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Cedula</th>
+						<th>Nombres</th>
+						<th>Apellidos</th>
+						<th colspan="3">Acciones</th>
+					</tr>
+				</thead>
+										
+				<tbody>
+																
+				<?php for ($i = 0; $i < count($this->data); $i++):?>
+									
+					<tr>
+						<td><?php echo $i+1; ?></td>
+						<td><?php echo $this->data[$i]['dni']?></td>
+						<td><?php echo $this->data[$i]['name']?></td>
+						<td><?php echo $this->data[$i]['last_name']?></td>
+										
+					<td>
+						<a href="<?php echo BASE_URL. 'persons' .DS .'details' .DS . $this->data[$i]['id']; ?>">
+						<span class="glyphicon glyphicon-search"></span>
+						</a>
+					</td>
+									
+					<td>
+						<a href="<?php echo BASE_URL. 'persons' .DS .'update' .DS . $this->data[$i]['id']; ?>">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</a>
+					</td>
+									
+					<td>
+						<a href="<?php echo BASE_URL. 'persons' .DS .'delete' .DS . $this->data[$i]['id']; ?>">
+							<span class="glyphicon glyphicon-remove"></span>
+						</a>
+					</td>
+						
+						
+					</tr>
+				<?php endfor;?>								
+									
+				</tbody>
+			</table>
+									
+			<?php else: ?>
+			
+			<br>				
+			<pre> No existen registros en la base de datos </pre>
+							
+		<?php endif;?>
+		
+	</div>
+	      
+</div> <!-- este div es obligatorio -->
+<!-- end content -->

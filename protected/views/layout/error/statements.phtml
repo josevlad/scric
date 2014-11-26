@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+
+    <title>Blank Page - Canvas Admin</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="">
+	<meta name="author" content="" />
+
+	<link rel="stylesheet" href="<?php echo PUBLIC_URL; ?>css/GoogleCss.css" type="text/css">
+	<link rel="stylesheet" href="<?php echo PUBLIC_URL; ?>css/font-awesome.css" type="text/css" />	
+	<link rel="stylesheet" href="<?php echo PUBLIC_URL; ?>css/bootstrap.min.css" type="text/css" />	
+	<link rel="stylesheet" href="<?php echo PUBLIC_URL; ?>js/libs/css/ui-lightness/jquery-ui-1.9.2.custom.css" type="text/css" />		
+	<link rel="stylesheet" href="<?php echo PUBLIC_URL; ?>css/App.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo PUBLIC_URL; ?>css/custom.css" type="text/css" />
+	
+    <?php  if (isset($_view_params['css']) && count($_view_params['css'])): ?>
+	<?php  	for ($i = 0; $i < count($_view_params['css']); $i++):  ?>
+	<link rel="stylesheet" href="<?php echo $_view_params['css'][$i]; ?>" type="text/css" />
+	<?php  	endfor; ?>
+	<?php  endif;?>
+	
+</head>
+
+<body>
+
+	<div id="">
+

@@ -1,0 +1,38 @@
+<!-- content -->	
+	<div class="col-lg-9">
+
+		<div class="page-header">
+			<h2><?php echo $this->message; ?></h2>
+		</div>
+		
+		<form action="<?php echo BASE_URL; ?>persons/delete" method="post">
+
+			<input type="hidden" name="id" value="<?php echo $this->registre['id']; ?>" />
+								
+			<table class="table table-bordered">
+				<thead>
+					<tr>							
+						<th>Cedula</th>
+						<th>Nombres</th>
+						<th>Apellidos</th>
+					</tr>
+				</thead>
+						
+				<tbody>
+					<tr>
+						<td><?php echo $this->registre['dni']; ?></td>
+						<td><?php echo $this->registre['name']; ?></td>
+						<td><?php echo $this->registre['last_name']; ?></td>							
+					</tr>
+				</tbody>
+			</table>
+
+			<input type="submit" class="btn btn-primary" value="Borrar"/>
+			<a href="" class="btn btn-primary">Cancelar</a>
+									
+		</form>
+		
+	</div>
+	      
+</div> <!-- este div es obligatorio -->
+<!-- end content -->

@@ -1,0 +1,38 @@
+
+	<div id="logo">
+		<a href="http://preview.jumpstartthemes.com/canvas-admin/login.html">
+			<img src="<?php echo PUBLIC_URL;?>ico/taxi72.png" alt="Logo" style="margin-top: 15px"/>
+		</a>
+	</div>
+
+	<div id="login">
+
+		<h3>Bienvenido al sistema de socios.</h3>
+
+		<h5>Por favor, inicie sesión para tener acceso.</h5>
+		
+		<?php if (isset($this->_error)) echo $this->_error; ?>
+		<form id="login-form" class="form" action='<?php echo BASE_URL . 'login/signin'?>' method="post">
+			
+			<div class="form-group">
+				<label for="login-username">Username</label>
+				<input type="text" class="form-control" placeholder="Nombre de Usuario" name="user_name" class="form-control" />
+			</div>
+
+			<div class="form-group">
+				<label for="login-password">Password</label>				
+				<input type="password" class="form-control" placeholder="Contraseña" name="password" class="form-control" />
+			</div>
+
+			<div class="form-group">
+
+				<button type="submit" id="login-btn" class="btn btn-primary btn-block">Ingresar &nbsp; <i class="fa fa-play-circle"></i></button>
+
+			</div>
+		</form>
+
+		<a href='forgot_password.html' class="btn btn-default">¿Olvido su contraseña?</a>
+		
+	</div> <!-- /#login -->
+		
+		
