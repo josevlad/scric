@@ -80,12 +80,13 @@
 			}
 			
 			Session::time();
-			
+			/*
 			if($noAdmin == false){
 				if(Session::get('level') == 'Admin'){
 					return; 
 				}
 			}
+			*/
 			if (!empty($level)) {
 				if (in_array(Session::get('level'), $level)) {
 					return;

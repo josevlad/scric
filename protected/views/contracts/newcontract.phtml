@@ -418,50 +418,38 @@
 						
 						<div class="row">
 											
-							<div class="col-sm-3">
+							<div class="col-sm-4">
 								<div class="form-group no-margin-hr">
 									<label ><?php echo utf8_encode('Uso del Vehículo');?></label>
 									<select 
 										class="form-control"
-										id="usoV" 
-										name="usoV"
+										id="uso" 
+										name="uso"
 									></select>
 								</div>
 							</div>						
 							
-							<div class="col-sm-3">
+							<div class="col-sm-4">
 								<div class="form-group no-margin-hr">
 									<label><?php echo utf8_encode('Capacidad de Carga');?></label>
 									<select 
 										class="form-control"
-										id="" 
-										name=""
+										id="carga" 
+										name="carga"
 									></select>
 								</div>
 							</div>
 							
-							<div class="col-sm-6">
-								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Vigencia del Contrato');?></label>
-									<div class="input-group">
-									
-										<input 
-											type="text" 
-											class="form-control" 
-											id=from
-											name="from"
-											placeholder="<?php echo utf8_encode('Fecha de Emisión');?>"
-										>
-										<span class="input-group-addon">a</span>
-										<input 
-											type="text" 
-											class="form-control"
-											id="to"
-											name="to" 
-											placeholder="<?php echo utf8_encode('Fecha de Vencimiento');?>"
-										>
-										
-									</div>
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr date">
+									<label><?php echo utf8_encode('Fecha de inicio del contrato');?></label>
+									<input 
+										type="text" 
+										class="form-control" 
+										id="fecha_ini"
+										name="fecha_ini"
+										value=""
+									>
 								</div>
 							</div>
 							

@@ -44,11 +44,7 @@
 				App::varDump($_REQUEST);
 				
 			}else{
-				
-				//datepicker jq
-				$this->_view->setCss(array('plugins/jquery-ui/jquery-ui'));
-				$this->_view->setJs(array('plugins/jquery-ui/jquery-ui'));
-				
+								
 				//maskedinput
 				$this->_view->setJs(array('plugins/maskedinput/maskedinput'));
 				

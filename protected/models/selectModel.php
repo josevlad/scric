@@ -85,6 +85,43 @@
 			return $result;
 		}
 		
+		public function getReferences($type, $id = FALSE) {
+			
+			$cases = array(
+				'tpPersona_id' 		=> 	'tpPersona ORDER BY id',
+				'estado'			=>	'estados ORDER BY id',
+				'municipio'			=>	'municipios WHERE estados_id ='.$id,
+				'parroquias_id'		=>	'parroquias WHERE municipios_id ='.$id,
+				'tipoTelf_id'		=>	'tipotelf ORDER BY id',
+				'marca'				=>	'marcas ORDER BY id',
+				'modelos_id'		=>	'modelos WHERE marcas_id ='.$id,
+				'trans'				=>	'trans ORDER BY id'				
+			);
+			
+			if (array_key_exists($type, $cases)) {
+				$query = $cases[$type];
+			}else {
+				throw new Exception('Tipo de Solicitud no existente');
+				exit();
+			}
+			
+			$this->_query = 'SELECT * FROM '.$query;
+			$data = $this->_db->query($this->_query);
+			
+			try {
+				$this->_db->beginTransaction();
+					$result = $data->fetchAll();
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+			
+			return $result;
+		}
+		
 		public function getModelos($id) {
 		
 			$this->_query = 'SELECT * FROM modelos WHERE marcas_id ='.$id.' ORDER BY modelo';

@@ -47,29 +47,23 @@ function loadSelect( parameters ){
 function selectDependent( parameters ){
 	
 	var origin 		= $( parameters.origin );
+	var idOrigin 	= parameters.origin;
 	var element 	= $( parameters.selector );
 	var url			= parameters.url;
-	var idOrigin 	= parameters.origin;
-	
-	if(parameters.name){
-		var name = parameters.name;
-	}else {
-		var name = origin.attr('name');
-	}
-	
+	var type		= $( parameters.selector ).attr('name');
+
 	element.append('<option value="">Seleccione...</option>');
 	
 	$( origin ).change(function () {
         
 		$(idOrigin+' option:selected').each(function () {
+			
      		selected = $(this).val();
      		var select = $(element);
-     		
          	$.post(
          		url, 
-     			{ name: name, id: selected }, 
+     			{ type: type, id: selected }, 
      			function(data){
-     				//alert(data);
      				select.empty();
 					select.append('<option value="">Seleccione...</option>');
      				for (var i=0; i<data.length; i++) {
@@ -192,32 +186,19 @@ $(document).ready(function() {
 	
 	selectDependent({ 
 		origin:		'#clase', 
-		selector:	'#usoV', 
+		selector:	'#uso', 
 		url:		BASE_URL+"select/loadSelectDepent/"
 	});
+
+	loadSelect({ 
+		selector:	'#carga', 
+		url:		BASE_URL + "select/loadSelect/"
+	});
+	
 
 // End Section of Content Select
 	
 // datepicker 
-	$( "#from" ).datepicker({
-		//defaultDate: "+1w",
-		changeMonth: true,
-		yearMonth: true,
-		numberOfMonths: 1,
-		onClose: function( selectedDate ) {
-			$( "#to" ).datepicker( "option", "minDate", selectedDate );
-		}
-	});
-	    
-	$( "#to" ).datepicker({
-		defaultDate: "+1m",
-		changeMonth: true,
-		numberOfMonths: 1,
-		onClose: function( selectedDate ) {
-			$( "#from" ).datepicker( "option", "maxDate", selectedDate );
-		}
-	});
-	
 	
 // maskedinput 
 	// =============================================== dni ===========================================
@@ -362,11 +343,20 @@ $(document).ready(function() {
 	
 // End Section of Content dinamic
 	
-// datepicker bootstrap
+	var d = new Date();
+	var today = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
 	
-	$('.dp').datepicker({
-		language: 'es'
+	$('#fecha_ini').val(today);
+	$('.date').on("focus", "#fecha_ini", function() { 
+		$(this).val(today);		
 	});
+	$('.date').on("focusout", "#fecha_ini", function() { 
+		$(this).val(today);		
+	});
+	$('.date').on("keyup", "#fecha_ini", function() { 
+		$(this).val(today);		
+	});
+	
 	
 	
 // Validate
@@ -460,7 +450,11 @@ $(document).ready(function() {
 			},
 			clase:				"required",
 			tpVehiculo:			"required",
-			numero:				"required"			
+			numero:				"required",//
+			tpPago:				"required",
+			cobertura:			"required",
+			uso:				"required",
+			carga:				"required",
 		},
 		messages: {
 			tpPersona_id:		"Selección requerida",
@@ -506,7 +500,11 @@ $(document).ready(function() {
 			},
 			clase:				"Selección requerida",
 			tpVehiculo:			"Selección requerida",
-			numero:				"Selección requerida"
+			numero:				"Selección requerida",//
+			tpPago:				"Selección requerida",
+			cobertura:			"Selección requerida",
+			uso:				"Selección requerida",
+			carga:				"Selección requerida",
 		},
 		submitHandler: function() {
 			//$(location).attr('href', myForm.attr('action'));
@@ -523,6 +521,7 @@ $(document).ready(function() {
         },
 		success: function(element) {
 			element.remove();
+			$('precio').attr('disabled', false);
 			
 		}
 	});

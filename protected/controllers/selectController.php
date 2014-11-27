@@ -16,102 +16,28 @@
 		
 		public function loadSelect() {
 			
-			switch ($_POST['type']) {
+			$data = array();
+			$type = $_POST['type'];
+			
+			$cases = array(
+				'tpPersona_id' 		=> 	'tpPersona',
+				'estado'			=>	'estado',
+				'tipoTelf_id'		=>	'tpTelf',
+				'marca'				=>	'marca',
+				'trans'				=>	'trans'
+			);
 				
-				case 'tpPersona_id':
-					//$result = $this->_select->getModelos($_POST["id"]);
-					$data = array();						
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-				
-				case 'estado':
-					$data = array();						
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break; 
-
-				case 'tipoTelf_id':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-
-				case 'tipoTelf':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-								
-				case 'marca':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-				
-				case 'trans':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-
-				case 'clase':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-
-				case 'tpPago':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-
-				case 'cobertura':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-				
-				case '':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-				
-				case '':
-					$result = $this->_select->getEdoCivil();
-					$data = array();
-					for ($i = 0; $i < count($result); $i++) {
-						$data[$i] = array("id"=>$result[$i]['id'],"option"=>$result[$i]['edo_civil']);
-					}
-				break;
-				
-				
-				//=====================================================================================
-				default:
-					throw new Exception('Atributo nombre no encontrado');
-				break;
+			if (array_key_exists($type, $cases)) {
+				$field = $cases[$type];
+			}else {
+				throw new Exception('Tipo de Solicitud no existente');
+				exit();
+			}
+			
+			$result = $this->_select->getReferences( $type );
+			
+			for ($i = 0; $i < count($result); $i++) {
+				$data[$i] = array("id"=>$result[$i]['id'],"option"=>$result[$i][$field]);
 			}
 			
 			echo  json_encode($data);
@@ -119,87 +45,31 @@
 		
 		function loadSelectDepent() {
 			
-			switch ($_POST['name']) {
+			$data 		= array();
+			$id 		= $_POST['id'];
+			$type	 	= $_POST['type'];
 				
-				case 'marca2':
-					$result = $this->_select->getModelos($_POST["id"]);
-					$data = array();
-						
-					for ($i = 0; $i < count($result); $i++) {
-						$data[$i] = array("id"=>$result[$i]["id"],"option"=>$result[$i]["modelo"]);
-					}
-				break;
-				
-				case 'estado':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-
-				case 'municipio':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-
-				case 'marca':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-				
-				case 'clase':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-
-				case 'tpVehiculo':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-
-				case 'usoV':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-
-				case '':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-
-				case '':
-					$data = array();
-					for ($i = 0; $i < '3'; $i++) {
-						$j = $i + 1;
-						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
-					}
-				break;
-				
-				default:
-					throw new Exception('Atributo nombre no encontrado');
-				break;
+			$cases = array(
+				'municipio'		=>	'municipio',
+				'parroquias_id'	=>	'parroquia',
+				'modelos_id'	=>	'modelo'
+			);
+			
+			if (array_key_exists($type, $cases)) {
+				$field = $cases[$type];
+			}else {
+				throw new Exception('Tipo de Solicitud no existente');
+				exit();
 			}
-						
-			echo json_encode($data);
+
+			$result = $this->_select->getReferences( $type , $id );
+			
+			for ($i = 0; $i < count($result); $i++) {
+				$data[$i] = array("id"=>$result[$i]['id'],"option"=>$result[$i][$field]);
+			}
+				
+			echo  json_encode($data);
+			
 		}
 	}
 
