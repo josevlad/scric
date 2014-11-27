@@ -42,7 +42,15 @@
 						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
 					}
 				break;
-				
+
+				case 'tipoTelf':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+								
 				case 'marca':
 					$data = array();
 					for ($i = 0; $i < '3'; $i++) {
@@ -67,7 +75,7 @@
 					}
 				break;
 
-				case '':
+				case 'tpPago':
 					$data = array();
 					for ($i = 0; $i < '3'; $i++) {
 						$j = $i + 1;
@@ -75,6 +83,14 @@
 					}
 				break;
 
+				case 'cobertura':
+					$data = array();
+					for ($i = 0; $i < '3'; $i++) {
+						$j = $i + 1;
+						$data[$i] = array("id"=>$j,"option"=>'Option_'.$j);
+					}
+				break;
+				
 				case '':
 					$data = array();
 					for ($i = 0; $i < '3'; $i++) {
@@ -154,7 +170,7 @@
 					}
 				break;
 
-				case '':
+				case 'usoV':
 					$data = array();
 					for ($i = 0; $i < '3'; $i++) {
 						$j = $i + 1;

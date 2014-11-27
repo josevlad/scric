@@ -9,37 +9,30 @@ function strToUpper(field){
 	});
 }
 
-function loadSelect( element, url){
+function loadSelect( parameters ){
 	
-	var name = element.attr('name');
+	var element = $( parameters.selector );
+	var url 	= parameters.url;
+	var title 	= 'null';
 	
-	$.post(
+	if(parameters.name){
+		var name = parameters.name;
+	}else {
+		var name = element.attr('name');
+	}
+	
+	if(element.attr('title')){
+		title = element.attr('title');
+	}
+	
+	$.post(		
  		url, 
 		{ type: name }, 
 		function(data){
 			element.empty();
 			element.append('<option value="">Seleccione...</option>');
 			for (var i=0; i<data.length; i++) {
-				element.append('<option value="' + data[i].id + '">' + data[i].option + '</option>');
-			}
-		}, 
-		"json"
-	); 
-	
-}
-
-function loadSelectUpdate( element, url){
-	
-	var name = element.attr('name');
-	
-	$.post(
- 		url, 
-		{ type: name }, 
-		function(data){
-			element.empty();
-			element.append('<option value="">Seleccione...</option>');
-			for (var i=0; i<data.length; i++) {
-				if (element.attr('id-data') == data[i].value) {
+				if ( title == data[i].id ) {
 					element.append('<option selected value="' + data[i].id + '">' + data[i].option + '</option>');
 				}else {
 					element.append('<option value="' + data[i].id + '">' + data[i].option + '</option>');
@@ -51,11 +44,20 @@ function loadSelectUpdate( element, url){
 	
 }
 
-function selectDependent( origin, element, url){
+function selectDependent( parameters ){
 	
-	element.append('<option value="">Seleccione...</option>');	
-	var idOrigin = '#'+origin.attr('id');	
-	var name = origin.attr('name');
+	var origin 		= $( parameters.origin );
+	var element 	= $( parameters.selector );
+	var url			= parameters.url;
+	var idOrigin 	= parameters.origin;
+	
+	if(parameters.name){
+		var name = parameters.name;
+	}else {
+		var name = origin.attr('name');
+	}
+	
+	element.append('<option value="">Seleccione...</option>');
 	
 	$( origin ).change(function () {
         
@@ -103,105 +105,125 @@ $(document).ready(function() {
 // Section of Content Select
 	
 	// Load Select for Data Base =======================================================================================
-	
-	var select1 = $("#tpPersona_id");
-	var select2 = $("#estado");
-	var select3 = $("#municipio");
-	var select4 = $("#parroquias_id");
-	var select5 = $("#tipoTelf_id");
-	var select6 = $("#tipoTelf"); //clone
-	var select7 = $("#marca");
-	var select8 = $("#modelos_id");
-	var select9 = $("#anio");
-	var select10 = $("#clase");
-	var select11 = $("#tpVehiculo");
-	var select12 = $("#numero");
-	var select13 = $("#trans");
-	var select14 = $("#");
-	var select15 = $("#");
-	var select16 = $("#");
-	
-	
-	loadSelect( // Tipo de persona
-		select1, 
-		BASE_URL + "select/loadSelect/"
-	);
+		
+	loadSelect({
+		selector:	'#tpPersona_id', 
+		url:		BASE_URL + "select/loadSelect/"
+	});
 
-	loadSelect( // Estados
-		select2, 
-		BASE_URL + "select/loadSelect/"
-	);
+	loadSelect({ 
+		selector:	'#estado', 
+		url:		BASE_URL + "select/loadSelect/"
+	});
 	
-	selectDependent( // Municipios
-		select2, 
-		select3, 
-		BASE_URL+"select/loadSelectDepent/"
-	);
+	selectDependent({ 
+		origin:		'#estado', 
+		selector:	'#municipio', 
+		url:		BASE_URL+"select/loadSelectDepent/"
+	});
 	
-	selectDependent( // Parroquia
-		select3, 
-		select4, 
-		BASE_URL+"select/loadSelectDepent/"
-	);
+	selectDependent({ 
+		origin:		'#municipio', 
+		selector:	'#parroquias_id', 
+		url:		BASE_URL+"select/loadSelectDepent/"
+	});
 
-	loadSelect( // Tipo Telefono
-		select5, 
-		BASE_URL + "select/loadSelect/"
-	);
-
-	loadSelect( // Tipo Telefono (clone) 
-		select6, 
-		BASE_URL + "select/loadSelect/"
-	);
-
-	loadSelect( // Marcas
-		select7, 
-		BASE_URL + "select/loadSelect/"
-	);
+	loadSelect({ 
+		selector:	'#tipoTelf_id', 
+		url:		BASE_URL + "select/loadSelect/"
+	});
 	
-	selectDependent( // Modelos
-		select7, 
-		select8, 
-		BASE_URL+"select/loadSelectDepent"
-	);
+	loadSelect({ 
+		selector:	'#tipoTelf',
+		name:		'tipoTelf_id', 
+		url:		BASE_URL + "select/loadSelect/"
+	});
+
+	loadSelect({ 
+		selector:	'#marca', 
+		url:		BASE_URL + "select/loadSelect/"
+	});
+	
+	selectDependent({ 
+		origin:		'#marca', 
+		selector:	'#modelos_id', 
+		url:		BASE_URL+"select/loadSelectDepent/"
+	});
+
+	loadSelect({ 
+		selector:	'#trans', 
+		url:		BASE_URL + "select/loadSelect/"
+	});
+	
+	var selectYear = $("#anio");
 	
 	var yy = new Date(); // Año
-	select9.append('<option value="">Seleccione...</option>');
+	selectYear.append('<option value="">Seleccione...</option>');
 	for (var i=0; i<40; i++) {
-		select9.append('<option value="' + (yy.getFullYear()-i) + '">' + (yy.getFullYear()-i) + '</option>');
+		selectYear.append('<option value="' + (yy.getFullYear()-i) + '">' + (yy.getFullYear()-i) + '</option>');
 	}
+
+	loadSelect({ 
+		selector:	'#clase', 
+		url:		BASE_URL + "select/loadSelect/"
+	});
 	
-	loadSelect( // Clase
-		select10, 
-		BASE_URL + "select/loadSelect/"
-	);
+	selectDependent({ 
+		origin:		'#clase', 
+		selector:	'#tpVehiculo', 
+		url:		BASE_URL+"select/loadSelectDepent/"
+	});
 	
-	selectDependent( // Tipo de Vehiculo
-		select10, 
-		select11, 
-		BASE_URL+"select/loadSelectDepent"
-	);
+	selectDependent({ 
+		origin:		'#tpVehiculo', 
+		selector:	'#numero', 
+		url:		BASE_URL+"select/loadSelectDepent/"
+	});
+
+	loadSelect({ 
+		selector:	'#tpPago', 
+		url:		BASE_URL + "select/loadSelect/"
+	});
+
+	loadSelect({ 
+		selector:	'#cobertura', 
+		url:		BASE_URL + "select/loadSelect/"
+	});
 	
-	selectDependent( // Numero de Puestos
-		select11, 
-		select12, 
-		BASE_URL+"select/loadSelectDepent"
-	);
-	
-	loadSelect( // trnas
-		select13, 
-		BASE_URL + "select/loadSelect/"
-	);
-	
-	
-	
+	selectDependent({ 
+		origin:		'#clase', 
+		selector:	'#usoV', 
+		url:		BASE_URL+"select/loadSelectDepent/"
+	});
 
 // End Section of Content Select
 	
+// datepicker 
+	$( "#from" ).datepicker({
+		//defaultDate: "+1w",
+		changeMonth: true,
+		yearMonth: true,
+		numberOfMonths: 1,
+		onClose: function( selectedDate ) {
+			$( "#to" ).datepicker( "option", "minDate", selectedDate );
+		}
+	});
+	    
+	$( "#to" ).datepicker({
+		defaultDate: "+1m",
+		changeMonth: true,
+		numberOfMonths: 1,
+		onClose: function( selectedDate ) {
+			$( "#from" ).datepicker( "option", "maxDate", selectedDate );
+		}
+	});
+	
+	
 // maskedinput 
 	// =============================================== dni ===========================================
-	
+	var select1 = $('#tpPersona_id');
 	$('#dni').attr('disabled', true);
+	$('#dni').attr('placeholder', 'Seleccione el Tipo de Persona');
 	
 	select1.change(function () {
 		$('#dni').val('');
@@ -217,7 +239,7 @@ $(document).ready(function() {
 			$('#dni').attr('placeholder', 'G - 00000000 - 0');
 		}else {
 			$('#dni').attr('disabled', true);
-			$('#dni').attr('placeholder', '');
+			$('#dni').attr('placeholder', 'Seleccione el Tipo de Persona');
 		}
 	
 	})
@@ -252,10 +274,12 @@ $(document).ready(function() {
 // Section of Content dinamic 	
 	
 	// Cant Max Content Dinamic  ============================================================================
-	
+	var a = $("#init div").length + 1;
+	var b = $("#init div").length + 1;
+		
 	var maxPhones       = 2;	
 	var addPhone        = $("#addPhone");	
-	var $clone = $('#phones div#clone').hide();
+	$('#phones div#clone').hide();
 	
 	$(addPhone).click(function(e){
 		if(a <= maxPhones){
@@ -291,7 +315,7 @@ $(document).ready(function() {
 	
 	var MaxPhones       = 2;	
 	var addMail        	= $("#addMail");	
-	var $clone = $('#mail div#clone2').hide();
+	$('#mail div#clone2').hide();
 	
 	$(addMail).click(function(e){
 		if(b <= MaxPhones){
@@ -300,7 +324,7 @@ $(document).ready(function() {
 			
 			clone.attr('id','parent');
 			
-			$('.aux',clone).attr('value', a );
+			$('.aux2',clone).attr('value', b );
 		    $('.email',clone).attr('name','mail_'+b);
 		    
 		    $(clone).appendTo('#mail').show('1500');
@@ -320,9 +344,6 @@ $(document).ready(function() {
 	});
 	
 	// Remove Select and Input Dinamic all ===================================================================
-	
-	var a = $("#contenedor div").length + 1;
-	var b = $("#contenedor div").length + 1;
 	
 	$("body").on("click",".delete", function(e){
 		
@@ -398,7 +419,7 @@ $(document).ready(function() {
 	myForm.validate({
 		rules:{
 			tpPersona_id:		"required",			
-			/*dni:{
+			dni:{
 				required: 		true,
 				//remote: 		BASE_URL + "partners/remoteQuery", 
 			},
@@ -427,26 +448,23 @@ $(document).ready(function() {
 			color:				"required",
 			placa:{
 				required: 		true,
-				remote: 		BASE_URL + "partners/remoteQuery",
 				serial: 		true,
 			},
 			serial_c:{
-				required: 		true,
-				remote: 		BASE_URL + "partners/remoteQuery", 
+				required: 		true, 
 				serial: 		true,
 			},
 			serial_m:{
 				required: 		true,
-				remote: 		BASE_URL + "partners/remoteQuery", 
 				serial: 		true,
 			},
 			clase:				"required",
 			tpVehiculo:			"required",
 			numero:				"required"			
-		*/},
+		},
 		messages: {
 			tpPersona_id:		"Selección requerida",
-			/*dni:{
+			dni:{
 				required: 		"Campo requerido",
 				number: 		"Introduzca un número válido.",
 				remote: 		"Cédula ya está registrada.",
@@ -476,24 +494,20 @@ $(document).ready(function() {
 			color:				"Campo requerido",
 			placa:{
 				required: 		"Campo requerido",
-				remote: 		"Placa ya registrada.",
 				serial: 		"Introduzca un serial válido.",
 			},
 			serial_c:{
 				required: 		"Campo requerido",
-				remote: 		"Serial ya registrado.",
 				serial: 		"Introduzca un serial válido.",
 			},
 			serial_m:{
 				required: 		"Campo requerido",
-				remote: 		"Serial ya registrado.",
 				serial: 		"Introduzca un serial válido.",
 			},
 			clase:				"Selección requerida",
 			tpVehiculo:			"Selección requerida",
 			numero:				"Selección requerida"
-			
-		*/},
+		},
 		submitHandler: function() {
 			//$(location).attr('href', myForm.attr('action'));
 			//location.reload();
@@ -512,6 +526,7 @@ $(document).ready(function() {
 			
 		}
 	});
+	
 	
 });
 

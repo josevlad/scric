@@ -45,11 +45,17 @@
 				
 			}else{
 				
+				//datepicker jq
+				$this->_view->setCss(array('plugins/jquery-ui/jquery-ui'));
+				$this->_view->setJs(array('plugins/jquery-ui/jquery-ui'));
+				
 				//maskedinput
 				$this->_view->setJs(array('plugins/maskedinput/maskedinput'));
 				
+				//validate
 				$this->_view->setJs(array('plugins/validate/validate'));
 				
+				//custom config js 
 				$this->_view->setJs(array('contracts/newContract'));
 				
 				$this->_view->render('newContract'/*,$this->_sidebar_menu*/);
