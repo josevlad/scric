@@ -8,12 +8,11 @@
 		
 		function index() {
 					
-			if (Session::get('authenticated')) {
+			if (Session::get(AUTHENTICATED)) {
 				$this->_view->redirect('');
 			}else {
-				$this->_view->render('access','','login');
+				$this->_view->render('signin','','login');
 			}
-			
 			
 		}
 		
@@ -25,9 +24,9 @@
 					$this->_view->_error = App::boxMessage(
 							'Campos requeridos', 
 							'Debe suministrar un nombre de usuario y una contraseña validos para el acceso.',
-							'danger'
+							'danger panel'
 					);
-					$this->_view->render('access', '', 'login');
+					$this->_view->render('signin', '', 'login');
 					exit();
 				}
 				
@@ -39,11 +38,11 @@
 							'Los datos suministrados no existen en la base de datos, por favor verifique la informacion.',
 							'danger'
 					);
-					$this->_view->render('access', '', 'login');
+					$this->_view->render('signin', '', 'login');
 					exit();
 				}
 				
-				Session::set('authenticated', true);
+				Session::set(AUTHENTICATED, true);
 				Session::set('level', $data['perfil']);
 				Session::set('nivel_est', $data['nivel_estudios_id']);
 				
@@ -61,7 +60,7 @@
 					break;
 				}
 			}else {
-				$this->_view->render('access', '', 'login');
+				$this->_view->render('signin', '', 'login');
 			}
 		}
 			

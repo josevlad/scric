@@ -36,7 +36,7 @@
 		}
 		
 		public static function accessLevel($level) {
-			if (!Session::get('authenticated')) {
+			if (!Session::get(AUTHENTICATED)) {
 				header('location:' . BASE_URL . 'error/access/5050');
 				exit();
 			};
@@ -48,7 +48,7 @@
 		}
 		
 		public static function accessViewLevel($level) {
-			if (!Session::get('authenticated')) {
+			if (!Session::get(AUTHENTICATED)) {
 				return false;
 			};
 			
@@ -74,7 +74,7 @@
 		}
 		
 		public static function accessRole(array $level, $noAdmin = false) {
-			if (!Session::get('authenticated')) {
+			if (!Session::get(AUTHENTICATED)) {
 				header('location:' . BASE_URL . 'login/');
 				exit();
 			}
@@ -96,7 +96,7 @@
 		}
 		
 		public static function accessViewRole(array $level, $noAdmin = FALSE) {
-			if (!Session::get('authenticated')) {
+			if (!Session::get(AUTHENTICATED)) {
 				return false;
 			}
 			if($noAdmin == false){

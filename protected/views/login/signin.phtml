@@ -1,0 +1,65 @@
+
+	<div class="signin-header">
+		<a class="logo">
+			
+			<div class="demo-logo bg-primary">
+				<img src="<?php echo PUBLIC_URL;?>img/mm.png" alt="" style="margin-top: -11px;">
+			</div>&nbsp;
+			
+			<?php echo APP_NAME; ?>
+		</a> <!-- / .logo -->
+		
+	</div> <!-- / .header -->
+	
+	<h1 class="form-header">
+		
+	</h1>
+	<br>
+	<br>
+	<br>
+	<?php if (isset($this->_error)) echo $this->_error; ?>
+	<!-- Form -->
+	<div id="login-container">
+		<div id="logo">
+			<a href="">
+				<img src="<?php echo PUBLIC_URL;?>img/logo.png" alt="Logo" style=" width: 101%;">
+			</a>
+		</div>
+	</div>
+	<form id="signin-form_id" action='<?php echo BASE_URL . 'login/signin'?>' method="post" class="panel">
+		<br>
+		<h1 class="form-header" style="margin-bottom: 20px;">
+			<strong>Bienvenidos al Back-Office</strong>
+		</h1>
+		<div class="form-group">
+			<input 
+				type="text" 
+				class="form-control input-lg" 
+				placeholder="Nombre de Usuario" 
+				name="user_name" 
+				class="form-control" 
+			/>
+			
+		</div> <!-- / Username -->
+
+		<div class="form-group signin-password">				
+			<input 
+				type="password" 
+				class="form-control input-lg" 
+				placeholder="<?php echo utf8_encode('Contraseña')?>" 
+				name="password" class="form-control" 
+			/>
+			
+		</div> <!-- / Password -->
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary btn-block btn-lg">
+				Ingresar &nbsp; 
+				<i class="fa fa-play-circle"></i>
+			</button>
+		</div> <!-- / .form-actions -->
+	</form>
+	<!-- / Form -->
+
+	
+		

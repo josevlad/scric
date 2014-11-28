@@ -1,0 +1,7 @@
+estados:
+
+Municipios:
+	http://an.wikipedia.org/wiki/Lista_de_municipios_de_Venezuela
+
+Parroquias:
+	http://es.wikipedia.org/wiki/Parroquias_de_Venezuela

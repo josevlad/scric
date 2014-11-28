@@ -38,6 +38,8 @@
 		
 //=================================================================================================		
 		public function newContract() {
+
+			Session::accessRole(array('Admin'));
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				

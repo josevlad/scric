@@ -153,7 +153,7 @@ $(document).ready(function() {
 	
 	var yy = new Date(); // Año
 	selectYear.append('<option value="">Seleccione...</option>');
-	for (var i=0; i<40; i++) {
+	for (var i=0; i<70; i++) {
 		selectYear.append('<option value="' + (yy.getFullYear()-i) + '">' + (yy.getFullYear()-i) + '</option>');
 	}
 
