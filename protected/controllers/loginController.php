@@ -44,27 +44,17 @@
 				
 				Session::set(AUTHENTICATED, true);
 				Session::set('level', $data['perfil']);
-				Session::set('nivel_est', $data['nivel_estudios_id']);
+				Session::set('name', $data['nombre']);
+				Session::set('last_name', $data['apellido']);
 				
 				Session::set('time', time());
 				
-				switch ($data['perfil']) {
-					case 'Admin':
-						Session::set('user', 'Sr(a). '.$data['nombres'].', '.$data['apellidos']);
-						$this->_view->redirect('index');
-					break;
-					
-					default:
-						Session::set('user', $data['nombres'].', '.$data['apellidos']);
-						$this->_view->redirect();
-					break;
-				}
 			}else {
 				$this->_view->render('signin', '', 'login');
 			}
 		}
 			
-		public function close($param) {
+		public function close() {
 			Session::destroy();
 			$this->_view->redirect('login');
 		}

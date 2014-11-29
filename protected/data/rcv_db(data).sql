@@ -118,8 +118,8 @@ INSERT INTO `trans` (`id`, `trans`) VALUES
 
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `nick`, `clave`, `respuesta`, `perfil_id`, `agencias_id`, `preguntas_id`, `stUsuarios_id`) VALUES
-(1, 'VLADIMIR J', 'CASTAÃ‘EDA G', 'josevlad', '202cb962ac59075b964b07152d234b70', 'PERRO', 1, 1, 1, 1),
-(2, 'ZURAIMA J', 'RUIZ DE CASTAÃ‘EDA', 'zoro2002', '202cb962ac59075b964b07152d234b70', 'PERRO', 2, 1, 1, 1),
+(1, 'VLADIMIR J', 'CASTAÑEDA G', 'josevlad', '202cb962ac59075b964b07152d234b70', 'PERRO', 1, 1, 1, 1),
+(2, 'ZURAIMA J', 'RUIZ DE CASTAÑEDA', 'zoro2002', '202cb962ac59075b964b07152d234b70', 'PERRO', 2, 1, 1, 1),
 (3, 'ALVARO G', 'HERNANDEZ R', 'alvaro_g', '202cb962ac59075b964b07152d234b70', 'PERRO', 3, 1, 1, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

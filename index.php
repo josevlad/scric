@@ -4,7 +4,9 @@
 	//header('Content-Type: text/html; charset=UTF-8');
 	//ini_set('display_errors', 1);
 	
-	define('DS', DIRECTORY_SEPARATOR); 
+	define('DS', DIRECTORY_SEPARATOR);
+	//define('DS', '/');
+	
 	define('ROOT', realpath(dirname(__FILE__)) . DS ); 	
 	define('APP_PATH', ROOT . DS . 'protected' . DS . 'app' . DS);
 	

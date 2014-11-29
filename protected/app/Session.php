@@ -5,7 +5,7 @@
 			session_start();			
 		}
 		
-		public static function destroy($key = NULL) {
+		public static function destroy($key = FALSE) {
 			if ($key) {
 				if (is_array($key)) {
 					for ($i = 0; $i < count($key); $i++) {

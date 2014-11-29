@@ -4,7 +4,7 @@
 		                    <?php if (isset($this->message)) echo $this->message?>
 		                 
 		                  
-		                  <?php if (!Session::get('authenticated')):?>
+		                  <?php if (!Session::get(AUTHENTICATED)):?>
 		                    <a class='btn btn-md btn-ablock' href='<?php echo BASE_URL . 'login/index'; ?>'>
 		                     
 		                      iniciar Sesión

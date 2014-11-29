@@ -33,13 +33,14 @@
 //=================================================================================================		
 		
 		function index() {
+			Session::accessRole(array('ASESOR','ADMIN_DB'));
 			$this->_view->render('index',$this->_sidebar_menu);
 		}
 		
 //=================================================================================================		
 		public function newContract() {
 
-			//Session::accessRole(array('Admin'));
+			Session::accessRole(array('ASESOR','ADMIN_DB'));
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				

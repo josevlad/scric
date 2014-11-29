@@ -5,12 +5,14 @@
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
 
-@font-face{font-family:FontAwesome;src:url(../fonts/font-awesome/fontawesome-webfont.eot%3Fv=4.0.3);src:url(../fonts/font-awesome/fontawesome-webfont.eot%3F) format('embedded-opentype'),
-url(../fonts/font-awesome/fontawesome-webfont.woff%3Fv=4.0.3) format('woff'),
-url(../fonts/font-awesome/fontawesome-webfont.ttf%3Fv=4.0.3) format('truetype'),
-url(../fonts/font-awesome/fontawesome-webfont.svg%3Fv=4.0.3) format('svg');
-font-weight:400;
-font-style:normal
+@font-face{font-family:FontAwesome;
+	src:url(../fonts/font-awesome/fonts/fontawesome-webfont.eot);
+	src:url(../fonts/font-awesome/fonts/fontawesome-webfont.eot) format('embedded-opentype'),
+		url(../fonts/font-awesome/fonts/fontawesome-webfont.woff) format('woff'),
+		url(../fonts/font-awesome/fonts/fontawesome-webfont.ttf) format('truetype'),
+		url(../fonts/font-awesome/fonts/fontawesome-webfont.svg) format('svg');
+	font-weight:400;
+	font-style:normal
 }
 .fa {
     display: inline-block;

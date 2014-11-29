@@ -5,14 +5,21 @@
 			<div class="menu-content top" id="menu-content-demo">
 				
 				<div>
-					<div class="text-bg"><span class="text-slim">Welcome,</span> <span class="text-semibold">John</span></div>
+					<div class="text-bg">
+						<span class="text-semibold"><?php echo Session::get('name');?></span>
+					</div>
 
 					<img src="<?php echo PUBLIC_URL; ?>demo/avatars/1.jpg" alt="" class="">
 					<div class="btn-group">
-						<a href="pages-blank.html#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-envelope"></i></a>
-						<a href="pages-blank.html#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-user"></i></a>
-						<a href="pages-blank.html#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-cog"></i></a>
-						<a href="pages-blank.html#" class="btn btn-xs btn-danger btn-outline dark"><i class="fa fa-power-off"></i></a>
+						<a href="pages-blank.html#" class="btn btn-xs btn-primary btn-outline dark">
+							<i class="fa fa-user"></i>
+						</a>
+						<a href="pages-blank.html#" class="btn btn-xs btn-primary btn-outline dark">
+							<i class="fa fa-cog"></i>
+						</a>
+						<a href="<?php echo BASE_URL; ?>login/close" class="btn btn-xs btn-danger btn-outline dark">
+							<i class="fa fa-power-off"></i>
+						</a>
 					</div>
 					<!-- <a href="pages-blank.html#" class="close">&times;</a>  -->
 				</div>

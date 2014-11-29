@@ -16,5 +16,6 @@
 	define("DB_NAME", "rcv_db");
 	
 	define('AUTHENTICATED', 'scric_log');
+	define('SESSION_TIME', 500);
 
 ?>
