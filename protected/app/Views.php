@@ -87,6 +87,17 @@
 			}				
 		}
 		
+		
+		public function redirect($controller = FALSE, $view = FALSE) {
+			if ($controller) {
+				header('location:' . BASE_URL . $controller . DS . $view );
+				exit();
+			}else {
+				header('location:' . BASE_URL );
+				exit();
+			};
+		}
+		
 		public function setJs(array $js) {
 			if (is_array($js) && count($js)) {
 				for ($i = 0; $i < count($js); $i++) {

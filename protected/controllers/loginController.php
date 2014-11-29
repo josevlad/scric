@@ -9,9 +9,9 @@
 		function index() {
 					
 			if (Session::get(AUTHENTICATED)) {
-				$this->_view->redirect('');
+					$this->_view->render('index');
 			}else {
-				$this->_view->render('signin','','login');
+				$this->_view->redirect('login','signIn');
 			}
 			
 		}

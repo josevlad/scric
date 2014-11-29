@@ -26,23 +26,6 @@
 				
 			}
 		}
-		
-		/**
-		 * metodo para redirecionar despues de una ejecución.
-		 * Recibe por parametro el modulo y el nombre de la vista
-		 * @param string $module
-		 * @param string $view
-		 */
-		protected function redirect($controller = FALSE,$view = FALSE) {
-			if ($controller) {
-				header('location:' . BASE_URL . $controller . DS . $view );
-				exit();
-			}else {
-				header('location:' . BASE_URL );
-				exit();
-			};
-		}
-		
 				
 	}
 ?>

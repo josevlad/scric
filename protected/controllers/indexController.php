@@ -6,7 +6,11 @@
 		}
 		
 		function index() {
-			$this->_view->render('index');			
+			if (Session::get(AUTHENTICATED)) {
+				$this->_view->render('index');
+			}else {
+				$this->_view->redirect('login','signIn');
+			}			
 		}
 	}
 ?>
