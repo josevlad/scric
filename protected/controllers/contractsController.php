@@ -34,6 +34,8 @@
 		
 		function index() {
 			Session::accessRole(array('ASESOR','ADMIN_DB'));
+			$this->_view->icon_fa = 'fa-users';
+			$this->_view->titleHead = 'Modulo de Contratos y Clientes';
 			$this->_view->render('index',$this->_sidebar_menu);
 		}
 		
@@ -47,6 +49,9 @@
 				App::varDump($_REQUEST);
 				
 			}else{
+				//content page-hader
+				$this->_view->icon_fa = 'fa-users';
+				$this->_view->titleHead = 'Modulo de Contratos y Clientes';
 								
 				//maskedinput
 				$this->_view->setJs(array('plugins/maskedinput/maskedinput'));
@@ -137,7 +142,7 @@
 		
 				$this->_person->updatePerson($bind_values);
 		
-				$this->redirect('persons','listed');
+				$this->redirect('persons/listed');
 		
 			}else{
 		
@@ -187,10 +192,10 @@
 					
 				$this->_person->deletePerson($bind_values);
 					
-				$this->redirect('persons','listed');
+				$this->redirect('persons/listed');
 					
 			}else {
-				$this->redirect('persons','listed');
+				$this->redirect('persons/listed');
 			}
 		
 		}

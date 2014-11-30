@@ -59,7 +59,7 @@
 				
 				$this->_person->savePerson($bind_values);
 				
-				$this->redirect('persons','insert');
+				$this->redirect('persons/insert');
 				
 			}else{
 				
@@ -143,7 +143,7 @@
 		
 				$this->_person->updatePerson($bind_values);
 		
-				$this->redirect('persons','listed');
+				$this->redirect('persons/listed');
 		
 			}else{
 		
@@ -193,10 +193,10 @@
 					
 				$this->_person->deletePerson($bind_values);
 					
-				$this->redirect('persons','listed');
+				$this->redirect('persons/listed');
 					
 			}else {
-				$this->redirect('persons','listed');
+				$this->redirect('persons/listed');
 			}
 		
 		}

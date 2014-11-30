@@ -12,7 +12,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
 	<!-- Open Sans font from Google CDN -->
-	<link href="<?php echo PUBLIC_URL; ?>fonts/fonts.googleapis.com.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo PUBLIC_URL; ?>fonts/fonts.googleapis.com.css" rel="stylesheet" type="text/css">	
 	<link href="<?php echo PUBLIC_URL; ?>fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 	<!-- Pixel Admin's stylesheets -->
@@ -23,12 +23,13 @@
 	<link href="<?php echo PUBLIC_URL; ?>css/rtl.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo PUBLIC_URL; ?>css/themes.min.css" rel="stylesheet" type="text/css">
 	
+	
 	<link href="<?php echo PUBLIC_URL; ?>css/custom.css" rel="stylesheet" type="text/css">
 	
 	<!-- hojas de estilos modulares -->		     
 	<?php  if (isset($_view_params['css']) && count($_view_params['css'])): ?>
 	<?php  	for ($i = 0; $i < count($_view_params['css']); $i++):  ?>		     
-	<script src="<?php echo $_view_params['css'][$i]; ?>"></script>		     
+	<link href="<?php echo $_view_params['css'][$i]; ?>" rel="stylesheet" type="text/css">		     
 	<?php  	endfor; ?>
 	<?php  endif;?>
 

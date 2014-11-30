@@ -84,3 +84,14 @@ label.valid{
 	position: absolute;
 	display: inline-block !important;
 }
+
+
+/**** DataTable ****/
+
+#tbTipoPers_paginate, #tbTipoPers_filter{
+	text-align: right !important;
+}
+
+.btn-action{
+	margin: 0px 15px 0px 15px;
+}

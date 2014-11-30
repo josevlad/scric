@@ -1,0 +1,116 @@
+<!-- content -->	
+	<div class="row">
+		<div class="col-md-12">
+		
+			<form id="config_newTrans" action="<?php echo BASE_URL.'config/newReference'; ?>" method="post" class="form-horizontal">
+
+<!-- ================================== PANEL ================================== -->
+				<div id="init">
+				</div>			
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">Insertar Nuevo Tipo de Persona</span>
+					</div>
+				
+					<div class="panel-body">
+						<!-- ------------------------------------------------------------------------------------------- -->
+						<div class="row clone">
+							
+							<div class="col-sm-6">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Tipo de Transmiciones'); ?></label>
+									<input 
+										type="text" 
+										class="form-control data" 
+										id="trans" 
+										name="trans"
+									>
+									<input
+										type="hidden"
+										id="tpAction"
+										name="tpAction"
+										value="0"
+									>
+								</div>
+							</div>
+													
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr" style="padding-top: 22px;">
+									<button type="submit" class="form-control btn btn-primary">Guardar</button>
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr" style="padding-top: 22px;">
+									<div class="form-control btn btn-danger" id="cancel">Cancelar</div>
+								</div>
+							</div>
+							
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+					</div>
+				
+				</div>
+			</form>	
+<!-- ================================== PANEL ================================== -->
+			<?php //App::varDump($this->data); ?>			
+								
+			<div class="panel">
+				<div class="panel-heading">
+					<span class="panel-title"><?php echo utf8_encode('Contenido de la tabla <strong>Tipo de Persona</strong>')?></span>
+				</div>
+				<div class="panel-body">
+					
+					<div class="table-primary">
+						
+						<?php if (isset($this->data)):?>
+						<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="tbTipoPers">
+							<thead>
+								<tr>
+									<th>Codigo de registro (id)</th>
+									<th>Tipo de Persona</th>
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							
+							<tbody>
+							<?php for ($i = 0; $i < count($this->data); $i++):?>
+								
+								
+								<tr class="gradeA">
+									<td><?php echo $this->data[$i]['id']; ?></td>
+									<td><?php echo $this->data[$i]['trans']; ?></td>
+									
+									<td style="text-align: center;">
+										<button 
+											class="btn btn-success btn-sm btn-action update" 
+											id="<?php echo $this->data[$i]['id']; ?>"
+											name="<?php echo $this->data[$i]['trans']; ?>"
+										>
+											<span class="fa fa-pencil"></span>
+										</button>
+									</td>
+									
+								</tr>
+								
+							<?php endfor;?>
+							</tbody>
+						</table>
+						<?php else:?>
+							<pre>No existen datos en esta Tabla</pre>
+						<?php endif;?>
+						
+					</div>
+					
+				</div>
+			</div>
+				
+<!-- ================================== PANEL ================================== -->
+							
+				
+		
+		
+		</div>
+	</div>
+<!-- end content -->

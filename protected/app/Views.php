@@ -88,9 +88,9 @@
 		}
 		
 		
-		public function redirect($controller = FALSE, $view = FALSE) {
-			if ($controller) {
-				header('location:' . BASE_URL . $controller . DS . $view );
+		public function redirect($rout = FALSE) {
+			if ($rout) {
+				header('location:' . BASE_URL . $rout );
 				exit();
 			}else {
 				header('location:' . BASE_URL );

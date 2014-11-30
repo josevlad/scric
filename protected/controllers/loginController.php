@@ -9,9 +9,9 @@
 		function index() {
 					
 			if (Session::get(AUTHENTICATED)) {
-					$this->_view->render('index');
+				$this->_view->render('index');
 			}else {
-				$this->_view->redirect('login','signIn');
+				$this->_view->redirect('login/signIn');
 			}
 			
 		}
@@ -42,12 +42,18 @@
 					exit();
 				}
 				
+				App::varDump($data);
+				
 				Session::set(AUTHENTICATED, true);
 				Session::set('level', $data['perfil']);
 				Session::set('name', $data['nombre']);
 				Session::set('last_name', $data['apellido']);
+				Session::set('nombre_ag', $data['nombre_ag']);
+				Session::set('identificador', $data['identificador']);
 				
 				Session::set('time', time());
+				
+				$this->_view->redirect('index');
 				
 			}else {
 				$this->_view->render('signin', '', 'login');

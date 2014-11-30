@@ -29,6 +29,7 @@ function loadSelect( parameters ){
  		url, 
 		{ type: name }, 
 		function(data){
+			//console.log(data);
 			element.empty();
 			element.append('<option value="">Seleccione...</option>');
 			for (var i=0; i<data.length; i++) {
