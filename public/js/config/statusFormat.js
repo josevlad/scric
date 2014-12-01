@@ -108,7 +108,7 @@ $(document).ready(function() {
 	
 	
 //strToUpper
-	strToUpper2('#tpPago');
+	strToUpper2('#statusFormat');
 	
 // Section of Content Select
 	
@@ -199,7 +199,7 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var myForm = $('#config_newTpPagos');
+	var myForm = $('#config_statusFormat');
 	
 	$.validator.setDefaults({
 		errorClass: 'form_error',
@@ -247,16 +247,15 @@ $(document).ready(function() {
 	
 	myForm.validate({
 		rules:{		
-			tpPago:{
+			statusFormat:{
 				required: 		true,
-				//remote: 		BASE_URL + "partners/remoteQuery", 
+				lettersonly:	true, 
 			}
 		},
 		messages: {
-			tpPago:{
+			statusFormat:{
 				required: 		"Campo requerido",
-				//number: 		"Introduzca un número válido.",
-				//remote: 		"Cédula ya está registrada.",
+				lettersonly: 	"Caracteres inválidos",
 			},
 			
 		},

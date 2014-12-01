@@ -21,51 +21,71 @@
 		 * de la base de datos
 		 */
 		
-		//Administracion de la tabla Tipo de Personas
-		public function newTipoPers() {
-						
-			//Content page-hader
-			$this->_view->icon_fa = 'fa-database';
-			$this->_view->titleHead = 'Administracion de Base de datos';
-						
-			//dataTable
-			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+		//Administracion de la tabla agencias
+		public function agencias() {
 			
-			//data de la tb tipo de persona
-			$this->_view->data = $this->getReference( 'tpPersona' );
-			
-			//custom config js
-			$this->_view->setJs(array('config/newTipoPers'));
-			
-			$this->_view->render('newTipoPers');
-			
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				
+				if ($_POST['tpAction'] == '0') {
+					
+					$bind_values = array(
+							':nombre_ag'		=> strtoupper( $_POST['nombre_ag'] ),
+							':identificador'	=> strtoupper( $_POST['identificador'] )
+					);
+					
+					$this->_config->saveAgencia($bind_values);
+				}else {
+					
+					$bind_values = array(
+							':nombre_ag'		=> strtoupper( $_POST['nombre_ag'] ),
+							':identificador'	=> strtoupper( $_POST['identificador'] ),
+							':id'				=> $_POST['tpAction']
+					);
+					
+					$this->_config->updateAgencia($bind_values);
+				}
+				
+			}else {
+				//Content page-hader
+				$this->_view->icon_fa = 'fa-database';
+				$this->_view->titleHead = 'Administracion de Base de datos';
+				
+				//dataTable
+				$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+				
+				//data de la tb tipo de persona
+				$this->_view->data = $this->getReference( 'agencias' );
+				
+				//custom config js
+				$this->_view->setJs(array('config/agencias'));
+				
+				$this->_view->render('agencias');
+				
+			}		
 		}
 		
-		//Administracion de la tabla Clase de Vehiculo
-		public function newClassVehicle() {
-				
+		//Administracion de la tabla claseVehiculo
+		public function claseVehiculo() {
+		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
 			$this->_view->titleHead = 'Administracion de Base de datos';
-				
+		
 			//dataTable
 			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
-
-			//bootbox
-			$this->_view->setJs(array('plugins/bootbox/bootbox'));
-				
+		
 			//data de la tb tipo de persona
 			$this->_view->data = $this->getReference( 'claseVehiculo' );
-				
+		
 			//custom config js
-			$this->_view->setJs(array('config/newClassVehicle'));
-				
-			$this->_view->render('newClassVehicle');
-				
+			$this->_view->setJs(array('config/claseVehiculo'));
+		
+			$this->_view->render('claseVehiculo');
+		
 		}
 		
-		//Administracion de la tabla Tipo de telefono
-		public function newTpTelef() {
+		//Administracion de la tabla estado
+		public function estado() {
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -73,22 +93,19 @@
 		
 			//dataTable
 			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
-		
-			//bootbox
-			$this->_view->setJs(array('plugins/bootbox/bootbox'));
 		
 			//data de la tb tipo de persona
-			$this->_view->data = $this->getReference( 'tipoTelf' );
+			$this->_view->data = $this->getReference( 'estado' );
 		
 			//custom config js
-			$this->_view->setJs(array('config/newTpTelef'));
+			$this->_view->setJs(array('config/estado'));
 		
-			$this->_view->render('newTpTelef');
+			$this->_view->render('estado');
 		
 		}
 		
-		//Administracion de la tabla Trans
-		public function newTrans() {
+		//Administracion de la tabla marca
+		public function marca() {
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -96,22 +113,19 @@
 		
 			//dataTable
 			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
-		
-			//bootbox
-			$this->_view->setJs(array('plugins/bootbox/bootbox'));
 		
 			//data de la tb tipo de persona
-			$this->_view->data = $this->getReference( 'trans' );
+			$this->_view->data = $this->getReference( 'marca' );
 		
 			//custom config js
-			$this->_view->setJs(array('config/newTrans'));
+			$this->_view->setJs(array('config/marca'));
 		
-			$this->_view->render('newTrans');
+			$this->_view->render('marca');
 		
 		}
 		
-		//Administracion de la tabla Tipo de Pagos
-		public function newTpPagos() {
+		//Administracion de la tabla perfilUsuario
+		public function perfilUsuario() {
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -119,22 +133,19 @@
 		
 			//dataTable
 			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
-		
-			//bootbox
-			$this->_view->setJs(array('plugins/bootbox/bootbox'));
 		
 			//data de la tb tipo de persona
-			$this->_view->data = $this->getReference( 'tpPago' );
+			$this->_view->data = $this->getReference( 'perfilUsuario' );
 		
 			//custom config js
-			$this->_view->setJs(array('config/newTpPagos'));
+			$this->_view->setJs(array('config/perfilUsuario'));
 		
-			$this->_view->render('newTpPagos');
+			$this->_view->render('perfilUsuario');
 		
 		}
 		
-		//Administracion de la tabla Preguntas
-		public function newPreguntas() {
+		//Administracion de la tabla pregunta
+		public function pregunta() {
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -142,114 +153,19 @@
 		
 			//dataTable
 			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
-		
-			//bootbox
-			$this->_view->setJs(array('plugins/bootbox/bootbox'));
 		
 			//data de la tb tipo de persona
 			$this->_view->data = $this->getReference( 'pregunta' );
 		
 			//custom config js
-			$this->_view->setJs(array('config/newPreguntas'));
+			$this->_view->setJs(array('config/pregunta'));
 		
-			$this->_view->render('newPreguntas');
-		
-		}
-		
-		//Administracion de la tabla stUsuarios
-		public function newStUsuarios() {
-		
-			//Content page-hader
-			$this->_view->icon_fa = 'fa-database';
-			$this->_view->titleHead = 'Administracion de Base de datos';
-		
-			//dataTable
-			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
-		
-			//bootbox
-			$this->_view->setJs(array('plugins/bootbox/bootbox'));
-		
-			//data de la tb tipo de persona
-			$this->_view->data = $this->getReference( 'stUsuarios' );
-		
-			//custom config js
-			$this->_view->setJs(array('config/newStUsuarios'));
-		
-			$this->_view->render('newStUsuarios');
-		
-		}
-		
-		//Administracion de la tabla Perfil
-		public function newPerfil() {
-		
-			//Content page-hader
-			$this->_view->icon_fa = 'fa-database';
-			$this->_view->titleHead = 'Administracion de Base de datos';
-		
-			//dataTable
-			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
-		
-			//bootbox
-			$this->_view->setJs(array('plugins/bootbox/bootbox'));
-		
-			//data de la tb tipo de persona
-			$this->_view->data = $this->getReference( 'perfil' );
-		
-			//custom config js
-			$this->_view->setJs(array('config/newPerfil'));
-		
-			$this->_view->render('newPerfil');
-		
-		}
-		
-		//Administracion de la tabla stFormatos
-		public function newStFormatos() {
-		
-			//Content page-hader
-			$this->_view->icon_fa = 'fa-database';
-			$this->_view->titleHead = 'Administracion de Base de datos';
-		
-			//dataTable
-			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
-		
-			//bootbox
-			$this->_view->setJs(array('plugins/bootbox/bootbox'));
-		
-			//data de la tb tipo de persona
-			$this->_view->data = $this->getReference( 'stFormatos' );
-		
-			//custom config js
-			$this->_view->setJs(array('config/newStFormatos'));
-		
-			$this->_view->render('newStFormatos');
-		
-		}
-		
-		//Administracion de la tabla estados
-		public function newEstados() {
-		
-			//Content page-hader
-			$this->_view->icon_fa = 'fa-database';
-			$this->_view->titleHead = 'Administracion de Base de datos';
-		
-			//dataTable
-			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
-		
-			//bootbox
-			$this->_view->setJs(array('plugins/bootbox/bootbox'));
-		
-			//data de la tb tipo de persona
-			$this->_view->data = $this->getReference( 'estados' );
-		
-			//custom config js
-			$this->_view->setJs(array('config/newEstados'));
-		
-			$this->_view->render('newEstados');
+			$this->_view->render('pregunta');
 		
 		}
 		
 		//Administracion de la tabla statusCont
-		public function newStatusCont() {
+		public function statusCont() {
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -257,22 +173,19 @@
 		
 			//dataTable
 			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
-		
-			//bootbox
-			$this->_view->setJs(array('plugins/bootbox/bootbox'));
 		
 			//data de la tb tipo de persona
 			$this->_view->data = $this->getReference( 'statusCont' );
 		
 			//custom config js
-			$this->_view->setJs(array('config/newStatusCont'));
+			$this->_view->setJs(array('config/statusCont'));
 		
-			$this->_view->render('newStatusCont');
+			$this->_view->render('statusCont');
 		
 		}
 		
-		//Administracion de la tabla Marcas
-		public function newMarcas() {
+		//Administracion de la tabla statusFormat
+		public function statusFormat() {
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -281,20 +194,166 @@
 			//dataTable
 			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
 		
-			//bootbox
-			$this->_view->setJs(array('plugins/bootbox/bootbox'));
-		
 			//data de la tb tipo de persona
-			$this->_view->data = $this->getReference( 'marcas' );
+			$this->_view->data = $this->getReference( 'statusFormat' );
 		
 			//custom config js
-			$this->_view->setJs(array('config/newMarcas'));
+			$this->_view->setJs(array('config/statusFormat'));
 		
-			$this->_view->render('newMarcas');
+			$this->_view->render('statusFormat');
 		
 		}
 		
-		public function newReference() {
+		//Administracion de la tabla statusUsuarios
+		public function statusUsuarios() {
+		
+			//Content page-hader
+			$this->_view->icon_fa = 'fa-database';
+			$this->_view->titleHead = 'Administracion de Base de datos';
+		
+			//dataTable
+			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+		
+			//data de la tb tipo de persona
+			$this->_view->data = $this->getReference( 'statusUsuarios' );
+		
+			//custom config js
+			$this->_view->setJs(array('config/statusUsuarios'));
+		
+			$this->_view->render('statusUsuarios');
+		
+		}
+				
+		//Administracion de la tabla tipoPago
+		public function tipoPago() {
+		
+			//Content page-hader
+			$this->_view->icon_fa = 'fa-database';
+			$this->_view->titleHead = 'Administracion de Base de datos';
+		
+			//dataTable
+			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+		
+			//data de la tb tipo de persona
+			$this->_view->data = $this->getReference( 'tipoPago' );
+		
+			//custom config js
+			$this->_view->setJs(array('config/tipoPago'));
+		
+			$this->_view->render('tipoPago');
+		
+		}
+		
+		//Administracion de la tabla tipoPersona
+		public function tipoPersona() {
+		
+			//Content page-hader
+			$this->_view->icon_fa = 'fa-database';
+			$this->_view->titleHead = 'Administracion de Base de datos';
+		
+			//dataTable
+			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+		
+			//data de la tb tipo de persona
+			$this->_view->data = $this->getReference( 'tipoPersona' );
+		
+			//custom config js
+			$this->_view->setJs(array('config/tipoPersona'));
+		
+			$this->_view->render('tipoPersona');
+		
+		}
+		
+		//Administracion de la tabla tipoTelf
+		public function tipoTelf() {
+		
+			//Content page-hader
+			$this->_view->icon_fa = 'fa-database';
+			$this->_view->titleHead = 'Administracion de Base de datos';
+		
+			//dataTable
+			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+		
+			//data de la tb tipo de persona
+			$this->_view->data = $this->getReference( 'tipoTelf' );
+		
+			//custom config js
+			$this->_view->setJs(array('config/tipoTelf'));
+		
+			$this->_view->render('tipoTelf');
+		
+		}
+		
+		//Administracion de la tabla tipoTrans
+		public function tipoTrans() {
+		
+			//Content page-hader
+			$this->_view->icon_fa = 'fa-database';
+			$this->_view->titleHead = 'Administracion de Base de datos';
+		
+			//dataTable
+			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+		
+			//data de la tb tipo de persona
+			$this->_view->data = $this->getReference( 'tipoTrans' );
+		
+			//custom config js
+			$this->_view->setJs(array('config/tipoTrans'));
+		
+			$this->_view->render('tipoTrans');
+		
+		}
+		
+		//Administracion de la tabla name
+		public function name() {
+		
+			//Content page-hader
+			$this->_view->icon_fa = 'fa-database';
+			$this->_view->titleHead = 'Administracion de Base de datos';
+		
+			//dataTable
+			$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+		
+			//data de la tb tipo de persona
+			$this->_view->data = $this->getReference( 'name' );
+		
+			//custom config js
+			$this->_view->setJs(array('config/name'));
+		
+			$this->_view->render('name');
+		
+		}
+		
+		public function getReference( $type ) {
+		
+			$data = array();
+		
+			$cases = array(
+					'agencias'			=> 	':agencias',
+					'estado'			=> 	':estado',
+					'marca'				=> 	':marca',
+					'perfilUsuario'		=> 	':perfilUsuario',
+					'pregunta'			=> 	':pregunta',
+					'statusCont'		=> 	':statusCont',
+					'statusFormat'		=> 	':statusFormat',
+					'statusUsuarios'	=> 	':statusUsuarios',
+					'tipoPago'			=> 	':tipoPago',
+					'tipoPersona'		=> 	':tipoPersona',
+					'tipoTelf'			=> 	':tipoTelf',
+					'tipoTrans'			=> 	':tipoTrans',
+			);
+				
+			if (!array_key_exists($type, $cases)) {
+				throw new Exception('Tipo de Solicitud no existente (gr controller)');
+				exit();
+			}
+		
+			$result = $this->_config->getReferenceData( $type );
+				
+			return $result;
+		}
+		
+		public function actionReference() {
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
@@ -316,22 +375,22 @@
 				$data = $values['0'];
 				
 				$cases = array(
-						'tpPersona' 		=> 	':tpPersona',
-						'claseVehiculo' 	=> 	':claseVehiculo',
-						'tipoTelf' 			=> 	':tipoTelf',
-						'trans' 			=> 	':trans',
-						'tpPago' 			=> 	':tpPago',
-						'pregunta' 			=> 	':pregunta',
-						'stUsuarios' 		=> 	':stUsuarios',
-						'perfil' 			=> 	':perfil',
-						'stFormatos' 		=> 	':stFormatos',
-						'estados' 			=> 	':estados',
-						'statusCont' 		=> 	':statusCont',
-						'marcas' 			=> 	':marcas'
-				);
+					'claseVehiculo' 		=> 	':claseVehiculo',
+					'estado' 				=> 	':estado',
+					'marca' 				=> 	':marca',
+					'perfilUsuario' 		=> 	':perfilUsuario',
+					'pregunta'				=> 	':pregunta',
+					'statusCont'			=> 	':statusCont',
+					'statusFormat'			=> 	':statusFormat',
+					'statusUsuarios'		=> 	':statusUsuarios',
+					'tipoPago'				=> 	':tipoPago',
+					'tipoPersona'			=> 	':tipoPersona',
+					'tipoTelf'				=> 	':tipoTelf',
+					'tipoTrans'				=> 	':tipoTrans',
+				);	
 				
 				if (!array_key_exists($type, $cases)) {
-					throw new Exception('Tipo de Solicitud no existente');
+					throw new Exception('Tipo de Solicitud no existente (actRef)');
 					exit();
 				}
 				
@@ -344,44 +403,14 @@
 				}else {
 					$this->_config->updateReference($bind_values, $type, $_POST['tpAction']);
 				}
-				
-				
 			}
 		}
 		
-		public function newDependence() {
+		public function actionDependence() {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 			}
 		}
 		
-		public function getReference( $type ) {
-		
-			$data = array();
-		
-			$cases = array(
-					'tpPersona' 		=> 	':tpPersona',
-					'claseVehiculo' 	=> 	':claseVehiculo',
-					'tipoTelf' 			=> 	':tipoTelf',
-					'trans' 			=> 	':trans',
-					'tpPago' 			=> 	':tpPago',
-					'pregunta' 			=> 	':pregunta',
-					'stUsuarios' 		=> 	':stUsuarios',
-					'perfil' 			=> 	':perfil',
-					'stFormatos' 		=> 	':stFormatos',
-					'estados' 			=> 	':estados',
-					'statusCont' 		=> 	':statusCont',
-					'marcas' 			=> 	':marcas'
-			);
-			
-			if (!array_key_exists($type, $cases)) {
-				throw new Exception('Tipo de Solicitud no existente (gr controller)');
-				exit();
-			}
-		
-			$result = $this->_config->getReferenceData( $type );
-			
-			return $result;
-		}
 	}
 ?>

@@ -45,7 +45,7 @@
 				App::varDump($data);
 				
 				Session::set(AUTHENTICATED, true);
-				Session::set('level', $data['perfil']);
+				Session::set('level', $data['perfilUsuario']);
 				Session::set('name', $data['nombre']);
 				Session::set('last_name', $data['apellido']);
 				Session::set('nombre_ag', $data['nombre_ag']);

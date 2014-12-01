@@ -108,7 +108,7 @@ $(document).ready(function() {
 	
 	
 //strToUpper
-	strToUpper2('#tipoTelf');
+	strToUpper2('#tpPersona');
 	
 // Section of Content Select
 	
@@ -199,7 +199,7 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var myForm = $('#config_newTpTelef');
+	var myForm = $('#config_newTipoPers');
 	
 	$.validator.setDefaults({
 		errorClass: 'form_error',
@@ -247,16 +247,15 @@ $(document).ready(function() {
 	
 	myForm.validate({
 		rules:{		
-			tipoTelf:{
+			tpPersona:{
 				required: 		true,
-				//remote: 		BASE_URL + "partners/remoteQuery", 
+				lettersonly:	true, 
 			}
 		},
 		messages: {
-			tipoTelf:{
+			tpPersona:{
 				required: 		"Campo requerido",
-				//number: 		"Introduzca un número válido.",
-				//remote: 		"Cédula ya está registrada.",
+				lettersonly: 	"Caracteres inválidos",
 			},
 			
 		},

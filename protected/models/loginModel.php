@@ -15,26 +15,26 @@
 		public function getUser($user, $pass) {
 			$this->_query = $this->_db->query(
 				'SELECT
-					perfil.perfil,
+					perfilusuario.perfilUsuario,
 					usuarios.nombre,
 					usuarios.apellido,
 					usuarios.nick,
 					usuarios.clave,
-					stusuarios.`status`,
+					agencias.id,
 					agencias.nombre_ag,
 					agencias.identificador,
-					agencias.id
+					usuarios.statusUsuarios_id
 				FROM
-					usuarios
-					INNER JOIN perfil ON usuarios.perfil_id = perfil.id
-					INNER JOIN stusuarios ON usuarios.stUsuarios_id = stusuarios.id
-					INNER JOIN agencias ON usuarios.agencias_id = agencias.id	
+					perfilusuario
+				INNER JOIN usuarios ON usuarios.perfilUsuario_id = perfilusuario.id
+				INNER JOIN agencias ON usuarios.agencias_id = agencias.id
+				
 				WHERE 
 					usuarios.nick = "'.$user.'" 
 				AND 
 					usuarios.clave = "'.md5($pass).'"
 				AND
-					usuarios.stUsuarios_id = 1'
+					usuarios.statusUsuarios_id = 1'
 			);
 			return $this->_query->fetch();
 		}

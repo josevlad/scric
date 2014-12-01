@@ -108,7 +108,7 @@ $(document).ready(function() {
 	
 	
 //strToUpper
-	strToUpper2('#perfil');
+	strToUpper2('#perfilUsuario');
 	
 // Section of Content Select
 	
@@ -199,7 +199,7 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var myForm = $('#config_newPerfil');
+	var myForm = $('#config_perfilUsuario');
 	
 	$.validator.setDefaults({
 		errorClass: 'form_error',
@@ -209,7 +209,7 @@ $(document).ready(function() {
 	
 	
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
-		return this.optional(element) || /^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ\.\s]+$/i.test(value);
+		return this.optional(element) || /^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ\_\.\s]+$/i.test(value);
 	}, "Letters only please"); 
 	
 	jQuery.validator.addMethod("serial", function(value, element) {
@@ -247,16 +247,15 @@ $(document).ready(function() {
 	
 	myForm.validate({
 		rules:{		
-			perfil:{
+			perfilUsuario:{
 				required: 		true,
-				//remote: 		BASE_URL + "partners/remoteQuery", 
+				lettersonly:	true, 
 			}
 		},
 		messages: {
-			perfil:{
+			perfilUsuario:{
 				required: 		"Campo requerido",
-				//number: 		"Introduzca un número válido.",
-				//remote: 		"Cédula ya está registrada.",
+				lettersonly: 	"Caracteres inválidos",
 			},
 			
 		},

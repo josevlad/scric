@@ -2,14 +2,14 @@
 	<div class="row">
 		<div class="col-md-12">
 		
-			<form id="config_newTpPagos" action="<?php echo BASE_URL.'config/newReference'; ?>" method="post" class="form-horizontal">
+			<form id="config_tipoTrans" action="<?php echo BASE_URL.'config/actionReference'; ?>" method="post" class="form-horizontal">
 
 <!-- ================================== PANEL ================================== -->
 				<div id="init">
 				</div>			
 				<div class="panel">
 					<div class="panel-heading">
-						<span class="panel-title">Insertar Nuevo Tipo de Persona</span>
+						<span class="panel-title"><?php echo utf8_encode('Insertar o Editar Tipo de Transmisión')?></span>
 					</div>
 				
 					<div class="panel-body">
@@ -18,12 +18,12 @@
 							
 							<div class="col-sm-6">
 								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Tipo de Pago'); ?></label>
+									<label><?php echo utf8_encode('Tipo de Transmisión'); ?></label>
 									<input 
 										type="text" 
 										class="form-control data" 
-										id="tpPago" 
-										name="tpPago"
+										id="tipoTrans" 
+										name="tipoTrans"
 									>
 									<input
 										type="hidden"
@@ -80,13 +80,13 @@
 								
 								<tr class="gradeA">
 									<td><?php echo $this->data[$i]['id']; ?></td>
-									<td><?php echo $this->data[$i]['tpPago']; ?></td>
+									<td><?php echo $this->data[$i]['tipoTrans']; ?></td>
 									
 									<td style="text-align: center;">
 										<button 
 											class="btn btn-success btn-sm btn-action update" 
 											id="<?php echo $this->data[$i]['id']; ?>"
-											name="<?php echo $this->data[$i]['tpPago']; ?>"
+											name="<?php echo $this->data[$i]['tipoTrans']; ?>"
 										>
 											<span class="fa fa-pencil"></span>
 										</button>

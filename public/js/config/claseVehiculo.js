@@ -108,7 +108,7 @@ $(document).ready(function() {
 	
 	
 //strToUpper
-	strToUpper2('#stFormatos');
+	strToUpper2('#claseVehiculo');
 	
 // Section of Content Select
 	
@@ -247,16 +247,15 @@ $(document).ready(function() {
 	
 	myForm.validate({
 		rules:{		
-			stFormatos:{
+			claseVehiculo:{
 				required: 		true,
-				//remote: 		BASE_URL + "partners/remoteQuery", 
+				lettersonly:	true,
 			}
 		},
 		messages: {
-			stFormatos:{
+			claseVehiculo:{
 				required: 		"Campo requerido",
-				//number: 		"Introduzca un número válido.",
-				//remote: 		"Cédula ya está registrada.",
+				lettersonly:	"Caracteres inválidos",
 			},
 			
 		},

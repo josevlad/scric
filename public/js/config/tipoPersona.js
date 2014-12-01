@@ -108,7 +108,7 @@ $(document).ready(function() {
 	
 	
 //strToUpper
-	strToUpper2('#estados');
+	strToUpper2('#tipoPersona');
 	
 // Section of Content Select
 	
@@ -199,7 +199,7 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var myForm = $('#config_newStFormatos');
+	var myForm = $('#config_tipoPersona');
 	
 	$.validator.setDefaults({
 		errorClass: 'form_error',
@@ -247,16 +247,15 @@ $(document).ready(function() {
 	
 	myForm.validate({
 		rules:{		
-			estados:{
+			tipoPersona:{
 				required: 		true,
-				//remote: 		BASE_URL + "partners/remoteQuery", 
+				lettersonly:	true, 
 			}
 		},
 		messages: {
-			estados:{
+			tipoPersona:{
 				required: 		"Campo requerido",
-				//number: 		"Introduzca un número válido.",
-				//remote: 		"Cédula ya está registrada.",
+				lettersonly: 	"Caracteres inválidos",
 			},
 			
 		},

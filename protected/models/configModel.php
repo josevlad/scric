@@ -11,46 +11,21 @@
 			;
 		}
 		
-		public function saveTpPers($parameters) {
-			
-			$this->_query = "
-				INSERT INTO tpPersona(
-					tpPersona
-				) VALUES (
-					:tpPersona
-				)
-			"; 
-			
-			try {
-				$this->_db->beginTransaction();
-				$this->_db->prepare($this->_query)->execute($parameters);
-				$this->_db->commit();
-			} 
-			catch (Exception $e) {
-				$this->_db->rollBack();
-				echo "Error :: ".$e->getMessage();
-				exit(); 
-			}
-			
-			echo true;
-		}
-		
 		public function saveReference($parameters, $type) {
 			
 			$cases = array(
-				'tpPersona' 		=> 	'tpPersona ( tpPersona ) VALUES ( :tpPersona )',
-				'claseVehiculo' 	=> 	'claseVehiculo ( clase ) VALUES ( :claseVehiculo )',
-				'tipoTelf' 			=> 	'tipoTelf ( tpTelf ) VALUES ( :tipoTelf )',
-				'trans' 			=> 	'trans ( trans ) VALUES ( :trans )',
-				'estado'			=>	'estados ( estado ) VALUES ( :estado )',
-				'tpPago' 			=> 	'tpPago ( tpPago ) VALUES ( :tpPago )',
-				'pregunta' 			=> 	'preguntas ( pregunta ) VALUES ( :pregunta )',
-				'stUsuarios' 		=> 	'stUsuarios ( status ) VALUES ( :stUsuarios )',
-				'perfil' 			=> 	'perfil ( perfil ) VALUES ( :perfil )',
-				'stFormatos' 		=> 	'stFormatos ( status ) VALUES ( :stFormatos )',
-				'estados' 			=> 	'estados ( estado ) VALUES ( :estados )',
-				'statusCont' 		=> 	'statusCont ( status ) VALUES ( :statusCont )',
-				'marcas' 			=> 	'marcas ( marca ) VALUES ( :marcas )',		
+				'claseVehiculo' 	=> 	'claseVehiculo ( claseVehiculo ) VALUES ( :claseVehiculo )',
+				'estado' 			=> 	'estado ( estado ) VALUES ( :estado )',
+				'marca' 			=> 	'marca ( marca ) VALUES ( :marca )',
+				'perfilUsuario' 	=> 	'perfilUsuario ( perfilUsuario ) VALUES ( :perfilUsuario )',
+				'pregunta' 			=> 	'pregunta ( pregunta ) VALUES ( :pregunta )',
+				'statusCont' 		=> 	'statusCont ( statusCont ) VALUES ( :statusCont )',
+				'statusFormat' 		=> 	'statusFormat ( statusFormat ) VALUES ( :statusFormat )',
+				'statusUsuarios' 	=> 	'statusUsuarios ( statusUsuarios ) VALUES ( :statusUsuarios )',
+				'tipoPago' 			=> 	'tipoPago ( tipoPago ) VALUES ( :tipoPago )',
+				'tipoPersona' 		=> 	'tipoPersona ( tipoPersona ) VALUES ( :tipoPersona )',
+				'tipoTelf' 			=> 	'tipoTelf ( tipoTelf ) VALUES ( :tipoTelf )',
+				'tipoTrans' 		=> 	'tipoTrans ( tipoTrans ) VALUES ( :tipoTrans )',
 			);
 			
 			if (array_key_exists($type, $cases)) {
@@ -79,18 +54,18 @@
 		public function updateReference($parameters, $type, $id) {
 				
 			$cases = array(
-					'tpPersona' 		=> 	'tppersona SET tpPersona = :tpPersona WHERE id ='.$id,
-					'claseVehiculo' 	=> 	'claseVehiculo SET clase = :claseVehiculo WHERE id ='.$id,
-					'tipoTelf' 			=> 	'tipoTelf SET tpTelf = :tipoTelf WHERE id ='.$id,
-					'trans' 			=> 	'trans SET trans = :trans WHERE id ='.$id,
-					'tpPago' 			=> 	'tpPago SET tpPago = :tpPago WHERE id ='.$id,
-					'pregunta' 			=> 	'preguntas SET pregunta = :pregunta WHERE id ='.$id,
-					'stUsuarios' 		=> 	'stUsuarios SET status = :stUsuarios WHERE id ='.$id,
-					'perfil' 			=> 	'perfil SET perfil = :perfil WHERE id ='.$id,
-					'stFormatos' 		=> 	'stFormatos SET status = :stFormatos WHERE id ='.$id,
-					'estados' 			=> 	'estados SET estado = :estados WHERE id ='.$id,
-					'statusCont' 		=> 	'statusCont SET status = :statusCont WHERE id ='.$id,
-					'marcas' 			=> 	'marcas SET marca = :marcas WHERE id ='.$id,
+				'claseVehiculo' 	=> 	'claseVehiculo SET claseVehiculo = :claseVehiculo WHERE id ='.$id,
+				'estado' 			=> 	'estado SET estado = :estado WHERE id ='.$id,
+				'marca' 			=> 	'marca SET marca = :marca WHERE id ='.$id,
+				'perfilUsuario' 	=> 	'perfilUsuario SET perfilUsuario = :perfilUsuario WHERE id ='.$id,
+				'pregunta' 			=> 	'pregunta SET pregunta = :pregunta WHERE id ='.$id,
+				'statusCont' 		=> 	'statusCont SET statusCont = :statusCont WHERE id ='.$id,
+				'statusFormat' 		=> 	'statusFormat SET statusFormat = :statusFormat WHERE id ='.$id,
+				'statusUsuarios' 	=> 	'statusUsuarios SET statusUsuarios = :statusUsuarios WHERE id ='.$id,
+				'tipoPago' 			=> 	'tipoPago SET tipoPago = :tipoPago WHERE id ='.$id,
+				'tipoPersona' 		=> 	'tipoPersona SET tipoPersona = :tipoPersona WHERE id ='.$id,
+				'tipoTelf' 		 	=> 	'tipoTelf SET tipoTelf = :tipoTelf WHERE id ='.$id,
+				'tipoTrans' 		 => 	'tipoTrans SET tipoTrans = :tipoTrans WHERE id ='.$id,
 			);
 				
 			if (array_key_exists($type, $cases)) {
@@ -119,22 +94,18 @@
 		public function getReferenceData($type, $id = FALSE, $id2 = FALSE) {
 			
 			$cases = array(
-				'tpPersona' 		=> 	'tpPersona ORDER BY id',
-				'claseVehiculo'		=>	'claseVehiculo ORDER BY id',
-				'tipoTelf'			=>	'tipotelf ORDER BY id',
-				'tipoTelf_id'		=>	'tipotelf ORDER BY id',
-				'trans'				=>	'trans ORDER BY id',
-				'tpPago'			=>	'tpPago ORDER BY id',
-				'pregunta'			=>	'preguntas ORDER BY id',
-				'stUsuarios'		=>	'stUsuarios ORDER BY id',
-				'perfil'			=>	'perfil ORDER BY id',
-				'stFormatos'		=>	'stFormatos ORDER BY id',
-				'estados'			=>	'estados ORDER BY id',
-				'statusCont'		=>	'statusCont ORDER BY id',
-				'marcas'			=>	'marcas ORDER BY id',
-				'municipio'			=>	'municipios WHERE estados_id ='.$id,
-				'parroquias_id'		=>	'parroquias WHERE municipios_id ='.$id,
-				'modelos_id'		=>	'modelos WHERE marcas_id ='.$id,				
+				'agencias'			=> 	'agencias ORDER BY id',
+				'estado'			=> 	'estado ORDER BY id',
+				'marca'				=> 	'marca ORDER BY id',
+				'perfilUsuario'		=> 	'perfilUsuario ORDER BY id',
+				'pregunta'			=> 	'pregunta ORDER BY id',	
+				'statusCont'		=> 	'statusCont ORDER BY id',
+				'statusFormat'		=> 	'statusFormat ORDER BY id',
+				'statusUsuarios'	=> 	'statusUsuarios ORDER BY id',
+				'tipoPago'			=> 	'tipoPago ORDER BY id',
+				'tipoPersona'		=> 	'tipoPersona ORDER BY id',
+				'tipoTelf'			=> 	'tipoTelf ORDER BY id',
+				'tipoTrans'			=> 	'tipoTrans ORDER BY id',
 			);
 			
 			if (array_key_exists($type, $cases)) {
@@ -159,6 +130,54 @@
 			}
 			
 			return $result;
+		}
+		
+		public function saveAgencia($parameters) {
+			$this->_query ='
+				INSERT INTO agencias(
+					nombre_ag,
+					identificador
+				) VALUES (
+					:nombre_ag,
+					:identificador				
+			)';
+			
+			try {
+				$this->_db->beginTransaction();
+				$this->_db->prepare($this->_query)->execute($parameters);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+			
+			echo true;
+		}
+		
+		public function updateAgencia($parameters) {
+			$this->_query ='
+				UPDATE agencias 
+				SET 
+					nombre_ag = :nombre_ag,
+					identificador = :identificador 
+				WHERE 
+					id = :id
+			';
+				
+			try {
+				$this->_db->beginTransaction();
+				$this->_db->prepare($this->_query)->execute($parameters);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+				
+			echo true;
 		}
 		
 		

@@ -108,7 +108,8 @@ $(document).ready(function() {
 	
 	
 //strToUpper
-	strToUpper2('#statusCont');
+	strToUpper2('#nombre_ag');
+	strToUpper2('#identificador');
 	
 // Section of Content Select
 	
@@ -139,6 +140,7 @@ $(document).ready(function() {
 		//alert($(this).attr('id'));
 		$('#tpAction').attr('value',$(this).attr('id'));
 		$('.data').val($(this).attr('name'));
+		$('.data2').val($(this).attr('accesskey'));
 		$('#cancel').show('slow');
 		//$(this).mask("(9999) 999-99-99");
 	});
@@ -147,6 +149,7 @@ $(document).ready(function() {
 		//alert($(this).attr('id'));
 		$('#tpAction').attr('value','0');
 		$('.data').val('');
+		$('.data2').val('');
 		$(this).hide('slow');
 		//$(this).mask("(9999) 999-99-99");
 	});
@@ -199,7 +202,7 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var myForm = $('#config_newStatusCont');
+	var myForm = $('#config_agencias');
 	
 	$.validator.setDefaults({
 		errorClass: 'form_error',
@@ -247,18 +250,24 @@ $(document).ready(function() {
 	
 	myForm.validate({
 		rules:{		
-			statusCont:{
+			nombre_ag:{
 				required: 		true,
-				//remote: 		BASE_URL + "partners/remoteQuery", 
+				lettersonly: 	true, 
+			},
+			identificador:{
+				required: 		true,
+				lettersonly: 	true, 
 			}
 		},
 		messages: {
-			statusCont:{
+			nombre_ag:{
 				required: 		"Campo requerido",
-				//number: 		"Introduzca un número válido.",
-				//remote: 		"Cédula ya está registrada.",
+				lettersonly: 	"Caracteres inválidos",
 			},
-			
+			identificador:{
+				required: 		"Campo requerido",
+				lettersonly: 	"Caracteres inválidos",
+			}			
 		},
 		submitHandler: function() {
 			//$(location).attr('href', myForm.attr('action'));

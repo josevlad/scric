@@ -81,6 +81,25 @@ function selectDependent( parameters ){
 	
 }
 
+function openFancyBox( parameters ) {
+	
+	var element = parameters.button
+	var url = parameters.url
+	
+	$(element).click(function() {
+		$.fancybox.open({
+			href : url,
+			type : 'iframe',
+			//autoSize: false,
+	        //width: 1024,
+	        //height: 490,
+			afterClose : function(){
+				
+   			}
+		});
+	});
+}
+
 //=================================================================================================================================
 
 $(document).ready(function() {
@@ -89,7 +108,7 @@ $(document).ready(function() {
 	
 	
 //strToUpper
-	strToUpper2('#claseVehiculo');
+	strToUpper2('#tipoPago');
 	
 // Section of Content Select
 	
@@ -107,7 +126,13 @@ $(document).ready(function() {
 	});
 
 // End Section of Content Select
-
+	/*
+	openFancyBox({
+		button:		'.update',
+		url:		BASE_URL + "index/index",	
+	})
+	*/
+	
 	$('#cancel').hide();
 	
 	$(document).on("click", ".update", function() { 
@@ -125,6 +150,7 @@ $(document).ready(function() {
 		$(this).hide('slow');
 		//$(this).mask("(9999) 999-99-99");
 	});
+
 	
 // datatable
 	
@@ -173,7 +199,7 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var myForm = $('#config_newReference');
+	var myForm = $('#config_tipoPago');
 	
 	$.validator.setDefaults({
 		errorClass: 'form_error',
@@ -221,16 +247,15 @@ $(document).ready(function() {
 	
 	myForm.validate({
 		rules:{		
-			claseVehiculo:{
+			tipoPago:{
 				required: 		true,
-				//remote: 		BASE_URL + "partners/remoteQuery", 
+				lettersonly:	true, 
 			}
 		},
 		messages: {
-			claseVehiculo:{
+			tipoPago:{
 				required: 		"Campo requerido",
-				//number: 		"Introduzca un número válido.",
-				//remote: 		"Cédula ya está registrada.",
+				lettersonly: 	"Caracteres inválidos",
 			},
 			
 		},
