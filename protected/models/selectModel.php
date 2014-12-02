@@ -11,23 +11,23 @@
 			;
 		}
 		
-		public function getReferences($type, $id = FALSE) {
+		public function getReferences($table, $id = FALSE) {
 			
 			$cases = array(
-				'tpPersona_id' 		=> 	'tpPersona ORDER BY id',
-				'estado'			=>	'estados ORDER BY id',
-				'municipio'			=>	'municipios WHERE estados_id ='.$id,
-				'parroquias_id'		=>	'parroquias WHERE municipios_id ='.$id,
-				'tipoTelf_id'		=>	'tipotelf ORDER BY id',
-				'marca'				=>	'marcas ORDER BY id',
-				'modelos_id'		=>	'modelos WHERE marcas_id ='.$id,
-				'trans'				=>	'trans ORDER BY id'				
+				'claseVehiculo'		=> 	'claseVehiculo ORDER BY id',
+				'marca'				=> 	'marca ORDER BY id',
+				'estado'			=> 	'estado ORDER BY id ASC',
+				//================================================
+				'tipoVehiculo'		=> 	'tipoVehiculo WHERE claseVehiculo_id = '.$id,
+				'municipio'			=> 	'municipio WHERE estado_id = '.$id,
+				'cobertura'			=> 	'cobertura WHERE claseVehiculo_id = '.$id,
+				'numPuesto'			=> 	'numPuesto WHERE tipoVehiculo_id = '.$id,
 			);
 			
-			if (array_key_exists($type, $cases)) {
-				$query = $cases[$type];
+			if (array_key_exists($table, $cases)) {
+				$query = $cases[$table];
 			}else {
-				throw new Exception('Tipo de Solicitud no existente');
+				throw new Exception('Tipo de Solicitud no existente (selecModel-getReferences)');
 				exit();
 			}
 			
@@ -45,114 +45,6 @@
 				exit();
 			}
 			
-			return $result;
-		}
-		
-		public function getModelos($id) {
-		
-			$this->_query = 'SELECT * FROM modelos WHERE marcas_id ='.$id.' ORDER BY modelo';
-			$data = $this->_db->query($this->_query);
-		
-			try {
-				$this->_db->beginTransaction();
-				$result = $data->fetchAll();
-				$this->_db->commit();
-			}
-			catch (Exception $e) {
-				$this->_db->rollBack();
-				echo "Error :: ".$e->getMessage();
-				exit();
-			}
-		
-			return $result;
-		}
-		
-		
-		//===================================================
-		public function getSex() {
-			$this->_query = " SELECT * FROM sexo";
-			$data = $this->_db->query($this->_query);
-				
-			try {
-				$this->_db->beginTransaction();
-				$result = $data->fetchAll();
-				$this->_db->commit();
-			}
-			catch (Exception $e) {
-				$this->_db->rollBack();
-				echo "Error :: ".$e->getMessage();
-				exit();
-			}
-					
-			return $result;
-		}
-		
-		public function getCountry() {
-			$this->_query = " SELECT * FROM paises";
-			$data = $this->_db->query($this->_query);
-		
-			try {
-				$this->_db->beginTransaction();
-				$result = $data->fetchAll();
-				$this->_db->commit();
-			}
-			catch (Exception $e) {
-				$this->_db->rollBack();
-				echo "Error :: ".$e->getMessage();
-				exit();
-			}
-				
-			return $result;
-		}
-		
-		public function getInstitute() {
-			$this->_query = " SELECT * FROM planteles ORDER BY plantel";
-			$data = $this->_db->query($this->_query);
-		
-			try {
-				$this->_db->beginTransaction();
-				$result = $data->fetchAll();
-				$this->_db->commit();
-			}
-			catch (Exception $e) {
-				$this->_db->rollBack();
-				echo "Error :: ".$e->getMessage();
-				exit();
-			}
-			return $result;
-		}
-		
-		public function getCondition() {
-			$this->_query = "SELECT * FROM cond_matricula";
-			$data = $this->_db->query($this->_query);
-		
-			try {
-				$this->_db->beginTransaction();
-				$result = $data->fetchAll();
-				$this->_db->commit();
-			}
-			catch (Exception $e) {
-				$this->_db->rollBack();
-				echo "Error :: ".$e->getMessage();
-				exit();
-			}
-			return $result;
-		}
-		
-		public function getNexo() {
-			$this->_query = "SELECT * FROM nexo_familiar";
-			$data = $this->_db->query($this->_query);
-		
-			try {
-				$this->_db->beginTransaction();
-				$result = $data->fetchAll();
-				$this->_db->commit();
-			}
-			catch (Exception $e) {
-				$this->_db->rollBack();
-				echo "Error :: ".$e->getMessage();
-				exit();
-			}
 			return $result;
 		}
 		

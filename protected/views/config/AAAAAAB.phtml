@@ -2,34 +2,45 @@
 	<div class="row">
 		<div class="col-md-12">
 		
-			<form id="config_perfilUsuario" action="<?php echo BASE_URL.'config/actionReference'; ?>" method="post" class="form-horizontal">
+			<form id="config_cobertura" action="<?php echo BASE_URL.'config/actionDependence'; ?>" method="post" class="form-horizontal">
 
 <!-- ================================== PANEL ================================== -->
 				<div id="init">
 				</div>			
 				<div class="panel">
 					<div class="panel-heading">
-						<span class="panel-title"><?php echo utf8_encode('Insertar o Editar Perfil de Usuario')?></span>
+						<span class="panel-title"><?php echo utf8_encode('Insertar o Editar ...')?></span>
 					</div>
 				
 					<div class="panel-body">
 						<!-- ------------------------------------------------------------------------------------------- -->
 						<div class="row clone">
-							
-							<div class="col-sm-6">
+							<input
+								type="hidden"
+								id="tpAction"
+								name="tpAction"
+								value="0"
+							>
+							<div class="col-sm-4">
 								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Perfil de Usuario'); ?></label>
+									<label><?php echo utf8_encode('...'); ?></label>
+									<select 
+										class="form-control"
+										id="claseVehiculo_id" 
+										name="claseVehiculo_id"
+										table="claseVehiculo"										
+									><option value=""></option></select>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('...'); ?></label>
 									<input 
 										type="text" 
 										class="form-control data" 
-										id="perfilUsuario" 
-										name="perfilUsuario"
-									>
-									<input
-										type="hidden"
-										id="tpAction"
-										name="tpAction"
-										value="0"
+										id="cobertura" 
+										name="cobertura"
 									>
 								</div>
 							</div>
@@ -69,7 +80,8 @@
 							<thead>
 								<tr>
 									<th>Codigo de registro (id)</th>
-									<th><?php echo utf8_encode('Perfiles de Usuario'); ?></th>
+									<th><?php echo utf8_encode('...')?></th>
+									<th><?php echo utf8_encode('...')?></th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
@@ -79,14 +91,16 @@
 								
 								
 								<tr class="gradeA">
-									<td><?php echo $this->data[$i]['id']; ?></td>
-									<td><?php echo $this->data[$i]['perfilUsuario']; ?></td>
+									<td><?php echo $this->data[$i]['0']; ?></td>
+									<td><?php echo $this->data[$i]['...']; ?></td>
+									<td><?php echo $this->data[$i]['...']; ?></td>
 									
 									<td style="text-align: center;">
 										<button 
 											class="btn btn-success btn-sm btn-action update" 
-											id="<?php echo $this->data[$i]['id']; ?>"
-											name="<?php echo $this->data[$i]['perfilUsuario']; ?>"
+											id="<?php echo $this->data[$i]['0']; ?>"
+											select1="<?php echo $this->data[$i]['claseVehiculo_id']; ?>"
+											inputText="<?php echo $this->data[$i]['cobertura']; ?>"
 										>
 											<span class="fa fa-pencil"></span>
 										</button>

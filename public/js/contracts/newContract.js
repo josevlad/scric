@@ -13,27 +13,25 @@ function loadSelect( parameters ){
 	
 	var element = $( parameters.selector );
 	var url 	= parameters.url;
-	var title 	= 'null';
+	var table	= element.attr('table');
 	
-	if(parameters.name){
-		var name = parameters.name;
-	}else {
-		var name = element.attr('name');
+	if (element.attr('choose')) {
+		var choose = element.attr('choose');
+	}else if (parameters.choose) {
+		var choose = parameters.choose;
 	}
-	
-	if(element.attr('title')){
-		title = element.attr('title');
+	else {
+		var choose = '';
 	}
 	
 	$.post(		
  		url, 
-		{ type: name }, 
+		{ table: table }, 
 		function(data){
-			//console.log(data);
 			element.empty();
 			element.append('<option value="">Seleccione...</option>');
 			for (var i=0; i<data.length; i++) {
-				if ( title == data[i].id ) {
+				if ( choose == data[i].id ) {
 					element.append('<option selected value="' + data[i].id + '">' + data[i].option + '</option>');
 				}else {
 					element.append('<option value="' + data[i].id + '">' + data[i].option + '</option>');

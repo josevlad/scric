@@ -1,0 +1,179 @@
+<!-- content -->	
+	<div class="row">
+		<div class="col-md-12">
+		
+			<form id="config_precio" action="<?php echo BASE_URL.'config/precio'; ?>" method="post" class="form-horizontal">
+
+<!-- ================================== PANEL ================================== -->
+				<div id="init">
+				</div>			
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title"><?php echo utf8_encode('Insertar o Editar Precio de Polizas')?></span>
+					</div>
+				
+					<div class="panel-body">
+						
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Clase de Vehículo'); ?></label>
+									<select 
+										class="form-control"
+										id="claseVehiculo" 
+										name="claseVehiculo"
+										table="claseVehiculo"										
+									></select>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Tipo de Vehiculo'); ?></label>
+									<select 
+										class="form-control"
+										id="tipoVehiculo" 
+										name="tipoVehiculo"
+										table="tipoVehiculo"										
+									></select>
+								</div>
+							</div>
+							<input
+								type="hidden"
+								id="tpAction"
+								name="tpAction"
+								value="0"
+							>
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Número de Puestos'); ?></label>
+									<select 
+										class="form-control"
+										id="numPuesto_id" 
+										name="numPuesto_id"
+										table="numPuesto"										
+									></select>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">							
+							
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Cobertura de la Poliza'); ?></label>
+									<select 
+										class="form-control"
+										id="cobertura_id" 
+										name="cobertura_id"
+										table="cobertura"										
+									></select>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Precio de Poliza'); ?></label>
+									<input 
+										type="text" 
+										class="form-control data" 
+										id="precio" 
+										name="precio"
+									>
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr" style="padding-top: 22px;">
+									<button type="submit" class="form-control btn btn-primary">Guardar</button>
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr" style="padding-top: 22px;">
+									<div class="form-control btn btn-danger" id="cancel">Cancelar</div>
+								</div>
+							</div>
+							
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+						
+					</div>
+				
+				</div>
+			</form>	
+<!-- ================================== PANEL ================================== -->
+			<?php //App::varDump($this->data); ?>			
+								
+			<div class="panel">
+				<div class="panel-heading">
+					<span class="panel-title"><?php echo utf8_encode('Contenido de la tabla <strong>Precios</strong>')?></span>
+				</div>
+				<div class="panel-body">
+					
+					<div class="table-primary">
+						
+						<?php if (isset($this->data)):?>
+						<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="tbTipoPers">
+							<thead>
+								<tr>
+									<th>Codigo de registro (id)</th>
+									<th><?php echo utf8_encode('Clase de Vehículo')?></th>
+									<th><?php echo utf8_encode('Tipo de Vehículo')?></th>
+									<th><?php echo utf8_encode('Numero de Puestos')?></th>
+									<th><?php echo utf8_encode('Cobertura')?></th>
+									<th><?php echo utf8_encode('Precio')?></th>
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							
+							<tbody>
+							<?php for ($i = 0; $i < count($this->data); $i++):?>
+								
+								
+								<tr class="gradeA">
+									<td><?php echo $this->data[$i]['0']; ?></td>
+									<td><?php echo $this->data[$i]['claseVehiculo']; ?></td>
+									<td><?php echo $this->data[$i]['tipoVehiculo']; ?></td>
+									<td><?php echo $this->data[$i]['numPuesto']; ?></td>
+									<td><?php echo $this->data[$i]['cobertura']; ?></td>
+									<td><?php echo $this->data[$i]['precio']; ?></td>
+									
+									<td style="text-align: center;">
+										<button 
+											class="btn btn-success btn-sm btn-action update" 
+											id="<?php echo $this->data[$i]['0']; ?>"
+											select1="<?php echo $this->data[$i]['claseVehiculo_id']; ?>"
+											select2="<?php echo $this->data[$i]['tipoVehiculo_id']; ?>"
+											select3="<?php echo $this->data[$i]['numPuesto_id']; ?>"
+											select4="<?php echo $this->data[$i]['cobertura_id']; ?>"
+											inputText="<?php echo $this->data[$i]['precio']; ?>"
+										>
+											<span class="fa fa-pencil"></span>
+										</button>
+									</td>
+									
+								</tr>
+								
+							<?php endfor;?>
+							</tbody>
+						</table>
+						<?php else:?>
+							<pre>No existen datos en esta Tabla</pre>
+						<?php endif;?>
+						
+					</div>
+					
+				</div>
+			</div>
+				
+<!-- ================================== PANEL ================================== -->
+							
+				
+		
+		
+		</div>
+	</div>
+<!-- end content -->

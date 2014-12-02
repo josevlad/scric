@@ -16,25 +16,23 @@
 		
 		public function loadSelect() {
 			
-			$data = array();
-			$type = $_POST['type'];
+			$data 	= array();
+			$table 	= $_POST['table'];
 			
 			$cases = array(
-				'tpPersona_id' 		=> 	'tpPersona',
-				'estado'			=>	'estado',
-				'tipoTelf_id'		=>	'tpTelf',
-				'marca'				=>	'marca',
-				'trans'				=>	'trans'
+				'claseVehiculo'			=>	'claseVehiculo',
+				'marca'					=>	'marca',
+				'estado'				=>	'estado',
 			);
 				
-			if (array_key_exists($type, $cases)) {
-				$field = $cases[$type];
+			if (array_key_exists($table, $cases)) {
+				$field = $cases[$table];
 			}else {
 				throw new Exception('Tipo de Solicitud no existente');
 				exit();
 			}
 			
-			$result = $this->_select->getReferences( $type );
+			$result = $this->_select->getReferences( $table );
 			
 			for ($i = 0; $i < count($result); $i++) {
 				$data[$i] = array("id"=>$result[$i]['id'],"option"=>$result[$i][$field]);
@@ -45,29 +43,34 @@
 		
 		function loadSelectDepent() {
 			
-			$data 		= array();
-			$id 		= $_POST['id'];
-			$type	 	= $_POST['type'];
-				
-			$cases = array(
-				'municipio'		=>	'municipio',
-				'parroquias_id'	=>	'parroquia',
-				'modelos_id'	=>	'modelo'
-			);
+			$data 	= array();
+			$id		= $_POST['id'];
+			$table 	= $_POST['table'];
 			
-			if (array_key_exists($type, $cases)) {
-				$field = $cases[$type];
+			$cases = array(
+				'claseVehiculo'			=>	'claseVehiculo',
+				'marca'					=>	'marca',
+				'estado'				=>	'estado',
+				//=========================================
+				'tipoVehiculo'			=>	'tipoVehiculo',
+				'municipio'				=>	'municipio',
+				'cobertura'				=>	'cobertura',
+				'numPuesto'				=>	'numPuesto',
+			);
+				
+			if (array_key_exists($table, $cases)) {
+				$field = $cases[$table];
 			}else {
-				throw new Exception('Tipo de Solicitud no existente');
+				throw new Exception('Tipo de Solicitud no existente (selectController-loadSelectDepent)');
 				exit();
 			}
-
-			$result = $this->_select->getReferences( $type , $id );
+			
+			$result = $this->_select->getReferences( $table, $id );
 			
 			for ($i = 0; $i < count($result); $i++) {
 				$data[$i] = array("id"=>$result[$i]['id'],"option"=>$result[$i][$field]);
 			}
-				
+			
 			echo  json_encode($data);
 			
 		}
