@@ -1,0 +1,142 @@
+<!-- content -->	
+	<div class="row">
+		<div class="col-md-12">
+			
+			<form id="adviser_formatos" action="<?php echo BASE_URL.'adviser/formatos'; ?>" method="post" class="form-horizontal">
+
+<!-- ================================== PANEL ================================== -->
+				<div id="init">
+				</div>			
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title"><?php echo utf8_encode('Registro de Planillas o Factiras')?></span>
+					</div>
+				
+					<div class="panel-body">
+						
+						<div class="row">
+							
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr date">
+									<label><?php echo utf8_encode('Fecha de Registro'); ?></label>
+									<input
+										type="text" 
+										class="form-control"
+										id="fecha_reg" 
+										name="fecha_reg"										
+									>
+								</div>
+							</div>
+							
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Codigo desde:'); ?></label>
+									<input
+										type="text" 
+										class="form-control"
+										id="desde" 
+										name="desde"										
+									>
+								</div>
+							</div>							
+							
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Hasta'); ?></label>
+									<input
+										type="text" 
+										class="form-control"
+										id="hasta" 
+										name="hasta"										
+									>
+								</div>
+							</div>
+							
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Tipo de Formato'); ?></label>
+									<select 
+										class="form-control"
+										id="type" 
+										name="type"										
+									>
+										<option value="">SELECCIONE...</option>
+										<option value="1">PLANILLAS</option>
+										<option value="2">FACTURA</option>
+									</select>
+								</div>
+							</div>
+							
+						</div>						
+						
+						<div class="row">
+						
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr" style="padding-top: 22px;">
+									<button type="submit" class="form-control btn btn-primary">Guardar</button>
+								</div>
+							</div>					
+						
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						<input
+							type="hidden"
+							id="tpAction"
+							name="tpAction"
+							value="0"
+						>
+						
+					</div>
+				
+				</div>
+			</form>	
+<!-- ================================== PANEL ================================== -->
+			
+			<div class="row">
+				
+				<div class="col-xs-6">
+					<div class="stat-panel text-center">
+					
+						<div class="stat-row">
+						
+							<div class="stat-cell bg-dark-gray padding-sm text-xs text-semibold">
+								<i class="fa fa-check-square-o"></i>&nbsp;&nbsp;PLANILLAS DISPONIBLES
+							</div>
+						</div> 
+
+						<div class="stat-row">
+							<div class="stat-cell bordered no-border-t no-padding-hr">
+								<div class="pie-chart" data-percent="100" id="easy-pie-chart-2">
+									<div class="pie-chart-label">93%</div>
+								</div>
+							</div>
+						</div>
+						
+					</div> 
+				</div>
+				
+				<div class="col-xs-6">
+					<div class="stat-panel text-center">
+										
+						<div class="stat-row">						
+							<div class="stat-cell bg-dark-gray padding-sm text-xs text-semibold">
+								<i class="fa fa-check-square-o"></i>&nbsp;&nbsp;FACTURAS DISPONIBLES
+							</div>
+						</div>
+						
+						<div class="stat-row">
+							<div class="stat-cell bordered no-border-t no-padding-hr">
+								<div class="pie-chart" data-percent="75" id="easy-pie-chart-3">
+									<div class="pie-chart-label">12GB</div>
+								</div>
+							</div>
+						</div>
+						
+					</div> 
+				</div>
+				
+			</div>
+			
+		</div>
+	</div>
+<!-- end content -->

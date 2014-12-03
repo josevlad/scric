@@ -21,6 +21,7 @@
 				'agencias'			=> 	'agencias ORDER BY id ASC',
 				'pregunta'			=> 	'pregunta ORDER BY id ASC',
 				'statusUsuarios'	=> 	'statusUsuarios ORDER BY id ASC',
+				'tipoPersona'		=> 	'tipoPersona ORDER BY id ASC',
 				//================================================
 				'tipoVehiculo'		=> 	'tipoVehiculo WHERE claseVehiculo_id = '.$id,
 				'municipio'			=> 	'municipio WHERE estado_id = '.$id,
