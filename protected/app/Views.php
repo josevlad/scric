@@ -41,7 +41,7 @@
 				
 			$_view_params = array(
 				'top_menu'=> $top_menu,
-				'sidebar_menu' => $sidebar_menu,
+				//'sidebar_menu' => $sidebar_menu,
 				'js' => $js,
 				'css' => $css,
 					

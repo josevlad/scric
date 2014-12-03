@@ -9,6 +9,12 @@ function strToUpper(field){
 	});
 }
 
+function strToUpper2(field){
+	$(field).focusout(function(event){
+		$(this).val($(this).val().toUpperCase());
+	});
+}
+
 function loadSelect( parameters ){
 	
 	var element = $( parameters.selector );
@@ -104,13 +110,15 @@ $(document).ready(function() {
 	var BASE_URL = getBaseUrl();
 	
 //strToUpper
+	strToUpper2('#dni');
+	strToUpper('#nombres');
 	
 // Section of Content Select
 	
 	// Load Select for Data Base =======================================================================================
 	
 	loadSelect({
-		selector:	'#tpPersona_id', 
+		selector:	'#tipoPersona_id', 
 		url:		BASE_URL + "select/loadSelect"
 	});
 	
@@ -144,9 +152,9 @@ $(document).ready(function() {
 	
 // maskedinput 
 	// =============================================== dni ===========================================
-	var select1 = $('#tpPersona_id');
-	$('#').attr('disabled', true);
-	$('#').attr('placeholder', 'Seleccione el Tipo de Persona');
+	var select1 = $('#tipoPersona_id');
+	$('#dni').attr('disabled', true);
+	$('#dni').attr('placeholder', 'Seleccione el Tipo de Persona');
 	
 	select1.change(function () {
 		$('#dni').val('');
