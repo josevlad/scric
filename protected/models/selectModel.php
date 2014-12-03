@@ -17,6 +17,10 @@
 				'claseVehiculo'		=> 	'claseVehiculo ORDER BY id',
 				'marca'				=> 	'marca ORDER BY id',
 				'estado'			=> 	'estado ORDER BY id ASC',
+				'perfilUsuario'		=> 	'perfilUsuario ORDER BY id ASC',
+				'agencias'			=> 	'agencias ORDER BY id ASC',
+				'pregunta'			=> 	'pregunta ORDER BY id ASC',
+				'statusUsuarios'	=> 	'statusUsuarios ORDER BY id ASC',
 				//================================================
 				'tipoVehiculo'		=> 	'tipoVehiculo WHERE claseVehiculo_id = '.$id,
 				'municipio'			=> 	'municipio WHERE estado_id = '.$id,

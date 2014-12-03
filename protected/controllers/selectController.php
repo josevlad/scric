@@ -23,6 +23,10 @@
 				'claseVehiculo'			=>	'claseVehiculo',
 				'marca'					=>	'marca',
 				'estado'				=>	'estado',
+				'perfilUsuario'			=>	'perfilUsuario',
+				'agencias'				=>	'nombre_ag',
+				'pregunta'				=>	'pregunta',
+				'statusUsuarios'		=>	'statusUsuarios',
 			);
 				
 			if (array_key_exists($table, $cases)) {

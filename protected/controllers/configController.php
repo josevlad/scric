@@ -16,6 +16,25 @@
 			$this->_view->render('index');
 		}
 		
+		public function remote() {
+			
+			foreach ($_GET as $key => $value){
+				$field 	= $key;
+				$data	= $value;
+			}
+			
+			$result = $this->_config->getRemote( $field, $data );
+			
+			if ( count($result) == true ) {
+				$valid = 'false'; //valor para activar el mensaje de error en validate jquery
+			}else{
+				$valid = 'true';
+			}
+			
+			echo $valid;
+						
+		}
+		
 		/*
 		 * Metodos para administrar las tablas referenciales
 		 * de la base de datos
@@ -496,6 +515,66 @@
 		}
 				
 		//Administracion de la tabla name
+		public function usuarios() {
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				
+				if ($_POST['tpAction'] == '0') {
+					
+					$bind_values = array(
+							':nick'					=>  $_POST['nick'],
+							':clave'				=> md5( $_POST['clave'] ),
+							':nombre'				=> strtoupper( $_POST['nombre'] ),
+							':apellido'				=> strtoupper( $_POST['apellido'] ),
+							':perfilUsuario_id'		=> strtoupper( $_POST['perfilUsuario_id'] ),
+							':agencias_id'			=> strtoupper( $_POST['agencias_id'] ),
+							':pregunta_id'			=> strtoupper( $_POST['pregunta_id'] ),
+							':respuesta'			=> strtoupper( $_POST['respuesta'] ),
+							':statusUsuarios_id'	=> '1',
+					);					
+					$this->_config->saveUsuarios($bind_values);
+					
+				}else {
+					
+					$bind_values = array(
+							':nombre'				=> strtoupper( $_POST['nombre'] ),
+							':apellido'				=> strtoupper( $_POST['apellido'] ),
+							':perfilUsuario_id'		=> strtoupper( $_POST['perfilUsuario_id'] ),
+							':agencias_id'			=> strtoupper( $_POST['agencias_id'] ),
+							':statusUsuarios_id'	=> strtoupper( $_POST['statusUsuarios_id'] ),					);
+					$this->_config->updateUsuarios($bind_values, $_POST['tpAction']);
+					
+				}
+			}else {
+				//Content page-hader
+				$this->_view->icon_fa = 'fa-users';
+				$this->_view->titleHead = 'Administración de Usuarios';
+
+				//dataTable
+				$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+				
+				//data de la tb tipo de persona
+				$this->_view->data = $this->getReference( 'usuarios' );
+			
+				//custom config js
+				$this->_view->setJs(array('config/usuarios'));
+			
+				$this->_view->render('usuarios');
+			}
+		
+		}
+
+		public function getRegistro() {
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				
+				$id = $_POST['id'];
+				$result = $this->_config->getUsuario( $id );
+				
+				echo json_encode( array_shift( $result ) );
+				
+			};
+		} 
+		//Administracion de la tabla name
 		public function name() {
 		
 			//Content page-hader
@@ -516,7 +595,6 @@
 		}
 		
 		public function getReference( $type ) {
-			
 			
 			$data = array();
 		
@@ -543,6 +621,7 @@
 					'parroquia'				=> 	':parroquia',
 					'usoVehiculo'			=> 	':usoVehiculo',
 					'precio'				=> 	':precio',
+					'usuarios'				=> 	':usuarios',
 			);
 				
 			if (!array_key_exists($type, $cases)) {

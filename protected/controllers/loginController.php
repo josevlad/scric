@@ -36,7 +36,7 @@
 					$this->_view->_error = App::boxMessage(
 							'Usuario no Existente', 
 							'Los datos suministrados no existen en la base de datos, por favor verifique la informacion.',
-							'danger'
+							'danger panel'
 					);
 					$this->_view->render('signin', '', 'login');
 					exit();

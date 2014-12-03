@@ -9,7 +9,34 @@
 		
 		public function __destruct() {
 			;
-		}	
+		}
+
+		public function getRemote( $field, $data ) {
+			
+			$fields = array(
+					'nick' 			=> 'usuarios.nick FROM usuarios WHERE nick = "'.$data.'"',
+			);
+
+			if (!key_exists($field, $fields)) {
+				throw new Exception('Tipo de solicitud no existente (getRemote - getRemote)');
+			}
+			
+			$this->_query = 'SELECT '.$fields[$field];
+			
+			$data = $this->_db->query($this->_query);
+		
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll();
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		
+			return $result;
+		}
 		
 		public function getReferenceData( $type ) {
 						
@@ -45,6 +72,11 @@
 											INNER JOIN numpuesto ON precio.numPuesto_id = numpuesto.id
 											INNER JOIN tipovehiculo ON numpuesto.tipoVehiculo_id = tipovehiculo.id
 											INNER JOIN clasevehiculo ON cobertura.claseVehiculo_id = clasevehiculo.id AND tipovehiculo.claseVehiculo_id = clasevehiculo.id',
+				'usuarios'			=> 	'usuarios
+											INNER JOIN agencias ON usuarios.agencias_id = agencias.id
+											INNER JOIN perfilusuario ON usuarios.perfilUsuario_id = perfilusuario.id
+											INNER JOIN statususuarios ON usuarios.statusUsuarios_id = statususuarios.id
+											INNER JOIN pregunta ON usuarios.pregunta_id = pregunta.id',	
 				
 			);
 			
@@ -322,76 +354,30 @@
 			echo true;
 		}
 		
-//==================================================================================================		
-		public function getTpPers($criterial = FALSE) {
+		public function saveUsuarios($parameters) {
+			$this->_query ='
+				INSERT INTO usuarios(
+					nombre, 
+					apellido, 
+					nick, 
+					clave, 
+					respuesta, 
+					agencias_id, 
+					perfilUsuario_id, 
+					pregunta_id, 
+					statusUsuarios_id
+				) VALUES (
+					:nombre, 
+					:apellido, 
+					:nick, 
+					:clave, 
+					:respuesta, 
+					:agencias_id, 
+					:perfilUsuario_id, 
+					:pregunta_id, 
+					:statusUsuarios_id
+			)';
 				
-			if (is_numeric($criterial)){
-				$search_criteria = "WHERE id = " . $criterial;
-			}else{
-				$search_criteria = "";
-			}
-				
-			$this->_query = " SELECT * FROM tpPersona $search_criteria ORDER BY id ASC";
-				
-			try {
-				$this->_db->beginTransaction();
-				$result = $this->_db->query($this->_query)->fetchAll();
-				$this->_db->commit();
-			}
-			catch (Exception $e) {
-				$this->_db->rollBack();
-				echo "Error :: ".$e->getMessage();
-				exit();
-			}
-				
-			return $result;
-		}
-		
-		
-		
-		/**
-		 * El SQL de este método puede realizar una consulta total o filtras los datos 
-		 * A través de una criterio de búsqueda
-		 * Lo especial de este método es que te reconoce el contenido de la búsqueda, 
-		 * si es por cedula o nombre o apellido solo evaluando el contenido del filtro
-		 * 
-		 * @param string $criterial
-		 */
-		public function getPersons($criterial = FALSE) {
-			
-			if (is_numeric($criterial)){
-				$search_criteria = "WHERE dni = " . $criterial;
-			}else{
-				$search_criteria = "WHERE (name LIKE '%" . $criterial . "%' or last_name LIKE '%" . $criterial . "%')";
-			}
-			
-			$this->_query = " SELECT * FROM persons $search_criteria ORDER BY dni ASC";
-			
-			try {
-				$this->_db->beginTransaction();
-				$result = $this->_db->query($this->_query)->fetchAll();
-				$this->_db->commit();
-			}
-			catch (Exception $e) {
-				$this->_db->rollBack();
-				echo "Error :: ".$e->getMessage();
-				exit();
-			}			
-			
-			return $result;
-		}
-
-		
-		public function updatePerson($parameters) {
-
-			$this->_query = "		
-				UPDATE persons SET
-					dni			= :dni,
-					name		= :name,
-					last_name	= :last_name		
-				WHERE
-					id	= :id"; 
-			
 			try {
 				$this->_db->beginTransaction();
 				$this->_db->prepare($this->_query)->execute($parameters);
@@ -402,49 +388,61 @@
 				echo "Error :: ".$e->getMessage();
 				exit();
 			}
-			
-		
-		}	
-
-		
-		public function getRegister($criterial) { 
-			
-			if (is_numeric($criterial)){
-
-				$search_criteria = "WHERE id = $criterial "; 
-				$this->_query = " SELECT * FROM persons $search_criteria";
 				
-				try {
-					$this->_db->beginTransaction();
-					$result = $this->_db->query($this->_query)->fetchAll();
-					$this->_db->commit();
-				}
-				catch (Exception $e) {
-					$this->_db->rollBack();
-					echo "Error :: ".$e->getMessage();
-					exit();
-				}				
-				
-				return array_shift($result);
-			
-			}else{			
-				return 'error en argumento';
-			}			
+			echo true;
 		}
-				
-		public function deletePerson($parameters) {
 		
-			$this->_query = "
-				DELETE FROM 
-					persons 
+		public function updateUsuarios($parameters, $id) {
+			$this->_query ='
+				UPDATE usuarios SET 
+					nombre = :nombre, 
+					apellido = :apellido,  
+					agencias_id = :agencias_id, 
+					perfilUsuario_id = :perfilUsuario_id, 
+					statusUsuarios_id = :statusUsuarios_id  
+				WHERE 
+					id = '.$id.'
+			';
+		
+			try {
+				$this->_db->beginTransaction();
+				$this->_db->prepare($this->_query)->execute($parameters);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		
+			echo true;
+		}		
+
+		public function getUsuario($id) {
+			
+			$this->_query = '
+				SELECT * FROM usuarios
+					INNER JOIN agencias ON usuarios.agencias_id = agencias.id
+					INNER JOIN perfilusuario ON usuarios.perfilUsuario_id = perfilusuario.id
+					INNER JOIN statususuarios ON usuarios.statusUsuarios_id = statususuarios.id
+					INNER JOIN pregunta ON usuarios.pregunta_id = pregunta.id
 				WHERE
-					id 	= :id
-			";
-		
-			$this->_db->prepare($this->_query)->execute($parameters);
-		
-		
+					usuarios.id = '.$id;
+			
+			$data = $this->_db->query($this->_query);
+				
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll();
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+							
+			return $result;
 		}
-		
 	}
 ?>
