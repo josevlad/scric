@@ -28,6 +28,10 @@
 				'pregunta'				=>	'pregunta',
 				'statusUsuarios'		=>	'statusUsuarios',
 				'tipoPersona'			=>	'tipoPersona',
+				'tipoTelf'				=>	'tipoTelf',
+				'marca'					=>	'marca',
+				'modelo'				=>	'modelo',
+				'trans'					=>	'trans',
 				
 			);
 				
@@ -38,13 +42,13 @@
 				exit();
 			}
 			
-			$result = $this->_select->getReferences( $table );
+			$result =  $this->_select->getReferences( $table ) ;
 			
 			for ($i = 0; $i < count($result); $i++) {
-				$data[$i] = array("id"=>$result[$i]['id'],"option"=>$result[$i][$field]);
+				$data[$i] = array("id"=>$result[$i]['id'],"option"=> utf8_encode( $result[$i][$field]) );
 			}
 			
-			echo  json_encode($data);
+			echo  json_encode( $data );
 		}
 		
 		function loadSelectDepent() {
@@ -54,12 +58,10 @@
 			$table 	= $_POST['table'];
 			
 			$cases = array(
-				'claseVehiculo'			=>	'claseVehiculo',
-				'marca'					=>	'marca',
-				'estado'				=>	'estado',
-				//=========================================
-				'tipoVehiculo'			=>	'tipoVehiculo',
+				'modelo'				=>	'modelo',
 				'municipio'				=>	'municipio',
+				'parroquia'				=>	'parroquia',
+				'tipoVehiculo'			=>	'tipoVehiculo',
 				'cobertura'				=>	'cobertura',
 				'numPuesto'				=>	'numPuesto',
 			);
@@ -74,7 +76,7 @@
 			$result = $this->_select->getReferences( $table, $id );
 			
 			for ($i = 0; $i < count($result); $i++) {
-				$data[$i] = array("id"=>$result[$i]['id'],"option"=>$result[$i][$field]);
+				$data[$i] = array("id"=>$result[$i]['id'],"option"=>utf8_encode( $result[$i][$field]) );
 			}
 			
 			echo  json_encode($data);

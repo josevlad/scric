@@ -17,7 +17,7 @@
 											
 							<div class="col-sm-3">
 								<div class="form-group no-margin-hr">
-									<label >Tipo de Persona</label>
+									<label ><?php echo utf8_encode('Tipo de Persona'); ?></label>
 									<select 
 										class="form-control"
 										id="tipoPersona_id" 
@@ -29,7 +29,7 @@
 							
 							<div class="col-sm-3">
 								<div class="form-group no-margin-hr">
-									<label>Documeto de Identidad</label>
+									<label><?php echo utf8_encode('Documeto de Identidad'); ?></label>
 									<input 
 										type="text"
 										class="form-control"
@@ -41,7 +41,7 @@
 							
 							<div class="col-sm-3">
 								<div class="form-group no-margin-hr">
-									<label>Nombres <samp class="small">(completo)</samp></label>
+									<label><?php echo utf8_encode('Nombres <samp class="small">(completo)</samp>'); ?></label>
 									<input 
 										type="text"
 										class="form-control"
@@ -53,7 +53,7 @@
 													
 							<div class="col-sm-3">
 								<div class="form-group no-margin-hr">
-									<label>Apellidos <samp class="small">(completo)</samp></label>
+									<label><?php echo utf8_encode('Apellidos <samp class="small">(completo)</samp>'); ?></label>
 									<input 
 										type="text"
 										class="form-control"
@@ -70,33 +70,36 @@
 						
 							<div class="col-sm-4">
 								<div class="form-group no-margin-hr">
-									<label >Estado</label>
+									<label ><?php echo utf8_encode('Estado'); ?></label>
 									<select 
 										class="form-control"
 										id="estado" 
 										name="estado"
+										table="estado"
 									></select>
 								</div>
 							</div><!-- col-sm-6 -->
 							
 							<div class="col-sm-4">
 								<div class="form-group no-margin-hr">
-									<label>Municipio</label>
+									<label><?php echo utf8_encode('Municipio'); ?></label>
 									<select 
 										class="form-control"
 										id="municipio" 
 										name="municipio"
+										table="municipio"
 									></select>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group no-margin-hr">
-									<label>Parroquia</label>
+									<label><?php echo utf8_encode('Parroquia'); ?></label>
 									<select 
 										class="form-control"
-										id="parroquias_id" 
-										name="parroquias_id"
+										id="parroquia_id" 
+										name="parroquia_id"
+										table="parroquia"
 									></select>
 								</div>
 							</div>
@@ -128,6 +131,7 @@
 										class="form-control"
 										id="tipoTelf_id" 
 										name="tipoTelf_id"
+										table="tipoTelf"
 									></select>
 								</div>
 							</div><!-- col-sm-6 -->
@@ -172,6 +176,7 @@
 											class="form-control tp_phone"
 											id="tipoTelf" 
 											name="tipoTelf"
+										table="tipoTelf"
 										></select>
 									</div>
 								</div>
@@ -243,6 +248,7 @@
 										class="form-control"
 										id="marca" 
 										name="marca"
+										table="marca"
 									></select>
 								</div>
 							</div>						
@@ -252,8 +258,9 @@
 									<label><?php echo utf8_encode('Modelo del Vehículo');?></label>
 									<select 
 										class="form-control"
-										id="modelos_id" 
-										name="modelos_id"
+										id="modelo_id" 
+										name="modelo_id"
+										table="modelo"
 									></select>
 								</div>
 							</div>
@@ -265,6 +272,7 @@
 										class="form-control"
 										id="trans" 
 										name="trans"
+										table="trans"
 									></select>
 								</div>
 							</div>
@@ -344,8 +352,9 @@
 									<label ><?php echo utf8_encode('Clase de Vehículo');?></label>
 									<select 
 										class="form-control"
-										id="clase" 
-										name="clase"
+										id="claseVehiculo" 
+										name="claseVehiculo"
+										table="claseVehiculo"
 									></select>
 								</div>
 							</div><!-- col-sm-6 -->
@@ -355,8 +364,9 @@
 									<label><?php echo utf8_encode('Tipo de Vehículo');?></label>
 									<select 
 										class="form-control"
-										id="tpVehiculo" 
-										name="tpVehiculo"
+										id="tipoVehiculo" 
+										name="tipoVehiculo"
+										table="tipoVehiculo"
 									></select>
 								</div>
 							</div>
@@ -366,8 +376,9 @@
 									<label><?php echo utf8_encode('Número de Puestos');?></label>
 									<select 
 										class="form-control"
-										id="numero" 
-										name="numero"
+										id="numPuesto" 
+										name="numPuesto"
+										table="numPuesto"
 									></select>
 								</div>
 							</div>

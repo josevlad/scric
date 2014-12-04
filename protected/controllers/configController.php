@@ -648,7 +648,7 @@
 					);
 					array_push(
 						$values,
-						$value
+					 	utf8_decode( $value )
 					);
 				}
 				

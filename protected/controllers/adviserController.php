@@ -20,7 +20,7 @@
 		public function formatos() {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
-				$fecha_reg 	= $_POST['fecha_reg'];
+				$fecha_reg 	= App::saveDate( $_POST['fecha_reg'] );
 				$table 		= $_POST['type'];
 				$result 	= 'false';
 				$desde 		= $_POST['desde'];
@@ -32,7 +32,7 @@
 						':codigo'=> $i, 
 						':fecha_reg'=> $fecha_reg, 
 						'statusFormat_id'=> '1', 
-						'agencias_id'=> '1'
+						'agencias_id'=> Session::get('idAgencia')
 					);
 					
 					$res = $this->_adviser->saveFormato( $bind_values, $table );

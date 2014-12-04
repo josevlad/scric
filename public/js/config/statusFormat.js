@@ -209,11 +209,11 @@ $(document).ready(function() {
 	
 	
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
-		return this.optional(element) || /^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ\.\s]+$/i.test(value);
+		return this.optional(element) || /^[a-zA-ZáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙñÑüÜ\.\s]+$/i.test(value);
 	}, "Letters only please"); 
 	
 	jQuery.validator.addMethod("serial", function(value, element) {
-	  return this.optional(element) || /^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ]+$/i.test(value);
+	  return this.optional(element) || /^[0-9a-zA-ZáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙñÑüÜ]+$/i.test(value);
 	}, "Serial only please");
 	
 	jQuery.validator.addMethod("minage", function(value, element, min) {

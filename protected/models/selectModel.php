@@ -22,11 +22,16 @@
 				'pregunta'			=> 	'pregunta ORDER BY id ASC',
 				'statusUsuarios'	=> 	'statusUsuarios ORDER BY id ASC',
 				'tipoPersona'		=> 	'tipoPersona ORDER BY id ASC',
+				'tipoTelf'			=> 	'tipoTelf ORDER BY id ASC',
+				'marca'				=> 	'marca ORDER BY id ASC',
+				'trans'				=> 	'trans ORDER BY id ASC',
 				//================================================
-				'tipoVehiculo'		=> 	'tipoVehiculo WHERE claseVehiculo_id = '.$id,
 				'municipio'			=> 	'municipio WHERE estado_id = '.$id,
-				'cobertura'			=> 	'cobertura WHERE claseVehiculo_id = '.$id,
+				'parroquia'			=> 	'parroquia WHERE municipio_id = '.$id,
+				'modelo'			=> 	'modelo WHERE marca_id = '.$id,
+				'tipoVehiculo'		=> 	'tipoVehiculo WHERE claseVehiculo_id = '.$id,
 				'numPuesto'			=> 	'numPuesto WHERE tipoVehiculo_id = '.$id,
+				'cobertura'			=> 	'cobertura WHERE claseVehiculo_id = '.$id,
 			);
 			
 			if (array_key_exists($table, $cases)) {

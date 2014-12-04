@@ -121,7 +121,57 @@ $(document).ready(function() {
 		selector:	'#tipoPersona_id', 
 		url:		BASE_URL + "select/loadSelect"
 	});
+
+	loadSelect({
+		selector:	'#estado', 
+		url:		BASE_URL + "select/loadSelect"
+	});
 	
+	loadSelect({
+		selector:	'#tipoTelf_id', 
+		url:		BASE_URL + "select/loadSelect"
+	});
+	
+	loadSelect({
+		selector:	'#tipoTelf', 
+		url:		BASE_URL + "select/loadSelect"
+	});
+	
+	loadSelect({
+		selector:	'#marca', 
+		url:		BASE_URL + "select/loadSelect"
+	});
+	
+	loadSelect({
+		selector:	'#trans', 
+		url:		BASE_URL + "select/loadSelect"
+	});
+	
+	//==================================================
+	
+	selectDependent({
+		origin:		'#estado',
+		selector:	'#municipio', 
+		url:		BASE_URL + "select/loadSelectDepent"
+	});
+
+	selectDependent({
+		origin:		'#municipio',
+		selector:	'#parroquia_id', 
+		url:		BASE_URL + "select/loadSelectDepent"
+	});
+
+	selectDependent({
+		origin:		'#marca',
+		selector:	'#modelo_id', 
+		url:		BASE_URL + "select/loadSelectDepent"
+	});
+
+	selectDependent({
+		origin:		'#claseVehiculo',
+		selector:	'#tipoVehiculo', 
+		url:		BASE_URL + "select/loadSelectDepent"
+	});
 	/*
 	loadSelect({
 		selector:	'#', 

@@ -50,6 +50,7 @@
 				Session::set('last_name', $data['apellido']);
 				Session::set('nombre_ag', $data['nombre_ag']);
 				Session::set('identificador', $data['identificador']);
+				Session::set('idAgencia', $data['id']);
 				
 				Session::set('time', time());
 				
