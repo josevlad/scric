@@ -24,7 +24,8 @@
 				'tipoPersona'		=> 	'tipoPersona ORDER BY id ASC',
 				'tipoTelf'			=> 	'tipoTelf ORDER BY id ASC',
 				'marca'				=> 	'marca ORDER BY id ASC',
-				'trans'				=> 	'trans ORDER BY id ASC',
+				'tipoTrans'			=> 	'tipoTrans ORDER BY id ASC',
+				'tipoPago'			=> 	'tipoPago ORDER BY id ASC',
 				//================================================
 				'municipio'			=> 	'municipio WHERE estado_id = '.$id,
 				'parroquia'			=> 	'parroquia WHERE municipio_id = '.$id,

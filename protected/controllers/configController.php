@@ -48,16 +48,16 @@
 				if ($_POST['tpAction'] == '0') {
 					
 					$bind_values = array(
-							':nombre_ag'		=> strtoupper( $_POST['nombre_ag'] ),
-							':identificador'	=> strtoupper( $_POST['identificador'] )
+							':nombre_ag'		=> utf8_encode( $_POST['nombre_ag'] ),
+							':identificador'	=> utf8_encode( $_POST['identificador'] )
 					);
 					
 					$this->_config->saveAgencia($bind_values);
 				}else {
 					
 					$bind_values = array(
-							':nombre_ag'		=> strtoupper( $_POST['nombre_ag'] ),
-							':identificador'	=> strtoupper( $_POST['identificador'] ),
+							':nombre_ag'		=> utf8_encode( $_POST['nombre_ag'] ),
+							':identificador'	=> utf8_encode( $_POST['identificador'] ),
 							':id'				=> $_POST['tpAction']
 					);
 					
@@ -476,18 +476,18 @@
 				if ($_POST['tpAction'] == '0') {
 						
 					$bind_values = array(
-							':precio'		=> strtoupper( $_POST['precio'] ),
-							':numPuesto_id'	=> strtoupper( $_POST['numPuesto_id'] ),
-							':cobertura_id'	=> strtoupper( $_POST['cobertura_id'] ),
+							':precio'		=> $_POST['precio'],
+							':numPuesto_id'	=> $_POST['numPuesto_id'],
+							':cobertura_id'	=> $_POST['cobertura_id'],
 					);
 						
 					$this->_config->savePrecio($bind_values);
 				}else {
 						
 					$bind_values = array(
-							':precio'		=> strtoupper( $_POST['precio'] ),
-							':numPuesto_id'	=> strtoupper( $_POST['numPuesto_id'] ),
-							':cobertura_id'	=> strtoupper( $_POST['cobertura_id'] ),
+							':precio'		=> $_POST['precio'],
+							':numPuesto_id'	=> $_POST['numPuesto_id'],
+							':cobertura_id'	=> $_POST['cobertura_id'],
 							':id'			=> $_POST['tpAction']
 					);
 						
@@ -522,14 +522,14 @@
 				if ($_POST['tpAction'] == '0') {
 					
 					$bind_values = array(
-							':nick'					=>  $_POST['nick'],
+							':nick'					=> $_POST['nick'],
 							':clave'				=> md5( $_POST['clave'] ),
-							':nombre'				=> strtoupper( $_POST['nombre'] ),
-							':apellido'				=> strtoupper( $_POST['apellido'] ),
-							':perfilUsuario_id'		=> strtoupper( $_POST['perfilUsuario_id'] ),
-							':agencias_id'			=> strtoupper( $_POST['agencias_id'] ),
-							':pregunta_id'			=> strtoupper( $_POST['pregunta_id'] ),
-							':respuesta'			=> strtoupper( $_POST['respuesta'] ),
+							':nombre'				=> $_POST['nombre'],
+							':apellido'				=> $_POST['apellido'],
+							':perfilUsuario_id'		=> $_POST['perfilUsuario_id'] ,
+							':agencias_id'			=> $_POST['agencias_id'] ,
+							':pregunta_id'			=> $_POST['pregunta_id'] ,
+							':respuesta'			=> $_POST['respuesta'],
 							':statusUsuarios_id'	=> '1',
 					);					
 					$this->_config->saveUsuarios($bind_values);
@@ -537,11 +537,13 @@
 				}else {
 					
 					$bind_values = array(
-							':nombre'				=> strtoupper( $_POST['nombre'] ),
-							':apellido'				=> strtoupper( $_POST['apellido'] ),
-							':perfilUsuario_id'		=> strtoupper( $_POST['perfilUsuario_id'] ),
-							':agencias_id'			=> strtoupper( $_POST['agencias_id'] ),
-							':statusUsuarios_id'	=> strtoupper( $_POST['statusUsuarios_id'] ),					);
+							':nombre'				=> $_POST['nombre'],
+							':apellido'				=> $_POST['apellido'],
+							':perfilUsuario_id'		=> $_POST['perfilUsuario_id'],
+							':agencias_id'			=> $_POST['agencias_id'],
+							':statusUsuarios_id'	=> $_POST['statusUsuarios_id']
+					);
+					
 					$this->_config->updateUsuarios($bind_values, $_POST['tpAction']);
 					
 				}
@@ -655,6 +657,7 @@
 				$type = $keys['0'];
 				$data = $values['0'];
 				
+				
 				$cases = array(
 					'claseVehiculo' 		=> 	':claseVehiculo',
 					'estado' 				=> 	':estado',
@@ -677,7 +680,7 @@
 				}
 				
 				$bind_values = array(
-						$cases[$type]	=> $data
+						$cases[$type]	=> utf8_encode( $data )
 				);
 				
 				if ($_POST['tpAction'] == '0') {

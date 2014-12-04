@@ -8,7 +8,7 @@
 			header ("Expires: Thu, 27 Mar 1980 23:59:00 GMT"); //la pagina expira en una fecha pasada
 			header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); //ultima actualizacion ahora cuando la cargamos
 			header ("Cache-Control: no-cache, must-revalidate"); //no guardar en CACHE
-			header ("Pragma: no-cache"); 
+			header ("Pragma: no-cache");	
 			
 			//objeto de tipo vista
 			$this->_view = new View(new Request);
@@ -23,9 +23,9 @@
 						
 			if(is_readable($model_route)) {
 				
-				require_once$model_route;
+				require_once $model_route;
 				$model = new $model;
-				return$model;
+				return $model;
 				
 			}else{
 				

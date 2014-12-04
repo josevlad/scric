@@ -138,8 +138,8 @@
 									<td><?php echo $this->data[$i]['claseVehiculo']; ?></td>
 									<td><?php echo $this->data[$i]['tipoVehiculo']; ?></td>
 									<td><?php echo $this->data[$i]['numPuesto']; ?></td>
-									<td><?php echo $this->data[$i]['cobertura']; ?></td>
-									<td><?php echo $this->data[$i]['precio']; ?></td>
+									<td><?php echo number_format( $this->data[$i]['cobertura'] ,2,",",".") ?></td>
+									<td><?php echo number_format( $this->data[$i]['precio'] ,2,",",".") ?></td>
 									
 									<td style="text-align: center;">
 										<button 

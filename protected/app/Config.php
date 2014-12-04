@@ -9,7 +9,8 @@
 	define('APP_NAME', 'INVERSORA INTERNACIONAL DE COMPROMISO <strong>R.C.V.</strong>');
 	define('APP_LOGO', '');
 	define('APP_OTHER', '');
-		
+	define('CHARSET','UTF-8');
+	
 	define("DB_HOST", "localhost");
 	define("DB_USER", "root");
 	define("DB_PASS", "");

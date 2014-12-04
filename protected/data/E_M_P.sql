@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.12
+-- version 4.0.4
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Dec 04, 2014 at 04:15 AM
--- Server version: 5.5.40
--- PHP Version: 5.4.35
+-- Servidor: localhost
+-- Tiempo de generación: 04-12-2014 a las 15:34:07
+-- Versión del servidor: 5.6.12-log
+-- Versión de PHP: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,11 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `rcv_db`
+-- Base de datos: `rcv_db`
 --
+CREATE DATABASE IF NOT EXISTS `rcv_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+USE `rcv_db`;
 
 --
--- Dumping data for table `estado`
+-- Volcado de datos para la tabla `estado`
 --
 
 INSERT INTO `estado` (`id`, `estado`) VALUES
@@ -53,7 +55,7 @@ INSERT INTO `estado` (`id`, `estado`) VALUES
 (26, 'ZULIA');
 
 --
--- Dumping data for table `municipio`
+-- Volcado de datos para la tabla `municipio`
 --
 
 INSERT INTO `municipio` (`id`, `municipio`, `estado_id`) VALUES
@@ -311,14 +313,10 @@ INSERT INTO `municipio` (`id`, `municipio`, `estado_id`) VALUES
 (255, 'AYACUCHO ( COLÓN)', 22),
 (256, 'BOLÍVAR (SAN ANTONIO DEL TÁCHIRA)', 22),
 (257, 'CÁRDENAS (SANTA ANA DE TÁCHIRA)', 22),
-(258, 'FERNÁNDEZ (SAN RAFAEL DEL PIÑAL)', 21),
 (259, 'GUÁSIMOS (PALMIRA)', 22),
 (260, 'HEVIA (LA FRÍA)', 22),
 (261, 'INDEPENDENCIA (CAPACHO NUEVO)', 22),
-(262, 'JÁUREGUI (LA GRITA)', 21),
-(263, 'JUNÍN (RUBIO)', 21),
 (264, 'LIBERTAD (CAPACHO VIEJO)', 22),
-(265, 'LIBERTADOR (ABEJALES)', 21),
 (266, 'LOBATERA (LOBATERA)', 21),
 (267, 'MALDONADO (LA TENDIDA)', 21),
 (268, 'MICHELENA (MICHELENA)', 21),
@@ -376,7 +374,6 @@ INSERT INTO `municipio` (`id`, `municipio`, `estado_id`) VALUES
 (320, 'CATATUMBO  (ENCONTRADOS)', 26),
 (321, 'COLÓN (SAN CARLOS DEL ZULIA)', 26),
 (322, 'GUAJIRA  (SINAMAICA)', 26),
-(323, 'PADILLA  (EL TORO)', 20),
 (324, 'PULGAR  (PUEBLO NUEVO-EL CHIVO)', 26),
 (325, 'LOSADA  (LA CONCEPCIÓN)', 26),
 (326, 'SEMPRÚN (CASIGUA EL CUBO)', 26),
@@ -402,7 +399,7 @@ INSERT INTO `municipio` (`id`, `municipio`, `estado_id`) VALUES
 (346, 'MALDONADO', 22);
 
 --
--- Dumping data for table `parroquia`
+-- Volcado de datos para la tabla `parroquia`
 --
 
 INSERT INTO `parroquia` (`id`, `parroquia`, `municipio_id`) VALUES

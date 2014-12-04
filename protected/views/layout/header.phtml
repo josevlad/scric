@@ -23,7 +23,7 @@
 							<li class="dropdown">
 								<a href="pages-blank.html#" class="dropdown-toggle user-menu" data-toggle="dropdown">
 									<img src="<?php echo PUBLIC_URL; ?>demo/avatars/1.jpg" alt="">
-									<span><?php echo utf8_encode( Session::get('name')." ".Session::get('last_name') ); ?></span>
+									<span><?php echo Session::get('name')." ".Session::get('last_name') ; ?></span>
 								</a>
 								<ul class="dropdown-menu">
 									<li><a href="pages-blank.html#"><span class="label label-warning pull-right">New</span>Profile</a></li>

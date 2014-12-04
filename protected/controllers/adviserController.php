@@ -17,6 +17,21 @@
 			$this->_view->render('index');		
 		}
 		
+		public function getPrecio() {
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		
+				$data = array();
+				
+				$cobertura_id = $_POST['cobertura_id'];
+				$numPuesto_id = $_POST['numPuesto_id'];
+		
+				$result =  $this->_adviser->getPrecioData( $cobertura_id, $numPuesto_id ) ;
+					
+				echo json_encode( array_shift( $result ) );
+		
+			}
+		}
+		
 		public function formatos() {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
@@ -30,7 +45,7 @@
 						
 					$bind_values = array(
 						':codigo'=> $i, 
-						':fecha_reg'=> $fecha_reg, 
+						':fecha_reg'=> utf8_encode( $fecha_reg ), 
 						'statusFormat_id'=> '1', 
 						'agencias_id'=> Session::get('idAgencia')
 					);

@@ -11,21 +11,28 @@
 			;
 		}
 		
-		public function getPercent($format) {
+		public function getPrecioData( $cobertura_id, $numPuesto_id ) {
 			
-			$formats = array(
-				'1'	=> 'planilla',
-				'2' => 'factura',
-				'3' => 'countPla',
-				'4' => 'countFactura'
-			);
+			$this->_query = 'SELECT id,precio FROM precio 
+					WHERE 
+						cobertura_id = '.$cobertura_id.' 
+					AND 
+						numPuesto_id = '.$numPuesto_id;
 			
-			if (!array_key_exists($format, $formats)) {
-				throw new Exception('Formato no exixtente (getPercent - adviserModel)');
+			$data = $this->_db->query($this->_query);
+				
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll();
+				$this->_db->commit();
 			}
-			
-			$this->_query = "";
-			
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+							
+			return $result;
 		}
 		
 		public function saveFormato($parameters, $table) {

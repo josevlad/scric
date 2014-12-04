@@ -31,7 +31,8 @@
 				'tipoTelf'				=>	'tipoTelf',
 				'marca'					=>	'marca',
 				'modelo'				=>	'modelo',
-				'trans'					=>	'trans',
+				'tipoTrans'				=>	'tipoTrans',
+				'tipoPago'				=>	'tipoPago',
 				
 			);
 				
@@ -45,7 +46,7 @@
 			$result =  $this->_select->getReferences( $table ) ;
 			
 			for ($i = 0; $i < count($result); $i++) {
-				$data[$i] = array("id"=>$result[$i]['id'],"option"=> utf8_encode( $result[$i][$field]) );
+				$data[$i] = array("id"=>$result[$i]['id'],"option"=>$result[$i][$field]);
 			}
 			
 			echo  json_encode( $data );
@@ -76,7 +77,7 @@
 			$result = $this->_select->getReferences( $table, $id );
 			
 			for ($i = 0; $i < count($result); $i++) {
-				$data[$i] = array("id"=>$result[$i]['id'],"option"=>utf8_encode( $result[$i][$field]) );
+				$data[$i] = array("id"=>$result[$i]['id'],"option"=>$result[$i][$field]);
 			}
 			
 			echo  json_encode($data);

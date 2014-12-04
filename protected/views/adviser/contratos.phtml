@@ -176,7 +176,7 @@
 											class="form-control tp_phone"
 											id="tipoTelf" 
 											name="tipoTelf"
-										table="tipoTelf"
+											table="tipoTelf"
 										></select>
 									</div>
 								</div>
@@ -270,9 +270,9 @@
 									<label><?php echo utf8_encode('Tipo de Transmición');?></label>
 									<select 
 										class="form-control"
-										id="trans" 
-										name="trans"
-										table="trans"
+										id="tipoTrans_id" 
+										name="tipoTrans_id"
+										table="tipoTrans"
 									></select>
 								</div>
 							</div>
@@ -393,8 +393,9 @@
 									<label ><?php echo utf8_encode('Tipo de Pago');?></label>
 									<select 
 										class="form-control"
-										id="tpPago" 
-										name="tpPago"
+										id="tipoPago" 
+										name="tipoPago"
+										table="tipoPago"
 									></select>
 								</div>
 							</div><!-- col-sm-6 -->
@@ -406,6 +407,7 @@
 										class="form-control"
 										id="cobertura" 
 										name="cobertura"
+										table="cobertura"
 									></select>
 								</div>
 							</div>
@@ -416,10 +418,15 @@
 									<input 
 										type="text"
 										class="form-control"
-										id="precio" 
-										name="precio"
+										id="precioTxt" 
+										name="precioTxt"
 										disabled="disabled"
-										value="temp"
+										value="Sin precio"
+									>
+									<input
+										type="hidden"
+										id="precio_id"
+										name="precio_id"
 									>
 								</div>
 							</div>

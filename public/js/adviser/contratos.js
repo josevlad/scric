@@ -112,6 +112,12 @@ $(document).ready(function() {
 //strToUpper
 	strToUpper2('#dni');
 	strToUpper('#nombres');
+	strToUpper('#apellidos');
+	strToUpper('#direccion');
+	strToUpper('#color');
+	strToUpper('#placa');
+	strToUpper('#serial_c');
+	strToUpper('#serial_m');
 	
 // Section of Content Select
 	
@@ -143,7 +149,17 @@ $(document).ready(function() {
 	});
 	
 	loadSelect({
-		selector:	'#trans', 
+		selector:	'#tipoTrans_id', 
+		url:		BASE_URL + "select/loadSelect"
+	});
+
+	loadSelect({
+		selector:	'#claseVehiculo', 
+		url:		BASE_URL + "select/loadSelect"
+	});
+
+	loadSelect({
+		selector:	'#tipoPago', 
 		url:		BASE_URL + "select/loadSelect"
 	});
 	
@@ -154,7 +170,12 @@ $(document).ready(function() {
 		selector:	'#municipio', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
-
+	
+	$('#estado').change(function () {
+		$('#parroquia_id').empty();
+		$('#parroquia_id').append('<option value="">Seleccione...</option>');
+	});
+	
 	selectDependent({
 		origin:		'#municipio',
 		selector:	'#parroquia_id', 
@@ -172,6 +193,76 @@ $(document).ready(function() {
 		selector:	'#tipoVehiculo', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
+	
+	selectDependent({
+		origin:		'#tipoVehiculo',
+		selector:	'#numPuesto', 
+		url:		BASE_URL + "select/loadSelectDepent"
+	});
+	
+	$('#claseVehiculo').change(function () {
+		$('#numPuesto').empty();
+		$('#numPuesto').append('<option value="">Seleccione...</option>');
+		$('#cobertura').empty();
+		$('#cobertura').append('<option value="">Seleccione...</option>');
+		$('#cobertura').attr('disabled', true);
+		$('#precio_id').val('');
+		$('#precioTxt').val('Sin precio');	
+	});
+	
+	$('#cobertura').attr('disabled', true);
+	
+	$('#numPuesto').change(function () {
+		
+		if ($(this).val() == '') {
+			$('#cobertura').empty();
+			$('#cobertura').append('<option value="">Seleccione...</option>');
+			$('#cobertura').attr('disabled', true);
+			$('#precio_id').val('');
+			$('#precioTxt').val('Sin precio');				
+		}else{
+			$('#cobertura').attr('disabled', false);
+			$('#precio_id').val('');
+			$('#precioTxt').val('Sin precio');
+			
+			selectOptionDependent({
+				selector:	'#cobertura', 
+				url:		BASE_URL + "select/loadSelectDepent",
+				id:			$('#claseVehiculo').val(),
+				choose:		'0',
+				table:		'cobertura'
+			});
+		}
+
+	});
+	
+	$('#cobertura').change(function () {
+		var cobertura_id = $(this).val();
+		var numPuesto_id = $('#numPuesto').val();
+		
+		if (cobertura_id == '') {
+			$('#precio_id').val('');
+			$('#precioTxt').val('sin precio');
+			$('#precio_id').val('');
+			$('#precioTxt').val('Sin precio');
+		}else {
+			$.post(
+		 		BASE_URL+'adviser/getPrecio',
+		 		{ 
+		 			cobertura_id: cobertura_id, 
+		 			numPuesto_id: numPuesto_id 
+		 		}, 
+				function(data){
+					$('#precio_id').val(data.id);
+					$('#precioTxt').val(data.precio);
+					
+				}, "json"
+			);
+		}
+		
+			
+	})
+	
 	/*
 	loadSelect({
 		selector:	'#', 
@@ -186,16 +277,14 @@ $(document).ready(function() {
 	
 	*/
 	
-	
-	/*
 	var selectYear = $("#anio");
 	
 	var yy = new Date(); // Año
 	selectYear.append('<option value="">Seleccione...</option>');
-	for (var i=0; i<70; i++) {
+	for (var i=0; i<100; i++) {
 		selectYear.append('<option value="' + (yy.getFullYear()-i) + '">' + (yy.getFullYear()-i) + '</option>');
 	}
-	*/
+	
 	
 		
 // datepicker 
@@ -408,7 +497,7 @@ $(document).ready(function() {
 	
 	myForm.validate({
 		rules:{
-			tpPersona_id:		"required",			
+			tipoPersona_id:		"required",			
 			dni:{
 				required: 		true,
 				//remote: 		BASE_URL + "partners/remoteQuery", 
@@ -427,13 +516,13 @@ $(document).ready(function() {
 			},
 			estado:				"required",
 			municipio:			"required",
-			parroquias_id:		"required",
+			parroquia_id:		"required",
 			direccion:			"required",
 			tipoTelf_id:		"required",
 			num_Telf:			"required",
 			marca:				"required",
-			modelos_id:			"required",
-			trans:				"required",
+			modelo_id:			"required",
+			tipoTrans_id:		"required",
 			anio:				"required",
 			color:				"required",
 			placa:{
@@ -448,16 +537,16 @@ $(document).ready(function() {
 				required: 		true,
 				serial: 		true,
 			},
-			clase:				"required",
-			tpVehiculo:			"required",
-			numero:				"required",//
-			tpPago:				"required",
+			claseVehiculo:		"required",
+			tipoVehiculo:		"required",
+			numPuesto:			"required",//
+			tipoPago:			"required",
 			cobertura:			"required",
 			uso:				"required",
 			carga:				"required",
 		},
 		messages: {
-			tpPersona_id:		"Selección requerida",
+			tipoPersona_id:		"Selección requerida",
 			dni:{
 				required: 		"Campo requerido",
 				number: 		"Introduzca un número válido.",
@@ -477,13 +566,13 @@ $(document).ready(function() {
 			},
 			estado:				"Selección requerida",
 			municipio:			"Selección requerida",
-			parroquias_id:		"Selección requerida",
+			parroquia_id:		"Selección requerida",
 			direccion: 			"Campo requerido",
 			tipoTelf_id:		"Selección requerida",
 			num_Telf:			"Campo requerido",
 			marca:				"Selección requerida",
-			modelos_id:			"Selección requerida",
-			trans:				"Selección requerida",
+			modelo_id:			"Selección requerida",
+			tipoTrans_id:		"Selección requerida",
 			anio:				"Selección requerida",
 			color:				"Campo requerido",
 			placa:{
@@ -498,10 +587,10 @@ $(document).ready(function() {
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
 			},
-			clase:				"Selección requerida",
-			tpVehiculo:			"Selección requerida",
-			numero:				"Selección requerida",//
-			tpPago:				"Selección requerida",
+			claseVehiculo:		"Selección requerida",
+			tipoVehiculo:		"Selección requerida",
+			numPuesto:			"Selección requerida",//
+			tipoPago:			"Selección requerida",
 			cobertura:			"Selección requerida",
 			uso:				"Selección requerida",
 			carga:				"Selección requerida",

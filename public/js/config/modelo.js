@@ -221,7 +221,7 @@ $(document).ready(function() {
 	
 	
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
-		return this.optional(element) || /^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ\.\s]+$/i.test(value);
+		return this.optional(element) || /^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ\-\.\s]+$/i.test(value);
 	}, "Letters only please"); 
 	
 	jQuery.validator.addMethod("serial", function(value, element) {

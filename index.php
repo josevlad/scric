@@ -1,7 +1,7 @@
 <?php
 	//echo md5('123');
 	//header('Content-Type: text/html; charset=ISO-8859-1');
-	//header('Content-Type: text/html; charset=UTF-8');
+	//header("Content-Type: text/html; charset=utf-8");
 	//ini_set('display_errors', 1);
 	
 	define('DS', DIRECTORY_SEPARATOR);

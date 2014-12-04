@@ -10,7 +10,8 @@
 		protected $_db;
 		
 		public function __construct() {
-			$this->_db = new DataBase(); 
+			$this->_db = new DataBase();
+			$this->_db->exec("SET NAMES 'utf8'"); 
 		}
 	}
 ?>
