@@ -204,7 +204,7 @@
 								
 								
 								<tr class="gradeA">
-									<td><?php echo $this->data[$i]['0']; ?></td>
+									<td><?php echo $this->data[$i]['id']; ?></td>
 									<td><?php echo $this->data[$i]['nombre']; ?></td>
 									<td><?php echo $this->data[$i]['apellido']; ?></td>
 									<td><?php echo $this->data[$i]['nick']; ?></td>
@@ -215,7 +215,7 @@
 									<td style="text-align: center;">
 										<button 
 											class="btn btn-success btn-sm btn-action update" 
-											id="<?php echo $this->data[$i]['0']; ?>"
+											id="<?php echo $this->data[$i]['id']; ?>"
 											url="<?php echo BASE_URL; ?>config/getRegistro"
 										>
 											<span class="fa fa-pencil"></span>

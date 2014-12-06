@@ -34,6 +34,13 @@
 			return( date("md") < $m.$d ? date("Y")-$Y-1 : date("Y")-$Y );
 		}
 		
+		public static function oneYearMore($date) {
+			$date = date('d-m-Y');
+			$new_date = strtotime ( '+1 year' , strtotime ( $date ) ) ;
+			$result = date ( 'd-m-Y' , $new_date );			
+			return $result;
+		}
+		
 		public static function edithDNI($dni){
 			$sig[]='.';
 			$sig[]=',';

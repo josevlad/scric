@@ -23,7 +23,7 @@
 				
 			try {
 				$this->_db->beginTransaction();
-				$result = $data->fetchAll();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
 				$this->_db->commit();
 			}
 			catch (Exception $e) {

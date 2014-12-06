@@ -40,7 +40,7 @@
 			
 			try {
 				$this->_db->beginTransaction();
-				$result = $this->_db->query($this->_query)->fetchAll();
+				$result = $this->_db->query($this->_query)->fetchAll(PDO::FETCH_ASSOC);
 				$this->_db->commit();
 			}
 			catch (Exception $e) {
@@ -87,7 +87,7 @@
 				
 				try {
 					$this->_db->beginTransaction();
-					$result = $this->_db->query($this->_query)->fetchAll();
+					$result = $this->_db->query($this->_query)->fetchAll(PDO::FETCH_ASSOC);
 					$this->_db->commit();
 				}
 				catch (Exception $e) {

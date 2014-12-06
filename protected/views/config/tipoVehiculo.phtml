@@ -2,19 +2,26 @@
 	<div class="row">
 		<div class="col-md-12">
 		
-			<form id="config_cobertura" action="<?php echo BASE_URL.'config/actionDependence'; ?>" method="post" class="form-horizontal">
+			<form id="config_tipoVehiculo" action="<?php echo BASE_URL.'config/actionDependence'; ?>" method="post" class="form-horizontal">
 
 <!-- ================================== PANEL ================================== -->
 				<div id="init">
-				</div>			
+				</div>	
+				<!-- For dinamic fields -->			
 				<div class="panel">
 					<div class="panel-heading">
-						<span class="panel-title"><?php echo utf8_encode('Insertar o Editar Tipo de Vehiculo')?></span>
+						<span class="panel-title"><?php echo utf8_encode('Insertar o Editar Tipo de Vehículo')?></span>
 					</div>
 				
 					<div class="panel-body">
 						<!-- ------------------------------------------------------------------------------------------- -->
 						<div class="row clone">
+							<input
+								type="hidden"
+								id="tipoVehiculo"
+								name="tipoVehiculo"
+								value="1"
+							>
 							<input
 								type="hidden"
 								id="tpAction"
@@ -23,7 +30,7 @@
 							>
 							<div class="col-sm-4">
 								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Clase de Vehiculo'); ?></label>
+									<label><?php echo utf8_encode('Clase de Vehículo'); ?></label>
 									<select 
 										class="form-control"
 										id="claseVehiculo_id" 
@@ -33,18 +40,55 @@
 								</div>
 							</div>
 							
+							
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr" style="padding-top: 22px;">
+									<div class="form-control btn btn-success" id="add"><i class="fa fa-plus">&nbsp;</i>Agregar</div>
+								</div>
+							</div>
+														
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+						<div class="row">
 							<div class="col-sm-4">
 								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Tipo de Vehiculo'); ?></label>
+									<label><?php echo utf8_encode('Tipo de Vehículo'); ?></label>
 									<input 
 										type="text" 
-										class="form-control data" 
-										id="tipoVehiculo" 
-										name="tipoVehiculo"
+										class="form-control keyup data" 
+										id="tipo_1" 
+										name="tipo_1"
 									>
 								</div>
 							</div>
-													
+						</div>
+						
+						<div id="dynamicContent">
+						
+							<div class="row" id="clone">
+								
+								<div class="col-sm-4">
+									<div class="form-group no-margin-hr">
+										<label><?php echo utf8_encode('Tipo de Vehículo'); ?></label>
+										<input 
+											type="text" 
+											class="form-control keyup dinamic" 
+											id="" 
+											name=""
+										>
+									</div>
+								</div>
+								
+								<div class="btn btn-success delete" style="margin: 23px 12px;" >
+									<i class="fa fa-remove"></i>
+								</div>
+								
+							</div>
+							
+						</div>
+						
+						<div class="row">
 							<div class="col-sm-2">
 								<div class="form-group no-margin-hr" style="padding-top: 22px;">
 									<button type="submit" class="form-control btn btn-primary">Guardar</button>
@@ -56,9 +100,7 @@
 									<div class="form-control btn btn-danger" id="cancel">Cancelar</div>
 								</div>
 							</div>
-							
 						</div>
-						<!-- ------------------------------------------------------------------------------------------- -->
 						
 					</div>
 				
@@ -69,7 +111,7 @@
 								
 			<div class="panel">
 				<div class="panel-heading">
-					<span class="panel-title"><?php echo utf8_encode('Contenido de la tabla <strong>Tipo de Persona</strong>')?></span>
+					<span class="panel-title"><?php echo utf8_encode('<strong>Clases y Tipos de Vehículos</strong> Registrados')?></span>
 				</div>
 				<div class="panel-body">
 					
@@ -80,8 +122,8 @@
 							<thead>
 								<tr>
 									<th>Codigo de registro (id)</th>
-									<th><?php echo utf8_encode('Clase de Vehiculo')?></th>
-									<th><?php echo utf8_encode('Tipo de Vehiculo')?></th>
+									<th><?php echo utf8_encode('Clase de vehiculo')?></th>
+									<th><?php echo utf8_encode('Tipo de Vehículo')?></th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
@@ -91,14 +133,14 @@
 								
 								
 								<tr class="gradeA">
-									<td><?php echo $this->data[$i]['0']; ?></td>
+									<td><?php echo $this->data[$i]['id']; ?></td>
 									<td><?php echo $this->data[$i]['claseVehiculo']; ?></td>
-									<td><?php echo $this->data[$i]['tipoVehiculo']; ?></td>
+									<td><?php echo $this->data[$i]['tipoVehiculo'] ; ?></td>
 									
 									<td style="text-align: center;">
 										<button 
 											class="btn btn-success btn-sm btn-action update" 
-											id="<?php echo $this->data[$i]['0']; ?>"
+											id="<?php echo $this->data[$i]['id']; ?>"
 											select1="<?php echo $this->data[$i]['claseVehiculo_id']; ?>"
 											inputText="<?php echo $this->data[$i]['tipoVehiculo']; ?>"
 										>

@@ -33,6 +33,7 @@
 				'tipoVehiculo'		=> 	'tipoVehiculo WHERE claseVehiculo_id = '.$id,
 				'numPuesto'			=> 	'numPuesto WHERE tipoVehiculo_id = '.$id,
 				'cobertura'			=> 	'cobertura WHERE claseVehiculo_id = '.$id,
+				'usoVehiculo'		=> 	'usoVehiculo WHERE claseVehiculo_id = '.$id,
 			);
 			
 			if (array_key_exists($table, $cases)) {
@@ -47,7 +48,7 @@
 			
 			try {
 				$this->_db->beginTransaction();
-					$result = $data->fetchAll();
+					$result = $data->fetchAll(PDO::FETCH_ASSOC);
 				$this->_db->commit();
 			}
 			catch (Exception $e) {

@@ -27,7 +27,7 @@
 		
 			try {
 				$this->_db->beginTransaction();
-				$result = $data->fetchAll();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
 				$this->_db->commit();
 			}
 			catch (Exception $e) {
@@ -41,38 +41,53 @@
 		public function getReferenceData( $type ) {
 						
 			$cases = array(
-				'agencias'			=> 	'agencias ORDER BY id',
-				'claseVehiculo'		=> 	'claseVehiculo ORDER BY id',
-				'estado'			=> 	'estado ORDER BY id',
-				'marca'				=> 	'marca ORDER BY id',
-				'perfilUsuario'		=> 	'perfilUsuario ORDER BY id',
-				'pregunta'			=> 	'pregunta ORDER BY id',	
-				'statusCont'		=> 	'statusCont ORDER BY id',
-				'statusFormat'		=> 	'statusFormat ORDER BY id',
-				'statusUsuarios'	=> 	'statusUsuarios ORDER BY id',
-				'tipoPago'			=> 	'tipoPago ORDER BY id',
-				'tipoPersona'		=> 	'tipoPersona ORDER BY id',
-				'tipoTelf'			=> 	'tipoTelf ORDER BY id',
-				'tipoTrans'			=> 	'tipoTrans ORDER BY id',
+				'agencias'			=> 	'* FROM agencias ORDER BY id',
+				'claseVehiculo'		=> 	'* FROM claseVehiculo ORDER BY id',
+				'estado'			=> 	'* FROM estado ORDER BY id',
+				'marca'				=> 	'* FROM marca ORDER BY id',
+				'perfilUsuario'		=> 	'* FROM perfilUsuario ORDER BY id',
+				'pregunta'			=> 	'* FROM pregunta ORDER BY id',	
+				'statusCont'		=> 	'* FROM statusCont ORDER BY id',
+				'statusFormat'		=> 	'* FROM statusFormat ORDER BY id',
+				'statusUsuarios'	=> 	'* FROM statusUsuarios ORDER BY id',
+				'tipoPago'			=> 	'* FROM tipoPago ORDER BY id',
+				'tipoPersona'		=> 	'* FROM tipoPersona ORDER BY id',
+				'tipoTelf'			=> 	'* FROM tipoTelf ORDER BY id',
+				'tipoTrans'			=> 	'* FROM tipoTrans ORDER BY id',
 				//===============================================
-				'cobertura'			=> 	'cobertura INNER JOIN clasevehiculo ON cobertura.claseVehiculo_id = clasevehiculo.id',
-				'tipoVehiculo'		=> 	'tipoVehiculo INNER JOIN clasevehiculo ON tipoVehiculo.claseVehiculo_id = clasevehiculo.id',
-				'modelo'			=> 	'modelo INNER JOIN marca ON modelo.marca_id = marca.id',
-				'municipio'			=> 	'municipio INNER JOIN estado ON municipio.estado_id = estado.id',
-				'numPuesto'			=> 	'numpuesto 
+				'cobertura'			=> 	'cobertura.id, cobertura.cobertura, cobertura.claseVehiculo_id, claseVehiculo	 
+											FROM cobertura INNER JOIN clasevehiculo ON cobertura.claseVehiculo_id = clasevehiculo.id ORDER BY cobertura.claseVehiculo_id ASC',
+					
+				'tipoVehiculo'		=> 	'tipoVehiculo.id, tipoVehiculo.tipoVehiculo, tipoVehiculo.claseVehiculo_id, claseVehiculo	 
+											FROM tipoVehiculo INNER JOIN clasevehiculo ON tipoVehiculo.claseVehiculo_id = clasevehiculo.id',
+					
+				 'modelo'			=> 	'modelo.id, modelo.modelo, modelo.marca_id, marca.marca 
+											FROM modelo INNER JOIN marca ON modelo.marca_id = marca.id',
+					
+				'municipio'			=> 	'* FROM municipio INNER JOIN estado ON municipio.estado_id = estado.id',
+					
+				'numPuesto'			=> 	'numpuesto.id, numpuesto.numPuesto, numpuesto.tipoVehiculo_id, tipovehiculo.tipoVehiculo, tipovehiculo.claseVehiculo_id, clasevehiculo.claseVehiculo 
+											FROM numpuesto 
 											INNER JOIN tipovehiculo ON numpuesto.tipoVehiculo_id = tipovehiculo.id
 											INNER JOIN clasevehiculo ON tipovehiculo.claseVehiculo_id = clasevehiculo.id',
-				'parroquia'			=> 	'parroquia
+					
+				'parroquia'			=> 	'* FROM parroquia
 											INNER JOIN municipio ON parroquia.municipio_id = municipio.id
 											INNER JOIN estado ON municipio.estado_id = estado.id',
-				'usoVehiculo'		=> 	'usoVehiculo
+					
+				'usoVehiculo'		=> 	'usovehiculo.id, usovehiculo.usoVehiculo, usovehiculo.claseVehiculo_id, clasevehiculo.claseVehiculo 
+											FROM usoVehiculo
 											INNER JOIN clasevehiculo ON usovehiculo.claseVehiculo_id = clasevehiculo.id',
-				'precio'			=> 	'precio
+					
+				'precio'			=> 	'* FROM precio
 											INNER JOIN cobertura ON precio.cobertura_id = cobertura.id
 											INNER JOIN numpuesto ON precio.numPuesto_id = numpuesto.id
 											INNER JOIN tipovehiculo ON numpuesto.tipoVehiculo_id = tipovehiculo.id
 											INNER JOIN clasevehiculo ON cobertura.claseVehiculo_id = clasevehiculo.id AND tipovehiculo.claseVehiculo_id = clasevehiculo.id',
-				'usuarios'			=> 	'usuarios
+					
+				'usuarios'			=> 	'usuarios.id, usuarios.nombre, usuarios.apellido, usuarios.nick, usuarios.clave, usuarios.respuesta, usuarios.agencias_id, usuarios.perfilUsuario_id, 
+										 usuarios.pregunta_id, usuarios.statusUsuarios_id, statususuarios.statusUsuarios, pregunta.pregunta, perfilusuario.perfilUsuario, agencias.nombre_ag 
+											FROM usuarios
 											INNER JOIN agencias ON usuarios.agencias_id = agencias.id
 											INNER JOIN perfilusuario ON usuarios.perfilUsuario_id = perfilusuario.id
 											INNER JOIN statususuarios ON usuarios.statusUsuarios_id = statususuarios.id
@@ -87,12 +102,12 @@
 				exit();
 			}
 			
-			$this->_query = 'SELECT * FROM '.$query;
+			$this->_query = 'SELECT '.$query;
 			$data = $this->_db->query($this->_query);
 			
 			try {
 				$this->_db->beginTransaction();
-					$result = $data->fetchAll();
+					$result = $data->fetchAll(PDO::FETCH_ASSOC);
 				$this->_db->commit();
 			}
 			catch (Exception $e) {
@@ -235,7 +250,7 @@
 		public function saveDependent($parameters, $type) {
 			
 			$cases = array(
-				'cobertura' 		=> 	'cobertura ( cobertura, claseVehiculo_id ) VALUES ( :cobertura, :claseVehiculo_id )',
+				'cobertura' 		=> 	'cobertura ( cobertura, claseVehiculo_id, statusCobert_id ) VALUES ( :cobertura, :claseVehiculo_id, "1" )',
 				'tipoVehiculo' 		=> 	'tipoVehiculo ( tipoVehiculo, claseVehiculo_id ) VALUES ( :tipoVehiculo, :claseVehiculo_id )',
 				'modelo' 			=> 	'modelo ( modelo, marca_id ) VALUES ( :modelo, :marca_id )',
 				'municipio' 		=> 	'municipio ( municipio, estado_id ) VALUES ( :municipio, :estado_id )',
@@ -433,7 +448,7 @@
 				
 			try {
 				$this->_db->beginTransaction();
-				$result = $data->fetchAll();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
 				$this->_db->commit();
 			}
 			catch (Exception $e) {

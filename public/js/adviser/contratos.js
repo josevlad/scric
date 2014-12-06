@@ -102,6 +102,25 @@ function selectOptionDependent( parameters ) {
 	
 }
 
+function getval() {
+    var currentTime = new Date()
+    var hours = currentTime.getHours()
+    var minutes = currentTime.getMinutes()
+
+    if (minutes < 10)
+        minutes = "0" + minutes;
+
+    var suffix = "AM";
+    if (hours >= 12) {
+        suffix = "PM";
+        hours = hours - 12;
+    }
+    if (hours == 0) {
+        hours = 12;
+    }
+    var current_time = hours + ":" + minutes + " " + suffix;
+    return current_time;
+}
 
 //=================================================================================================================================
 
@@ -258,10 +277,14 @@ $(document).ready(function() {
 					
 				}, "json"
 			);
-		}
-		
-			
-	})
+		}	
+	});
+
+	selectDependent({
+		origin:		'#claseVehiculo',
+		selector:	'#usoVehiculo_id', 
+		url:		BASE_URL + "select/loadSelectDepent"
+	});
 	
 	/*
 	loadSelect({
@@ -432,8 +455,21 @@ $(document).ready(function() {
 	
 // End Section of Content dinamic
 	
+	$('#hours').text(getval());
+	
 	var d = new Date();
-	var today = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+	var today = d.getDate()+'-'+(d.getMonth()+1)+'-'+d.getFullYear();
+	
+	$('#hora').val(getval());
+	$('.hour').on("focus", "#hora", function() { 
+		$(this).val(getval());		
+	});
+	$('.hour').on("focusout", "#hora", function() { 
+		$(this).val(getval());		
+	});
+	$('.hour').on("keyup", "#hora", function() { 
+		$(this).val(getval());		
+	});
 	
 	$('#fecha_ini').val(today);
 	$('.date').on("focus", "#fecha_ini", function() { 

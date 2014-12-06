@@ -55,7 +55,6 @@
 					$result = $res;					
 				}
 				
-				
 				echo $result;
 				
 			}else {
@@ -80,7 +79,7 @@
 		
 		public function contratos() {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				;
+				App::varDump($_POST);
 			}else {
 				//content page-hader
 				$this->_view->icon_fa = 'fa-users';

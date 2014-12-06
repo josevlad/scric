@@ -65,6 +65,7 @@
 				'tipoVehiculo'			=>	'tipoVehiculo',
 				'cobertura'				=>	'cobertura',
 				'numPuesto'				=>	'numPuesto',
+				'usoVehiculo'			=>	'usoVehiculo',
 			);
 				
 			if (array_key_exists($table, $cases)) {
@@ -83,6 +84,7 @@
 			echo  json_encode($data);
 			
 		}
+		
 	}
 
 ?>

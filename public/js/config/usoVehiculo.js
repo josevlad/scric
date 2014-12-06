@@ -107,7 +107,7 @@ $(document).ready(function() {
 	
 	
 //strToUpper
-	strToUpper2('#usoVehiculo');
+	strToUpper2('.keyup');
 	
 // Section of Content Select
 	
@@ -116,6 +116,12 @@ $(document).ready(function() {
 	loadSelect({
 		selector:	'#claseVehiculo_id', 
 		url:		BASE_URL + "select/loadSelect/"
+	});
+
+	selectDependent({ 
+		origin:		'#estado', 
+		selector:	'#municipio', 
+		url:		BASE_URL+"select/loadSelectDepent/"
 	});
 
 // End Section of Content Select
@@ -157,6 +163,64 @@ $(document).ready(function() {
 		//$(this).mask("(9999) 999-99-99");
 	});
 
+//dinamic
+	
+		
+	$('#dynamicContent div#clone').hide();
+	
+	var a = $("#init div").length + 1;
+	var b = $("#init div").length + 1;
+	var max1       = 10;	
+	var add        = $("#add");
+	
+	$(add).click(function(e){
+		if(a <= max1){
+			//alert(a);
+			var clone = $('#dynamicContent div#clone').clone(true);
+			
+			clone.attr('id','parent');
+			
+		    $('.dinamic',clone).attr('name','tipo_'+(a+1));
+		    $('.dinamic',clone).attr('id','tipo_'+(a+1));
+		    //$('.num_phone',clone).attr('name','telf_'+a);
+		    
+		    $(clone).appendTo('#dynamicContent').show('1500');
+		   
+			$('.dinamic',clone).rules('add',{
+				required: 		true,
+				lettersonly:	true,  
+				messages:{
+					required: 		"Campo requerido",
+					lettersonly: 	"Caracteres inválido",
+				}
+			});
+			 /*
+			$('.num_phone',clone).rules('add',{
+				required:true,
+				messages:{
+					required: 		"Campo requerido",
+					digits: 		"Numero inválido",
+				}
+			});
+			*/
+			a++;
+		}
+		return false
+	});
+
+//remove
+	
+	$("body").on("click",".delete", function(e){
+		
+		if( a > 1 ) {
+			$(this).parent('div').hide("1500", function(){ $(this).remove(); });
+			$('.auxNumCobert').attr('value', ($('.auxNumCobert').attr('value')-1)  );
+			a--;
+		}
+			
+		return false;
+	});
+	
 	
 // datatable
 	
@@ -205,7 +269,7 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var myForm = $('#config_usoVehiculo');
+	var myForm = $('#config_tipoVehiculo');
 	
 	$.validator.setDefaults({
 		errorClass: 'form_error',
@@ -215,7 +279,7 @@ $(document).ready(function() {
 	
 	
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
-		return this.optional(element) || /^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ\.\s]+$/i.test(value);
+		return this.optional(element) || /^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ\+\-\(\)\.\s]+$/i.test(value);
 	}, "Letters only please"); 
 	
 	jQuery.validator.addMethod("serial", function(value, element) {
@@ -254,14 +318,14 @@ $(document).ready(function() {
 	myForm.validate({
 		rules:{
 			claseVehiculo_id:	"required",
-			usoVehiculo:{
+			tipo_1:{
 				required: 		true,
-				lettersonly:		true, 
+				lettersonly:	true, 
 			}
 		},
 		messages: {
 			claseVehiculo_id:	"Selección requerida",
-			usoVehiculo:{
+			tipo_1:{
 				required: 		"Campo requerido",
 				lettersonly: 	"Caracteres inválido",
 			},
@@ -277,14 +341,14 @@ $(document).ready(function() {
 				url:	myForm.attr('action'),
 		        async: 	false,
 	            success: function(data) {
-	            	
-	            	if (data == true) {
-	            		location.reload();
-	    			}else {
-	    				alert(data);
-	    			}
+	            	//console.log(data)
+	            	location.reload();
+	    			
+	    			
 	            }            
 	        });
+			
+			
 			
         },
 		success: function(element) {

@@ -15,91 +15,6 @@ function strToUpper2(field){
 	});
 }
 
-function loadSelect( parameters ){
-	
-	var element = $( parameters.selector );
-	var url 	= parameters.url;
-	var title 	= 'null';
-	
-	if(parameters.name){
-		var name = parameters.name;
-	}else {
-		var name = element.attr('name');
-	}
-	
-	if(element.attr('title')){
-		title = element.attr('title');
-	}
-	
-	$.post(		
- 		url, 
-		{ type: name }, 
-		function(data){
-			element.empty();
-			element.append('<option value="">Seleccione...</option>');
-			for (var i=0; i<data.length; i++) {
-				if ( title == data[i].id ) {
-					element.append('<option selected value="' + data[i].id + '">' + data[i].option + '</option>');
-				}else {
-					element.append('<option value="' + data[i].id + '">' + data[i].option + '</option>');
-				}
-			}
-		}, 
-		"json"
-	); 
-	
-}
-
-function selectDependent( parameters ){
-	
-	var origin 		= $( parameters.origin );
-	var idOrigin 	= parameters.origin;
-	var element 	= $( parameters.selector );
-	var url			= parameters.url;
-	var type		= $( parameters.selector ).attr('name');
-
-	element.append('<option value="">Seleccione...</option>');
-	
-	$( origin ).change(function () {
-        
-		$(idOrigin+' option:selected').each(function () {
-			
-     		selected = $(this).val();
-     		var select = $(element);
-         	$.post(
-         		url, 
-     			{ type: type, id: selected }, 
-     			function(data){
-     				select.empty();
-					select.append('<option value="">Seleccione...</option>');
-     				for (var i=0; i<data.length; i++) {
-						select.append('<option value="' + data[i].id + '">' + data[i].option + '</option>');
-					}
-     			}, "json");            
-     	});
-	});
-	
-}
-
-function openFancyBox( parameters ) {
-	
-	var element = parameters.button
-	var url = parameters.url
-	
-	$(element).click(function() {
-		$.fancybox.open({
-			href : url,
-			type : 'iframe',
-			//autoSize: false,
-	        //width: 1024,
-	        //height: 490,
-			afterClose : function(){
-				
-   			}
-		});
-	});
-}
-
 //=================================================================================================================================
 
 $(document).ready(function() {
@@ -109,30 +24,8 @@ $(document).ready(function() {
 	
 //strToUpper
 	strToUpper2('#claseVehiculo');
-	
-// Section of Content Select
-	
-	// Load Select for Data Base =======================================================================================
-		
-	loadSelect({
-		selector:	'#tpPersona_id', 
-		url:		BASE_URL + "select/loadSelect/"
-	});
 
-	selectDependent({ 
-		origin:		'#estado', 
-		selector:	'#municipio', 
-		url:		BASE_URL+"select/loadSelectDepent/"
-	});
-
-// End Section of Content Select
-	/*
-	openFancyBox({
-		button:		'.update',
-		url:		BASE_URL + "index/index",	
-	})
-	*/
-	
+//update	
 	$('#cancel').hide();
 	
 	$(document).on("click", ".update", function() { 
@@ -209,41 +102,8 @@ $(document).ready(function() {
 	
 	
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
-		return this.optional(element) || /^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ\(\)\.\s]+$/i.test(value);
+		return this.optional(element) || /^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ\-\+\(\)\.\s]+$/i.test(value);
 	}, "Letters only please"); 
-	
-	jQuery.validator.addMethod("serial", function(value, element) {
-	  return this.optional(element) || /^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ]+$/i.test(value);
-	}, "Serial only please");
-	
-	jQuery.validator.addMethod("minage", function(value, element, min) {
-		var today = new Date();
-		var DD 		= Number(today.getDate());
-		var MM 		= Number(today.getMonth());
-		var YYYY 	= Number(today.getFullYear());
-
-		var birthDate = value;
-		var BD_D = Number(birthDate.split("-")[0])
-		var BD_M = Number(birthDate.split("-")[1])
-		var BD_Y = Number(birthDate.split("-")[2])
-		
-		var aux = YYYY - BD_Y;
-		var age;
-		
-		if (MM > BD_M) {
-			age = aux - 1;
-		}else if (MM == BD_M || DD > BD_D) {
-			age = aux - 1;
-		}else{
-			age = aux;
-		}
-		
-	    if (age > min+1) {
-	        return true;
-	    }
-	 
-	    return age >= min;
-	}, "You are not old enough!");
 	
 	myForm.validate({
 		rules:{		
@@ -260,8 +120,6 @@ $(document).ready(function() {
 			
 		},
 		submitHandler: function() {
-			//$(location).attr('href', myForm.attr('action'));
-			//location.reload();
 			
 			$.ajax({
 	            type:	myForm.attr('method'),
@@ -269,16 +127,13 @@ $(document).ready(function() {
 				url:	myForm.attr('action'),
 		        async: 	false,
 	            success: function(data) {
-	            	
 	            	if (data == true) {
 	            		location.reload();
 	    			}else {
 	    				alert(data);
-	    			}
+	    			}	            	
 	            }            
 	        });
-			
-			
 			
         },
 		success: function(element) {

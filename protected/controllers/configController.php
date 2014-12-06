@@ -695,28 +695,38 @@
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
+				
+				if (isset($_POST['aux'])) {
+					$dif = $_POST['aux'];
+					
+					for ($i = 0; $i < $dif; $i++) {
+						array_shift($_POST);
+					}
+				}
+				
+				//echo count($_POST);
+				//printf("\n");
+				//print_r($_POST);
+				
+				//exit();
+				
 				$keys 		= array();
 				$values		= array();
 				
 				foreach ($_POST as $key => $value){
-					array_push(
-						$keys,
-						$key
-					);
-					array_push(
-						$values,
-						$value
-					);
+					array_push( 	$keys	, $key 		);
+					array_push( 	$values	, $value 	);
 				}
 				
-				$type = $keys[count($keys)-1];
-				$data = $values[count($keys)-1];
-								
-				$_idDependent 	= ':'.$keys[count($keys)-2];
-				$idDependent 	= $values[count($keys)-2];
+				//print_r($_POST);
+				//print_r($keys);
+				//print_r($values);
+				
+				$type 		= array_shift($keys);
+				$type_value = array_shift($values);//no se usa, pero hay que extraerlo del array general
 				
 				$cases = array(
-					'cobertura'				=> 	':cobertura',
+					'cobertura'				=> 	':cobertura',//
 					'tipoVehiculo'			=> 	':tipoVehiculo',
 					'modelo'				=> 	':modelo',
 					'municipio'				=> 	':municipio',
@@ -730,16 +740,33 @@
 					exit();
 				}
 				
-				$bind_values = array(
-						$cases[$type]	=> $data,
-						$_idDependent	=> $idDependent
-				);
+				//echo 'existe';
 				
-				if ($_POST['tpAction'] == '0') {
-					$this->_config->saveDependent($bind_values, $type);
-				}else {
-					$this->_config->updateDependent($bind_values, $type, $_POST['tpAction']);
+				$action 	  = array_shift($keys);
+				$action_value = array_shift($values);
+								
+				$dependence_id 		 = ':'.array_shift($keys);
+				$dependence_id_value = array_shift($values);
+				
+				//print_r($keys);
+				//print_r($values);
+				
+				for ($i = 0; $i < count($keys); $i++) {
+					$bind_values = array(
+							$cases[$type]	=> $values[$i],
+							$dependence_id	=> $dependence_id_value
+					);
+					
+					if ($action_value == '0') {
+						$this->_config->saveDependent($bind_values, $type);
+					}else {
+						$this->_config->updateDependent($bind_values, $type, $action_value);
+					}
+					
 				}
+				
+				echo true;
+				
 			}
 		}
 		

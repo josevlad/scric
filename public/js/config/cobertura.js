@@ -163,6 +163,65 @@ $(document).ready(function() {
 		//$(this).mask("(9999) 999-99-99");
 	});
 
+//dinamic
+	
+		
+	$('#cobert div#clone').hide();
+	
+	var a = $("#init div").length + 1;
+	var b = $("#init div").length + 1;
+	var max1       = 10;	
+	var add        = $("#add");
+	
+	$(add).click(function(e){
+		if(a <= max1){
+			//alert(a);
+			var clone = $('#cobert div#clone').clone(true);
+			
+			clone.attr('id','parent');
+			
+			$('.auxNumCobert').attr('value', a+1 );
+		    $('.cobertura',clone).attr('name','tipo_'+(a+1));
+		    $('.cobertura',clone).attr('id','tipo_'+(a+1));
+		    //$('.num_phone',clone).attr('name','telf_'+a);
+		    
+		    $(clone).appendTo('#cobert').show('1500');
+		   
+			$('.cobertura',clone).rules('add',{
+				required: 		true,
+				digits:			true, 
+				messages:{
+					required: 		"Campo requerido",
+					digits: 		"Numero inválido",
+				}
+			});
+			 /*
+			$('.num_phone',clone).rules('add',{
+				required:true,
+				messages:{
+					required: 		"Campo requerido",
+					digits: 		"Numero inválido",
+				}
+			});
+			*/
+			a++;
+		}
+		return false
+	});
+
+//remove
+	
+	$("body").on("click",".delete", function(e){
+		
+		if( a > 1 ) {
+			$(this).parent('div').hide("1500", function(){ $(this).remove(); });
+			$('.auxNumCobert').attr('value', ($('.auxNumCobert').attr('value')-1)  );
+			a--;
+		}
+			
+		return false;
+	});
+	
 	
 // datatable
 	
@@ -260,14 +319,14 @@ $(document).ready(function() {
 	myForm.validate({
 		rules:{
 			claseVehiculo_id:	"required",
-			cobertura:{
+			tipo_1:{
 				required: 		true,
 				digits:			true, 
 			}
 		},
 		messages: {
 			claseVehiculo_id:	"Selección requerida",
-			cobertura:{
+			tipo_1:{
 				required: 		"Campo requerido",
 				digits: 		"Numero inválido",
 			},
@@ -283,12 +342,10 @@ $(document).ready(function() {
 				url:	myForm.attr('action'),
 		        async: 	false,
 	            success: function(data) {
-	            	
-	            	if (data == true) {
-	            		location.reload();
-	    			}else {
-	    				alert(data);
-	    			}
+	            	//console.log(data)
+	            	location.reload();
+	    			
+	    			
 	            }            
 	        });
 			

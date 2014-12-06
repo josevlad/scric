@@ -441,26 +441,26 @@
 									<label ><?php echo utf8_encode('Uso del Vehículo');?></label>
 									<select 
 										class="form-control"
-										id="uso" 
-										name="uso"
+										id="usoVehiculo_id" 
+										name="usoVehiculo_id"
+										table="usoVehiculo"
 									></select>
 								</div>
 							</div>						
 							
 							<div class="col-sm-4">
 								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Capacidad de Carga');?></label>
-									<select 
+									<label><?php echo utf8_encode('Capacidad de Carga (peso)');?></label>
+									<input 
 										class="form-control"
-										id="carga" 
-										name="carga"
-									></select>
+										id="peso" 
+										name="peso"
+									>
 								</div>
 							</div>
-							
-							<div class="col-sm-4">
+							<div class="col-sm-2">
 								<div class="form-group no-margin-hr date">
-									<label><?php echo utf8_encode('Fecha de inicio del contrato');?></label>
+									<label><?php echo utf8_encode('Inicio del contrato');?></label>
 									<input 
 										type="text" 
 										class="form-control" 
@@ -470,7 +470,18 @@
 									>
 								</div>
 							</div>
-							
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr date hour" style="padding-top: 5px;">
+									<label><?php echo utf8_encode('');?></label>
+									<input 
+										type="text" 
+										class="form-control" 
+										id="hora"
+										name="hora"
+										value=""
+									>
+								</div>
+							</div>
 							
 							
 						</div>

@@ -20,7 +20,7 @@
 				
 			try {
 				$this->_db->beginTransaction();
-				$result = $roles->fetchAll();
+				$result = $roles->fetchAll(PDO::FETCH_ASSOC);
 				$this->_db->commit();
 			}
 			catch (Exception $e) {
