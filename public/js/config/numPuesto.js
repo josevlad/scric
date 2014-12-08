@@ -119,15 +119,47 @@ $(document).ready(function() {
 	// Load Select for Data Base =======================================================================================
 		
 	loadSelect({
-		selector:	'#claseVehiculo', 
+		selector:	'#cv_1', 
 		url:		BASE_URL + "select/loadSelect/"
 	});
 
 	selectDependent({ 
-		origin:		'#claseVehiculo', 
-		selector:	'#tipoVehiculo_id', 
+		origin:		'#cv_1', 
+		selector:	'#id_1', 
 		url:		BASE_URL+"select/loadSelectDepent/"
 	});
+	
+	loadSelect({
+		selector:	'#selectClone1', 
+		url:		BASE_URL + "select/loadSelect/"
+	});
+	
+	$(document).on({
+	    
+	    change: function(){
+	    	
+	    	var element = $( $(this).attr('dest') );
+	    	var table = element.attr('table');
+	    	var idOrigin 	=	$(this).attr('id');
+	    	
+	    	$('#'+idOrigin+' option:selected').each(function(){
+				var id = $(this).val();
+				$.post(		
+					BASE_URL+"select/loadSelectDepent/", 
+			 		{ table: table, id: id }, 
+					function(data){
+						element.empty();
+						element.append('<option value="">Seleccione...</option>');
+						for (var i=0; i<data.length; i++) {
+							element.append('<option value="' + data[i].id + '">' + data[i].option + '</option>');
+						}
+					}, "json");
+			})
+    	}
+	
+	}, ".origin" );
+
+
 
 // End Section of Content Select
 	/*
@@ -160,6 +192,7 @@ $(document).ready(function() {
 		
 		$('.data').val($(this).attr('inputText'));
 		$('#cancel').show('slow');
+		$('#add').hide('slow');
 		//$(this).mask("(9999) 999-99-99");
 	});
 	
@@ -177,6 +210,7 @@ $(document).ready(function() {
 		
 		$('.data').val('');
 		$(this).hide('slow');
+		$('#add').show('slow');
 		//$(this).mask("(9999) 999-99-99");
 	});
 
@@ -187,7 +221,7 @@ $(document).ready(function() {
 	
 	var a = $("#init div").length + 1;
 	var b = $("#init div").length + 1;
-	var max1       = 10;	
+	var max1       = 15;	
 	var add        = $("#add");
 	
 	$(add).click(function(e){
@@ -197,14 +231,37 @@ $(document).ready(function() {
 			
 			clone.attr('id','parent');
 			
-		    $('.dinamic',clone).attr('name','tipo_'+(a+1));
-		    $('.dinamic',clone).attr('id','tipo_'+(a+1));
-		    
-		    //$('.num_phone',clone).attr('name','telf_'+a);
+			$('.origin',clone).attr('dest','#id_'+(a+1));
+			
+			$('.origin',clone).attr('name','cv_'+(a+1));
+			$('.origin',clone).attr('id','cv_'+(a+1));
+			
+			$('.dependence',clone).attr('name','id_'+(a+1));
+			$('.dependence',clone).attr('id','id_'+(a+1));
+			$('.dependence',clone).append('<option value="">Seleccione...</option>');
+			
+		    $('.text',clone).attr('name','np_'+(a+1));
+		    $('.text',clone).attr('id','np_'+(a+1));
+
+			$('#aux').attr('value',	a+1);
 		    
 		    $(clone).appendTo('#dynamicContent').show('1500');
+			
+			$('.origin',clone).rules('add',{
+				required: 		true, 
+				messages:{
+					required: 		"Selección requerido",
+				}
+			});
+			
+			$('.dependence',clone).rules('add',{
+				required: 		true, 
+				messages:{
+					required: 		"Selección requerido",
+				}
+			});
 		   
-			$('.dinamic',clone).rules('add',{
+			$('.text',clone).rules('add',{
 				required: 		true,
 				digits:			true,  
 				messages:{
@@ -212,15 +269,7 @@ $(document).ready(function() {
 					digits: 		"Numero inválido",
 				}
 			});
-			 /*
-			$('.num_phone',clone).rules('add',{
-				required:true,
-				messages:{
-					required: 		"Campo requerido",
-					digits: 		"Numero inválido",
-				}
-			});
-			*/
+			
 			a++;
 		}
 		return false
@@ -232,6 +281,7 @@ $(document).ready(function() {
 		
 		if( a > 1 ) {
 			$(this).parent('div').hide("1500", function(){ $(this).remove(); });
+			$('#aux').attr('value',	$('#aux').attr('value')-1);
 			a--;
 		}
 			
@@ -286,6 +336,8 @@ $(document).ready(function() {
 	
 // Validate
 	
+	
+	
 	var myForm = $('#config_numPuesto');
 	
 	$.validator.setDefaults({
@@ -334,17 +386,13 @@ $(document).ready(function() {
 	
 	myForm.validate({
 		rules:{
-			claseVehiculo:		"required",
-			tipoVehiculo_id:	"required",
-			tipo_1:{
+			np_1:{
 				required: 		true,
 				lettersonly:	true, 
 			}
 		},
 		messages: {
-			claseVehiculo:		"Selección requerida",
-			tipoVehiculo_id:	"Selección requerida",
-			tipo_1:{
+			np_1:{
 				required: 		"Campo requerido",
 				lettersonly: 	"Caracteres inválido",
 			},
@@ -362,8 +410,6 @@ $(document).ready(function() {
 	            success: function(data) {
 	            	//console.log(data)
 	            	location.reload();
-	    			
-	    			
 	            }            
 	        });
 			
@@ -373,6 +419,20 @@ $(document).ready(function() {
 		success: function(element) {
 			element.remove();
 			
+		}
+	});
+	
+	$('.se').rules('add',{
+		required: 		true, 
+		messages:{
+			required: 		"Selección requerido",
+		}
+	});
+	
+	$('.se2').rules('add',{
+		required: 		true, 
+		messages:{
+			required: 		"Selección requerido",
 		}
 	});
 	

@@ -79,7 +79,70 @@
 		
 		public function contratos() {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				App::varDump($_POST);
+				
+				$keys 		= array();
+				$values		= array();
+				
+				$titular 	= array(); 
+				$telefonos 	= array();
+				$correos 	= array();
+				$contrato 	= array();
+				
+				foreach ($_POST as $key => $value){
+					if($key == 'fecha_exp'){
+						array_push( $keys	, ':'.$key 		);
+						array_push( $values	, App::saveDate($value) 	);
+					}else {
+						array_push( $keys	, ':'.$key 	);
+						array_push( $values	,  $value	);
+					}
+				}
+				
+				for ($i = 0; $i < '8'; $i++) {
+					$titular[$keys[$i]] = $values[$i];
+				}
+				
+				unset($titular[':estado']);
+				unset($titular[':municipio']);
+				
+				$to = ($_POST['aux'] * 2) + 9;
+				
+				for ($i = '8'; $i < $to; $i++) {
+					//$tp = substr ($keys[$i], 0, -2);
+					$telefonos[] = $values[$i];
+				}
+				unset($telefonos['0']);
+				
+				$from 	= $to +1;
+				$to2	= $_POST['aux2'] + $from;
+				
+				for ($i = $from; $i < $to2 ; $i++) {
+					$correos[] = $values[$i];
+				}
+				
+				$from2 = $from + $to2;
+				
+				for ($i = $to2; $i < count($_POST) ; $i++) {
+					$contrato[$keys[$i]] = $values[$i];
+				}
+				unset($contrato[':marca']);
+				unset($contrato[':claseVehiculo']);
+				unset($contrato[':tipoVehiculo']);
+				unset($contrato[':numPuesto']);
+				unset($contrato[':cobertura']);
+				
+				$contrato[':fecha_ven'] 	= App::saveDate( App::oneYearMore($_POST['fecha_exp']) );
+				$contrato[':hora_ven'] 		= $_POST['hora_exp'];
+				$contrato[':statusCont_id'] = '1';
+				
+				$data[] = $titular;
+				$data[] = $telefonos;
+				$data[] = $correos;
+				$data[] = $contrato;
+				
+				echo $this->_adviser->saveContract($data);
+				//saveContract
+				
 			}else {
 				//content page-hader
 				$this->_view->icon_fa = 'fa-users';

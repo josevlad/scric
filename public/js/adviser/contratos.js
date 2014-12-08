@@ -153,7 +153,7 @@ $(document).ready(function() {
 	});
 	
 	loadSelect({
-		selector:	'#tipoTelf_id', 
+		selector:	'#tipo_1', 
 		url:		BASE_URL + "select/loadSelect"
 	});
 	
@@ -381,9 +381,12 @@ $(document).ready(function() {
 			
 			clone.attr('id','parent');
 			
-			$('.aux',clone).attr('value', a );
-		    $('.tp_phone',clone).attr('name','tipo_'+a);
-		    $('.num_phone',clone).attr('name','telf_'+a);
+			$('#aux').attr('value', (a+1) );
+		    $('.tp_phone',clone).attr('id','tipo_'+(a+1));
+		    $('.tp_phone',clone).attr('name','tipo_'+(a+1));
+
+		    $('.num_phone',clone).attr('id','telf_'+(a+1));
+		    $('.num_phone',clone).attr('name','telf_'+(a+1));
 		    
 		    $(clone).appendTo('#phones').show('1500');
 		    
@@ -417,7 +420,7 @@ $(document).ready(function() {
 			
 			clone.attr('id','parent');
 			
-			$('.aux2',clone).attr('value', b );
+			$('#aux2').attr('value', b );
 		    $('.email',clone).attr('name','mail_'+b);
 		    
 		    $(clone).appendTo('#mail').show('1500');
@@ -441,10 +444,19 @@ $(document).ready(function() {
 	$("body").on("click",".delete", function(e){
 		
 		if( a > 1 ) {
-			$(this).parent('div').hide("1500", function(){ $(this).remove(); })
+			$(this).parent('div').hide("1500", function(){ $(this).remove(); });
+			$('#aux').attr('value', $('#aux').attr('value')-1 );
 			a--;
-		}else if( b > 1 ) {
-			$(this).parent('div').hide("1500", function(){ $(this).remove(); })
+		}
+			
+		return false;
+	});
+	
+	$("body").on("click",".delete2", function(e){
+		
+		if( b > 1 ) {
+			$(this).parent('div').hide("1500", function(){ $(this).remove(); });
+			$('#aux2').attr('value', $('#aux2').attr('value')-1 );
 			b--;
 		}
 			
@@ -460,25 +472,25 @@ $(document).ready(function() {
 	var d = new Date();
 	var today = d.getDate()+'-'+(d.getMonth()+1)+'-'+d.getFullYear();
 	
-	$('#hora').val(getval());
-	$('.hour').on("focus", "#hora", function() { 
+	$('#hora_exp').val(getval());
+	$('.hour').on("focus", "#hora_exp", function() { 
 		$(this).val(getval());		
 	});
-	$('.hour').on("focusout", "#hora", function() { 
+	$('.hour').on("focusout", "#hora_exp", function() { 
 		$(this).val(getval());		
 	});
-	$('.hour').on("keyup", "#hora", function() { 
+	$('.hour').on("keyup", "#hora_exp", function() { 
 		$(this).val(getval());		
 	});
 	
-	$('#fecha_ini').val(today);
-	$('.date').on("focus", "#fecha_ini", function() { 
+	$('#fecha_exp').val(today);
+	$('.date').on("focus", "#fecha_exp", function() { 
 		$(this).val(today);		
 	});
-	$('.date').on("focusout", "#fecha_ini", function() { 
+	$('.date').on("focusout", "#fecha_exp", function() { 
 		$(this).val(today);		
 	});
-	$('.date').on("keyup", "#fecha_ini", function() { 
+	$('.date').on("keyup", "#fecha_exp", function() { 
 		$(this).val(today);		
 	});
 	
@@ -554,7 +566,7 @@ $(document).ready(function() {
 			municipio:			"required",
 			parroquia_id:		"required",
 			direccion:			"required",
-			tipoTelf_id:		"required",
+			tipo_1:			"required",
 			num_Telf:			"required",
 			marca:				"required",
 			modelo_id:			"required",
@@ -604,7 +616,7 @@ $(document).ready(function() {
 			municipio:			"Selección requerida",
 			parroquia_id:		"Selección requerida",
 			direccion: 			"Campo requerido",
-			tipoTelf_id:		"Selección requerida",
+			tipo_1:			"Selección requerida",
 			num_Telf:			"Campo requerido",
 			marca:				"Selección requerida",
 			modelo_id:			"Selección requerida",

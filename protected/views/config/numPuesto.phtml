@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-md-12">
 		
-			<form id="config_numPuesto" action="<?php echo BASE_URL.'config/actionDependence'; ?>" method="post" class="form-horizontal">
+			<form id="config_numPuesto" action="<?php echo BASE_URL.'config/actionNumPuesto'; ?>" method="post" class="form-horizontal">
 
 <!-- ================================== PANEL ================================== -->
 				<div id="init">
@@ -20,23 +20,6 @@
 								type="hidden"
 								id="aux"
 								name="aux"
-								value="2"
-							>							
-							<div class="col-sm-4">
-								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Clase de Vehículo'); ?></label>
-									<select 
-										class="form-control"
-										id="claseVehiculo" 
-										name="claseVehiculo"
-										table="claseVehiculo"										
-									></select>
-								</div>
-							</div>
-							<input
-								type="hidden"
-								id="numPuesto"
-								name="numPuesto"
 								value="1"
 							>
 							<input
@@ -44,18 +27,43 @@
 								id="tpAction"
 								name="tpAction"
 								value="0"
-							>
-							<div class="col-sm-4">
+							>							
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Clase de Vehículo'); ?></label>
+									<select 
+										class="form-control se"
+										id="cv_1" 
+										name=""
+										table="claseVehiculo"										
+									></select>
+								</div>
+							</div>
+							
+							<div class="col-sm-3">
 								<div class="form-group no-margin-hr">
 									<label><?php echo utf8_encode('Tipo de Vehiculo'); ?></label>
 									<select 
-										class="form-control"
-										id="tipoVehiculo_id" 
-										name="tipoVehiculo_id"
+										class="form-control se2"
+										id="id_1" 
+										name="id_1"
 										table="tipoVehiculo"										
 									></select>
 								</div>
 							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Numero de Puesto'); ?></label>
+									<input 
+										type="text" 
+										class="form-control keyup data" 
+										id="np_1" 
+										name="np_1"
+									>
+								</div>
+							</div>
+							
 							
 							<div class="col-sm-2">
 								<div class="form-group no-margin-hr" style="padding-top: 22px;">
@@ -67,29 +75,44 @@
 						<!-- ------------------------------------------------------------------------------------------- -->
 						
 						<div class="row">
-							<div class="col-sm-4">
-								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Numero de Puesto'); ?></label>
-									<input 
-										type="text" 
-										class="form-control keyup data" 
-										id="tipo_1" 
-										name="tipo_1"
-									>
-								</div>
-							</div>
+							
 						</div>
 						
 						<div id="dynamicContent">
 						
 							<div class="row" id="clone">
 								
-								<div class="col-sm-4">
+								<div class="col-sm-3">
+									<div class="form-group no-margin-hr">
+										<label><?php echo utf8_encode('Clase de Vehículo'); ?></label>
+										<select 
+											class="form-control origin"
+											id="selectClone1" 
+											name=""
+											table="claseVehiculo"
+											dest=""										
+										></select>
+									</div>
+								</div>
+								
+								<div class="col-sm-3">
+									<div class="form-group no-margin-hr ">
+										<label><?php echo utf8_encode('Tipo de Vehiculo'); ?></label>
+										<select 
+											class="form-control dependence"
+											id="selectClone2" 
+											name=""
+											table="tipoVehiculo"										
+										></select>
+									</div>
+								</div>
+								
+								<div class="col-sm-2">
 									<div class="form-group no-margin-hr">
 										<label><?php echo utf8_encode('Numero de Puesto'); ?></label>
 										<input 
 											type="text" 
-											class="form-control keyup dinamic" 
+											class="form-control keyup text" 
 											id="" 
 											name=""
 										>

@@ -5,7 +5,7 @@
 		private $_config;
 		
 		public function __construct() {
-			Session::accessRole(array('ADMIN_DB'));
+			Session::accessRole(array('SUPER_U'));
 			parent::__construct();
 			$this->_config = $this->loadModel('config');
 		}
@@ -469,10 +469,13 @@
 		}
 
 		//Administracion de la tabla precio
-		public function precio() {
+		public function edithPrecio() {
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			
+				
+				print_r($_POST);
+				
+				/*
 				if ($_POST['tpAction'] == '0') {
 						
 					$bind_values = array(
@@ -493,6 +496,7 @@
 						
 					$this->_config->updatePrecio($bind_values);
 				}
+				*/
 			}else {
 		
 				//Content page-hader
@@ -503,6 +507,7 @@
 				$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
 			
 				//data de la tb tipo de persona
+				$this->_view->np = $this->getReference( 'numPuesto' );
 				$this->_view->data = $this->getReference( 'precio' );
 			
 				//custom config js
@@ -512,6 +517,55 @@
 			
 			}
 		
+		}
+		
+		public function asignarPrecio() {
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				
+				//print_r($_POST);
+				unset($_POST['claseVehiculo']);
+				unset($_POST['np_length']);
+				
+				$keys 		= array();
+				$values		= array();
+				
+				foreach ($_POST as $key => $value){
+					array_push(	$keys, $key );
+					array_push( $values, $value );
+				}
+				
+				$cobertura_id 	= array_shift($values);
+				$precio  		= array_shift($values);
+				$ids 			= array_shift($values);
+				
+				for ($i = 0; $i < count($ids); $i++) {
+					$bind_values = array(
+							':precio'		=> $precio,
+							':numPuesto_id'	=> $ids[$i],
+							':cobertura_id'	=> $cobertura_id,
+					);
+					$this->_config->savePrecio($bind_values);
+				}
+				
+			}else {
+		
+				//Content page-hader
+				$this->_view->icon_fa = 'fa-database';
+				$this->_view->titleHead = 'Administracion de Base de datos';
+			
+				//dataTable
+				$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+			
+				//data de la tb tipo de persona
+				$this->_view->np = $this->getReference( 'numPuesto' );
+				$this->_view->data = $this->getReference( 'precio' );
+			
+				//custom config js
+				$this->_view->setJs(array('config/asignarPrecio'));
+			
+				$this->_view->render('asignarPrecio');
+			
+			}
 		}
 				
 		//Administracion de la tabla name
@@ -768,6 +822,44 @@
 				echo true;
 				
 			}
+		}
+		
+		public function actionNumPuesto() {
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {				
+				
+				$keys 		= array();
+				$values 	= array();
+				$to 		= array_shift($_POST);
+				$tpAction 	=  array_shift($_POST);
+				
+				foreach ($_POST as $key => $value){
+					if (substr($key,0,3) != 'cv_') {
+						array_push( 	$keys	, $key 		);
+						array_push( 	$values	, $value 	);
+					}
+				}
+				
+				$i = 0;
+				while ($i < count($values)):
+					
+					$bind_values = array(
+							':tipoVehiculo_id'	=> $values[$i],
+							':numPuesto'		=> $values[$i+1]
+					);
+
+					if ($tpAction == '0') {
+						$v = $this->_config->saveDependent($bind_values, 'numPuesto');
+					}else {
+						$v = $this->_config->updateDependent($bind_values, 'numPuesto', $tpAction);
+					}
+					
+					$i++;
+					$i++;
+				endwhile;
+								
+			}
+			
 		}
 		
 	}

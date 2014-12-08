@@ -9,7 +9,7 @@
 			if (Session::get(AUTHENTICATED)) {
 				
 				switch (Session::get('level')) {
-					case 'ADMIN_DB':
+					case 'SUPER_U':
 						$this->_view->redirect('config');
 					break;
 					

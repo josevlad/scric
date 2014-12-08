@@ -14,7 +14,10 @@
 		public function getRemote( $field, $data ) {
 			
 			$fields = array(
-					'nick' 			=> 'usuarios.nick FROM usuarios WHERE nick = "'.$data.'"',
+					'nick' 		=> 	'usuarios.nick FROM usuarios WHERE nick = "'.$data.'"',
+					'placa'		=> 	'contratos.placa FROM contratos WHERE placa = "'.$data.'"',
+					'serial_c'	=>	'contratos.serial_c FROM contratos WHERE serial_c = "'.$data.'"',
+					'serial_m'	=>	'contratos.serial_m FROM contratos WHERE serial_m = "'.$data.'"',
 			);
 
 			if (!key_exists($field, $fields)) {
@@ -45,7 +48,7 @@
 				'claseVehiculo'		=> 	'* FROM claseVehiculo ORDER BY id',
 				'estado'			=> 	'* FROM estado ORDER BY id',
 				'marca'				=> 	'* FROM marca ORDER BY id',
-				'perfilUsuario'		=> 	'* FROM perfilUsuario ORDER BY id',
+				'perfilUsuario'		=> 	'* FROM perfilUsuario WHERE id > 1 ORDER BY id',
 				'pregunta'			=> 	'* FROM pregunta ORDER BY id',	
 				'statusCont'		=> 	'* FROM statusCont ORDER BY id',
 				'statusFormat'		=> 	'* FROM statusFormat ORDER BY id',
@@ -64,7 +67,8 @@
 				 'modelo'			=> 	'modelo.id, modelo.modelo, modelo.marca_id, marca.marca 
 											FROM modelo INNER JOIN marca ON modelo.marca_id = marca.id',
 					
-				'municipio'			=> 	'* FROM municipio INNER JOIN estado ON municipio.estado_id = estado.id',
+				'municipio'			=> 	'municipio.id, municipio.municipio, municipio.estado_id, estado.estado
+										 	FROM municipio INNER JOIN estado ON municipio.estado_id = estado.id',
 					
 				'numPuesto'			=> 	'numpuesto.id, numpuesto.numPuesto, numpuesto.tipoVehiculo_id, tipovehiculo.tipoVehiculo, tipovehiculo.claseVehiculo_id, clasevehiculo.claseVehiculo 
 											FROM numpuesto 

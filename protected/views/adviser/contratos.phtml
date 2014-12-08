@@ -121,7 +121,7 @@
 							</div>
 						</div>
 						<!-- ------------------------------------------------------------------------------------------- -->
-						
+						<input type="hidden" class="aux" name="aux" id="aux" value="1">
 						<div class="row">
 						
 							<div class="col-sm-4">
@@ -129,8 +129,8 @@
 									<label ><?php echo utf8_encode('Tipo de Teléfono')?></label>
 									<select 
 										class="form-control"
-										id="tipoTelf_id" 
-										name="tipoTelf_id"
+										id="tipo_1" 
+										name="tipo_1"
 										table="tipoTelf"
 									></select>
 								</div>
@@ -142,8 +142,8 @@
 									<input 
 										type="text"
 										class="form-control phone"
-										id="num_Telf" 
-										name="num_Telf"
+										id="telf_1" 
+										name="telf_1"
 									>
 								</div>
 							</div>
@@ -164,18 +164,19 @@
 							
 						</div>
 						<!-- ------------------------------------------------------------------------------------------- -->
+						
 						<div id="phones">
 						
 							<div class="row" id="clone">
 							
-								<input type="hidden" class="aux" name="aux[]" value="0">
+								
 								<div class="col-sm-4">
 									<div class="form-group no-margin-hr">
 										<label ><?php echo utf8_encode('Tipo de Teléfono')?></label>
 										<select 
 											class="form-control tp_phone"
 											id="tipoTelf" 
-											name="tipoTelf"
+											name=""
 											table="tipoTelf"
 										></select>
 									</div>
@@ -201,11 +202,11 @@
 						</div>
 						<!-- ------------------------------------------------------------------------------------------- -->
 						
+						<input type="hidden" class="aux2" name="aux2" id="aux2" value="0">
 						<div id="mail">
 						
 							<div class="row" id="clone2">
 							
-								<input type="hidden" class="aux2" name="aux2[]" value="0">
 								<div class="col-sm-8">
 									
 									<div class="form-group no-margin-hr">
@@ -219,7 +220,7 @@
 									</div>
 								</div>
 								
-								<div class="btn btn-success delete" style="margin: 23px 12px;" >
+								<div class="btn btn-success delete2" style="margin: 23px 12px;" >
 									<i class="fa fa-remove"></i>
 								</div>
 								
@@ -464,8 +465,8 @@
 									<input 
 										type="text" 
 										class="form-control" 
-										id="fecha_ini"
-										name="fecha_ini"
+										id="fecha_exp"
+										name="fecha_exp"
 										value=""
 									>
 								</div>
@@ -476,8 +477,8 @@
 									<input 
 										type="text" 
 										class="form-control" 
-										id="hora"
-										name="hora"
+										id="hora_exp"
+										name="hora_exp"
 										value=""
 									>
 								</div>
