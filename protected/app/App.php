@@ -47,6 +47,10 @@
 			return str_replace($sig,'',$dni);
 		}
 		
+		public static function format12Hours($hours) {
+			return date('h:i:s a', strtotime($hours));
+		}
+		
 		
 	}	
 

@@ -33,6 +33,16 @@
 				
 			}
 		}
+		
+		protected function getLibrary($library) {
+			$library_route = ROOT . 'libs' . DS . $library . '.php';
+				
+			if (is_readable($library_route)) {
+				require_once $library_route;
+			}else {
+				throw new Exception('Libreria'.$library_route.' no exixtente');
+			}
+		}
 				
 	}
 ?>

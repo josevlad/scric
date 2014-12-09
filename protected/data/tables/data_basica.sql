@@ -57,17 +57,6 @@ INSERT INTO `clasevehiculo` (`id`, `claseVehiculo`) VALUES
 (16, 'AUTOMOVIL (TP)');
 
 --
--- Volcado de datos para la tabla `cobertura`
---
-
-INSERT INTO `cobertura` (`id`, `cobertura`, `claseVehiculo_id`, `statusCobert_id`) VALUES
-(1, '25000.00', 1, 1),
-(2, '40000.00', 1, 1),
-(3, '60000.00', 1, 1),
-(4, '80000.00', 1, 1),
-(5, '100000.00', 1, 1);
-
---
 -- Volcado de datos para la tabla `estado`
 --
 
@@ -484,24 +473,6 @@ INSERT INTO `municipio` (`id`, `municipio`, `estado_id`) VALUES
 (344, 'LOBATERA', 22),
 (345, 'MICHELENA', 22),
 (346, 'MALDONADO', 22);
-
---
--- Volcado de datos para la tabla `numpuesto`
---
-
-INSERT INTO `numpuesto` (`id`, `numPuesto`, `tipoVehiculo_id`) VALUES
-(1, '12', 6),
-(2, '18', 6),
-(3, '19', 6),
-(4, '20', 6),
-(5, '21', 6),
-(6, '22', 6),
-(7, '24', 6),
-(8, '26', 6),
-(9, '28', 6),
-(10, '32', 6),
-(11, '41', 6),
-(12, '49', 6);
 
 --
 -- Volcado de datos para la tabla `parroquia`
@@ -1598,27 +1569,6 @@ INSERT INTO `perfilusuario` (`id`, `perfilUsuario`) VALUES
 (1, 'SUPER_U'),
 (2, 'ADMIN_DB'),
 (3, 'ASESOR');
-
---
--- Volcado de datos para la tabla `planillas`
---
-
-INSERT INTO `planillas` (`id`, `codigo`, `fecha_reg`, `agencias_id`, `statusFormat_id`) VALUES
-(1, '1', '2014-08-12', 1, 1),
-(2, '2', '2014-08-12', 1, 1),
-(3, '3', '2014-08-12', 1, 1),
-(4, '4', '2014-08-12', 1, 1),
-(5, '5', '2014-08-12', 1, 1);
-
---
--- Volcado de datos para la tabla `precio`
---
-
-INSERT INTO `precio` (`id`, `precio`, `numPuesto_id`, `cobertura_id`) VALUES
-(1, '520.00', 1, 1),
-(2, '520.00', 2, 1),
-(3, '520.00', 3, 1);
-
 --
 -- Volcado de datos para la tabla `pregunta`
 --
@@ -1702,6 +1652,14 @@ INSERT INTO `tipotrans` (`id`, `tipoTrans`) VALUES
 (3, 'DUAL');
 
 --
+-- Volcado de datos para la tabla `usovehiculo`
+--
+
+INSERT INTO `usovehiculo` (`id`, `usoVehiculo`, `claseVehiculo_id`) VALUES
+(1, 'TRANSPORTE PUBLICO', 1);
+
+
+--
 -- Volcado de datos para la tabla `tipovehiculo`
 --
 
@@ -1723,11 +1681,55 @@ INSERT INTO `tipovehiculo` (`id`, `tipoVehiculo`, `claseVehiculo_id`) VALUES
 (15, 'VAN', 1);
 
 --
--- Volcado de datos para la tabla `usovehiculo`
+-- Volcado de datos para la tabla `planillas`
 --
 
-INSERT INTO `usovehiculo` (`id`, `usoVehiculo`, `claseVehiculo_id`) VALUES
-(1, 'TRANSPORTE PUBLICO', 1);
+INSERT INTO `planillas` (`id`, `codigo`, `fecha_reg`, `agencias_id`, `statusFormat_id`) VALUES
+(1, '1', '2014-08-12', 1, 1),
+(2, '2', '2014-08-12', 1, 1),
+(3, '3', '2014-08-12', 1, 1),
+(4, '4', '2014-08-12', 1, 1),
+(5, '5', '2014-08-12', 1, 1);
+
+--
+-- Volcado de datos para la tabla `numpuesto`
+--
+
+INSERT INTO `numpuesto` (`id`, `numPuesto`, `tipoVehiculo_id`) VALUES
+(1, '12', 6),
+(2, '18', 6),
+(3, '19', 6),
+(4, '20', 6),
+(5, '21', 6),
+(6, '22', 6),
+(7, '24', 6),
+(8, '26', 6),
+(9, '28', 6),
+(10, '32', 6),
+(11, '41', 6),
+(12, '49', 6);
+
+--
+-- Volcado de datos para la tabla `cobertura`
+--
+
+INSERT INTO `cobertura` (`id`, `cobertura`, `claseVehiculo_id`, `statusCobert_id`) VALUES
+(1, '25000.00', 1, 1),
+(2, '40000.00', 1, 1),
+(3, '60000.00', 1, 1),
+(4, '80000.00', 1, 1),
+(5, '100000.00', 1, 1);
+
+
+--
+-- Volcado de datos para la tabla `precio`
+--
+
+INSERT INTO `precio` (`id`, `precio`, `numPuesto_id`, `cobertura_id`) VALUES
+(1, '520.00', 1, 1),
+(2, '520.00', 2, 1),
+(3, '520.00', 3, 1);
+
 
 --
 -- Volcado de datos para la tabla `usuarios`

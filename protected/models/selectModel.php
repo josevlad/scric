@@ -32,7 +32,7 @@
 				'modelo'			=> 	'modelo WHERE marca_id = '.$id,
 				'tipoVehiculo'		=> 	'tipoVehiculo WHERE claseVehiculo_id = '.$id,
 				'numPuesto'			=> 	'numPuesto WHERE tipoVehiculo_id = '.$id,
-				'cobertura'			=> 	'cobertura WHERE claseVehiculo_id = '.$id,
+				'cobertura'			=> 	'cobertura WHERE claseVehiculo_id = '.$id.' AND statusCobert_id = "1"',
 				'usoVehiculo'		=> 	'usoVehiculo WHERE claseVehiculo_id = '.$id,
 			);
 			

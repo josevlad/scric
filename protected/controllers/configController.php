@@ -520,7 +520,7 @@
 		}
 		
 		public function asignarPrecio() {
-		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 				//print_r($_POST);
 				unset($_POST['claseVehiculo']);
@@ -568,7 +568,7 @@
 			}
 		}
 				
-		//Administracion de la tabla name
+		//Administracion de la tabla usuarios
 		public function usuarios() {
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -630,6 +630,7 @@
 				
 			};
 		} 
+		
 		//Administracion de la tabla name
 		public function name() {
 		
@@ -647,6 +648,70 @@
 			$this->_view->setJs(array('config/name'));
 		
 			$this->_view->render('name');
+		
+		}
+		
+		//Administracion de la tabla asignarConcepto
+		public function asignarConcepto() {
+		
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+				unset($_POST['np_length']);
+				
+				$gastosMedicos1 	= array_shift($_POST);
+				$invalidez1			= array_shift($_POST);
+				$muerte1			= array_shift($_POST);
+				$gastosMedicos2		= array_shift($_POST);
+				$invalidez2			= array_shift($_POST);
+				$muerte2			= array_shift($_POST);
+				$daniosPropiedad	= array_shift($_POST);
+				$grua				= array_shift($_POST);
+				$estacionamiento	= array_shift($_POST);
+				$indemnizacionSem	= array_shift($_POST);
+				$asistenciaLegal	= array_shift($_POST);
+				$ids				= array_shift($_POST);
+				
+				$result = '';
+				
+				for ($i = 0; $i < count($ids); $i++) {
+					$bind_values = array(
+							':cobertura_id'		=> $ids[$i],
+							':gastosMedicos1'	=> $gastosMedicos1,
+							':invalidez1'		=> $invalidez1,
+							':muerte1'			=> $muerte1,
+							':gastosMedicos2'	=> $gastosMedicos2,
+							':invalidez2'		=> $invalidez2,
+							':muerte2'			=> $muerte2,
+							':daniosPropiedad'	=> $daniosPropiedad,
+							':grua'				=> $grua,
+							':estacionamiento'	=> $estacionamiento,
+							':indemnizacionSem'	=> $indemnizacionSem,
+							':asistenciaLegal'	=> $asistenciaLegal,
+					);
+					$result = $this->_config->saveConcepto($bind_values);
+				}
+				
+				echo $result;
+				
+			}else {
+		
+				//Content page-hader
+				$this->_view->icon_fa = 'fa-database';
+				$this->_view->titleHead = 'Administracion de Base de datos';
+			
+				//dataTable
+				$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+			
+				//data de la tb tipo de persona
+				$this->_view->cb = $this->getReference( 'cobertura' );
+				$this->_view->data = $this->getReference( 'concepto' );
+			
+				//custom config js
+				$this->_view->setJs(array('config/asignarConcepto'));
+			
+				$this->_view->render('asignarConcepto');
+			
+			}
 		
 		}
 		
@@ -678,6 +743,7 @@
 					'usoVehiculo'			=> 	':usoVehiculo',
 					'precio'				=> 	':precio',
 					'usuarios'				=> 	':usuarios',
+					'concepto'				=> 	':concepto',
 			);
 				
 			if (!array_key_exists($type, $cases)) {

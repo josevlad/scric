@@ -60,7 +60,7 @@
 				//===============================================
 				'cobertura'			=> 	'cobertura.id, cobertura.cobertura, cobertura.claseVehiculo_id, claseVehiculo	 
 											FROM cobertura INNER JOIN clasevehiculo ON cobertura.claseVehiculo_id = clasevehiculo.id ORDER BY cobertura.claseVehiculo_id ASC',
-					
+				
 				'tipoVehiculo'		=> 	'tipoVehiculo.id, tipoVehiculo.tipoVehiculo, tipoVehiculo.claseVehiculo_id, claseVehiculo	 
 											FROM tipoVehiculo INNER JOIN clasevehiculo ON tipoVehiculo.claseVehiculo_id = clasevehiculo.id',
 					
@@ -91,11 +91,20 @@
 					
 				'usuarios'			=> 	'usuarios.id, usuarios.nombre, usuarios.apellido, usuarios.nick, usuarios.clave, usuarios.respuesta, usuarios.agencias_id, usuarios.perfilUsuario_id, 
 										 usuarios.pregunta_id, usuarios.statusUsuarios_id, statususuarios.statusUsuarios, pregunta.pregunta, perfilusuario.perfilUsuario, agencias.nombre_ag 
-											FROM usuarios
+											FROM 
+												usuarios
 											INNER JOIN agencias ON usuarios.agencias_id = agencias.id
 											INNER JOIN perfilusuario ON usuarios.perfilUsuario_id = perfilusuario.id
 											INNER JOIN statususuarios ON usuarios.statusUsuarios_id = statususuarios.id
 											INNER JOIN pregunta ON usuarios.pregunta_id = pregunta.id',	
+				
+				'concepto'			=> 	'concepto.id, concepto.cobertura_id, concepto.gastosMedicos1, concepto.invalidez1, concepto.muerte1, concepto.gastosMedicos2,
+										 concepto.invalidez2, concepto.muerte2, concepto.daniosPropiedad, concepto.grua, concepto.estacionamiento, concepto.indemnizacionSem,
+										 concepto.asistenciaLegal,cobertura.cobertura, clasevehiculo.claseVehiculo 
+										FROM
+											concepto
+										INNER JOIN cobertura ON concepto.cobertura_id = cobertura.id
+										INNER JOIN clasevehiculo ON cobertura.claseVehiculo_id = clasevehiculo.id ORDER BY concepto.id ASC',
 				
 			);
 			
@@ -462,6 +471,40 @@
 			}
 							
 			return $result;
+		}
+		
+		public function saveConcepto($parameters) {
+				
+			$this->_query ='
+				INSERT INTO 
+					concepto(
+						cobertura_id,		gastosMedicos1,
+						invalidez1,			muerte1,
+						gastosMedicos2,		invalidez2,
+						muerte2,			daniosPropiedad,
+						grua,				estacionamiento,
+						indemnizacionSem,	asistenciaLegal
+				) VALUES (
+						:cobertura_id,		:gastosMedicos1,
+						:invalidez1,		:muerte1,
+						:gastosMedicos2,	:invalidez2,
+						:muerte2,			:daniosPropiedad,
+						:grua,				:estacionamiento,
+						:indemnizacionSem,	:asistenciaLegal
+				)';
+		
+			try {
+				$this->_db->beginTransaction();
+				$this->_db->prepare($this->_query)->execute($parameters);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		
+			return true;
 		}
 	}
 ?>

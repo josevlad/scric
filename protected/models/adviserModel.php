@@ -216,6 +216,7 @@
 			
 				$this->_db->commit();
 				Session::set('data', $data);
+				Session::set('lastId', $lastId);
 				return true;
 				
 			} catch (PDOException $e) {
@@ -223,6 +224,175 @@
 				echo "Error :: ".$e->getMessage();
 				exit();
 			}
+		}
+		
+		public function getContrato($id) {
+			
+			$this->_query = '
+				SELECT
+					titulares.id,					titulares.dni,
+					titulares.nombres,				titulares.apellidos,
+					titulares.direccion,			numpuesto.numPuesto,
+					parroquia.parroquia,			municipio.municipio,
+					estado.estado,					contratos.placa,
+					contratos.anio,					contratos.color,
+					contratos.serial_c,				contratos.serial_m,
+					contratos.peso,					contratos.fecha_exp,
+					contratos.hora_ven,				contratos.fecha_ven,
+					contratos.hora_exp,				contratos.statusCont_id,
+					contratos.id,					precio.precio,
+					usovehiculo.usoVehiculo,		cobertura.cobertura,
+					clasevehiculo.claseVehiculo,	tipovehiculo.tipoVehiculo,
+					modelo.modelo,					marca.marca,
+					concepto.gastosMedicos1,		concepto.invalidez1,
+					concepto.muerte1,				concepto.gastosMedicos2,
+					concepto.invalidez2,			concepto.muerte2,
+					concepto.daniosPropiedad,		concepto.grua,
+					concepto.estacionamiento,		concepto.indemnizacionSem,
+					concepto.asistenciaLegal
+				FROM
+					titulares
+					INNER JOIN contratos ON contratos.titulares_id = titulares.id
+					INNER JOIN precio ON contratos.precio_id = precio.id
+					INNER JOIN usovehiculo ON contratos.usoVehiculo_id = usovehiculo.id
+					INNER JOIN cobertura ON precio.cobertura_id = cobertura.id
+					INNER JOIN clasevehiculo ON usovehiculo.claseVehiculo_id = clasevehiculo.id AND cobertura.claseVehiculo_id = clasevehiculo.id
+					INNER JOIN tipovehiculo ON tipovehiculo.claseVehiculo_id = clasevehiculo.id
+					INNER JOIN numpuesto ON numpuesto.tipoVehiculo_id = tipovehiculo.id AND precio.numPuesto_id = numpuesto.id
+					INNER JOIN parroquia ON titulares.parroquia_id = parroquia.id
+					INNER JOIN municipio ON parroquia.municipio_id = municipio.id
+					INNER JOIN estado ON municipio.estado_id = estado.id
+					INNER JOIN modelo ON contratos.modelo_id = modelo.id
+					INNER JOIN marca ON modelo.marca_id = marca.id
+					INNER JOIN concepto ON concepto.cobertura_id = cobertura.id
+				WHERE
+					titulares.id = '.$id;
+			
+			$data = $this->_db->query($this->_query);
+				
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+							
+			return array_shift( $result );
+		}
+		
+		public function getTelefonos($id) {
+			
+			$this->_query = '
+				SELECT
+					telefonos.numTelf,
+					tipotelf.tipoTelf
+				FROM
+					telefonos
+				INNER JOIN 
+					tipotelf ON telefonos.tipoTelf_id = tipotelf.id
+				WHERE 
+					titulares_id ='.$id;
+			
+			$data = $this->_db->query($this->_query);
+			
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+			
+			$telf = '';
+			
+			for ($i = 0; $i < count($result); $i++) {
+				$telf .= $result[$i]['numTelf'].' ';
+			}
+			
+			return $telf;
+			
+		}
+		
+		public function getCorreos($id) {
+				
+			$this->_query = '
+				SELECT
+					correos.correo
+				FROM
+					correos
+				WHERE
+					titulares_id ='.$id;
+				
+			$data = $this->_db->query($this->_query);
+				
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+			
+			if (count($result) > 0) {
+				$correo = $result[0]['correo'];
+			}else {
+				$correo = '<i>SIN CORREO ELECTRÓNICO</i>';
+			}
+				
+			return $correo;
+				
+		}
+		
+		public function getFecha() {
+		
+			$this->_query = 'SELECT CURDATE() as fecha';		
+			$data = $this->_db->query($this->_query);
+		
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+			
+			$fecha = App::showDate($result[0]['fecha']);
+			return $fecha;
+		
+		}
+		
+		public function getHora() {
+		
+			$this->_query = 'SELECT CURTIME() as hora';		
+			$data = $this->_db->query($this->_query);
+		
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+			
+			$hora = App::format12Hours($result[0]['hora']);
+			return $hora;;
+		
 		}
 	}
 ?>

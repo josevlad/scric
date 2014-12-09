@@ -1,0 +1,280 @@
+<?php
+	class reportController extends Controller {
+		
+		public function __construct() {
+			parent::__construct();
+		}
+		
+		function index() {}
+		
+		private function header() {
+			$header= '
+			    <page_header>
+					<div style="height: 10%; width: 100%; border: 0px solid #ccc; margin: 0px 0px 0px 0px; padding: 0px 0px 0px 4px;">
+						
+					</div>
+			    </page_header>
+		     ';
+			return $header;
+		}
+		
+		private function footer() {
+			$footer = '
+				<page_footer>
+			        <div style="height: 16%; width: 100%; border: 0px solid #ccc; margin: 0px; font-size:12px;">
+						<div style="text-align: justify;">'.utf8_encode('							
+							El presente anexo hace constar que contrariamente a la cláusula primera del contrato de Responsabilidad Civil Extra-Contractual de daños por
+							Vehículos (R.C.V.), LA COBERTURA EXTRATERRITORIAL se extiende hasta el DEPARTANEMTO NORTE DE SANTANDER Y DEPARTAMENTO DE ARAUCA DE LA REPÚBLICA
+							DE COLOMBIA, área donde es permitido el libre transito de vehículos con Matricula Venezolana, establecida según disposiciones del Gobierno Colombiano.							  
+						').
+						'</div>
+						<br>
+						<div style="text-align: center;">'.utf8_encode('							
+							<strong>Oficina:</strong> Av. Sur 4, Entre Esq.	Angelito a Quebrados, Parcela 034, Nro. S/N San Juan, Z.P. 1010, Caracas<br>
+							Telfs.: (0212) 481.94.07 - (0212) 416.29.22 						  
+						').
+						'</div>
+					</div> 
+			    </page_footer>
+			';
+			return $footer;
+		}
+		
+		public function pdfReport() {
+			$content ='
+			<div style="height: 98.9%; width: 100%; border: 1px solid #ccc; margin: 0px;">
+			Page Content
+			</div>';
+			$this->doPDF($content, 'pdf');
+		}
+		
+		public function doPDF($content, $pdf_name) {
+			//ob_start();
+			echo '
+				<page backleft="0mm" backtop="65mm" backright="0mm" backbottom="27mm">'
+            			.$this->header()
+            			.$this->footer()
+            			.$content.'
+            	</page>
+			';
+				
+			$this->getLibrary('html2pdf/html2pdf.class');
+			$this->_pdf = new HTML2PDF(SHEET_ORIENTATION,SIZE_PAPER,LANGUAJE_PDF,TRUE,CHARSET_PDF);
+			$this->_pdf->writeHTML(ob_get_clean());
+				
+			$this->_pdf->Output($pdf_name.'.pdf'); // mostrar agregandole la extenciÃ³n .pdf
+			//$pdf->Output('ejemplo.pdf', 'D');  //forzar descarga
+		}
+		
+		public function contratoPdf() {
+			
+			$model 	= $this->loadModel('adviser');
+			$data 	= $model->getContrato(Session::get('lastId'));
+			$telf 	= $model->getTelefonos($data['id']);
+			$correo = $model->getCorreos($data['id']);
+			$fecha	= $model->getFecha();
+			$hora	= $model->getHora();
+						
+			//App::varDump($data);
+			
+			$contrato = '
+			
+				<style type="text/css">				
+					.tg  {border-collapse:collapse;border-spacing:0; style="width: 100%;"}
+					.tg td{font-family:Arial, sans-serif;font-size:12px;padding:5px 0px 5px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:0px;border-bottom-width:px;}
+					.tg th{font-family:Arial, sans-serif;font-size:12px;font-weight:normal;padding:5px 0px 5px 0px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:0px;border-bottom-width:px;}
+						
+					.tg2  {border-collapse:collapse;border-spacing:0; width: 100%;}
+					.tg2 td{font-family:Arial, sans-serif;font-size:12px;padding:5px 0px 5px 5px;border-style:solid;border-width:0px;}
+					.tg2 th{font-family:Arial, sans-serif;font-size:12px;font-weight:normal;padding:5px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+										
+					.tg3  {border-collapse:collapse;border-spacing:0;}
+					.tg3 td{font-family:Arial, sans-serif;font-size:12px;padding:4px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+					.tg3 th{font-family:Arial, sans-serif;font-size:12px;font-weight:normal;padding:4px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+					
+					.tg4  {border-collapse:collapse;border-spacing:0;border:none;}
+					.tg4 td{font-family:Arial, sans-serif;font-size:12px;padding:5px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+					.tg4 th{font-family:Arial, sans-serif;font-size:12px;font-weight:normal;padding:5px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+					
+					.tg5  {border-collapse:collapse;border-spacing:0;border:none;}
+					.tg5 td{font-family:Arial, sans-serif;font-size:12px;padding:4px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+					.tg5 th{font-family:Arial, sans-serif;font-size:12px;font-weight:normal;padding:4px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+										
+					h1,h2,h3,h4,h5{text-align: center; margin-bottom: 10px;}
+					.p1{font-family:Arial, sans-serif; font-size:12px; margin-top: 10px;}
+					.box{border-style:solid;border-width:1px; margin-top: 2px;}
+					.head-table{font-weight: bold; margin-top: 8px; color: #7B7B7B}
+					.tab{padding: 4px -25px 4px 20px !important; font-family:Arial, sans-serif; font-size:10px; color: #cccc }
+					.tab2{padding: 4px 15px 4px -15px !important; font-family:Arial, sans-serif; font-size:10px; color: #cccc; text-align: right; }
+					#hora{text-align: right; padding: 6px 5px 6px 0px; font-size:12px;}
+										
+				</style>
+	
+				
+				<h4><strong>'.utf8_encode('CONTRATO DE RESPONSABILIDAD CIVIL EXTRACONTRACTUAL <br> DE DAÑOS POR VEHICULOS (R.C.V)').'</strong></h4>
+				
+				<div><strong>'.utf8_encode('Partes').'</strong></div>
+				<p class="p1">'.utf8_encode('<strong>LA COMPAÑIA:</strong> Inversora Internacional de Compromiso M&M C.A. /<strong>R.I.F. J-29810090-7</strong> inscrita por ante la oficina de Registro Mercantil Cuarto de la Circunscripción Judicial del Distrito Capital, en fecha 31 de Agosto del año 2009, bajo el N° 25, Tomo 129 - A Cto.').'</p>
+				
+				<table class="tg">
+				  <tr>
+				    <td style="width: 50%;">
+						<strong>OFICINA:</strong> '.Session::get('nombre_ag').'
+					</td>
+				    <td style="width: 50%; text-align: right;">
+						<strong>COD. CONTRATO:</strong> '.Session::get('identificador').'-'.$data['id'].'
+					</td>
+				  </tr>
+				</table>
+					    		
+					
+				<div class="head-table">'.utf8_encode('DATOS DEL CLIENTE').'</div>
+				<div class="box">  			
+				<table class="tg2">
+				  
+				  <tr>
+				    <td style="width: 50%;"><strong>'.utf8_encode('EL AFILIADO:').'</strong> '.$data['nombres'].', '.$data['apellidos'].'</td>
+				    <td><strong>RIF/C.I.</strong> '.$data['dni'].'</td>
+				  </tr>
+				  <tr>
+				    <td colspan="2"><strong>'.utf8_encode('DIRECCIÓN:').'</strong> '.$data['direccion'].', '.$data['estado'].', '.$data['municipio'].', '.$data['parroquia'].'</td>
+				   
+				  </tr>
+				  <tr>
+				    <td style="width: 50%;"><strong>'.utf8_encode('E-MAIL:').'</strong> '.$correo.'</td>
+				    <td style="width: 50%;"><strong>'.utf8_encode('TELÉFONOS:').'</strong> '.$telf.'</td>
+				  </tr>
+				</table>
+				</div>
+				    		
+				<div class="head-table">'.utf8_encode('DATOS DEL CONTRATO').'</div>
+				<div class="box">  			
+				<table class="tg3">
+				  <tr>
+				    <td style="width: 35%;"><strong>'.utf8_encode('VIGENCIA DEL CONTRATO').'</strong></td>
+				    <td style="width: 35%;"><strong>'.utf8_encode('DESDE:').'</strong> '.App::showDate($data['fecha_exp']).', '.$data['hora_exp'].'</td>
+				    <td style="width: 30%;"><strong>'.utf8_encode('HASTA:').'</strong> '.App::showDate($data['fecha_ven']).', '.$data['hora_ven'].'</td>
+				  </tr>
+				  <tr>
+				    <td style="width: 35%;"><strong>'.utf8_encode('MONTO DE LA AFILIACIÓN R.C.V. Bs.F.').'</strong></td>
+				    <td style="width: 35%;">'.$data['precio'].'</td>
+				    <td style="width: 30%;"><strong>'.utf8_encode('TOTAL: ').'</strong> Bs.F '.$data['precio'].'</td>
+				  </tr>
+				</table>
+				</div>
+
+				<div class="head-table">'.utf8_encode('DATOS DEL VEHÍCULO').'</div>
+				<div class="box"> 
+				<table class="tg4">
+				  <tr>
+				    <td style="width: 10%;"><strong>'.utf8_encode('MARCA:').'</strong></td>
+				    <td style="width: 40%;">'.$data['marca'].'</td>
+				    <td style="width: 10%;"><strong>'.utf8_encode('MODELO:').'</strong></td>
+				    <td style="width: 40%;">'.$data['modelo'].'</td>
+				  </tr>
+				  <tr>
+				    <td><strong>'.utf8_encode('CLASE:').'</strong></td>
+				    <td>'.$data['claseVehiculo'].'</td>
+				    <td><strong>'.utf8_encode('TIPO:').'</strong></td>
+				    <td>'.$data['tipoVehiculo'].'</td>
+				  </tr>
+				  <tr>
+				    <td><strong>'.utf8_encode('COLOR:').'</strong></td>
+				    <td>'.$data['color'].'</td>
+				    <td><strong>'.utf8_encode('USO:').'</strong></td>
+				    <td>'.$data['usoVehiculo'].'</td>
+				  </tr>
+				  <tr>
+				    <td><strong>'.utf8_encode('S./CARRO:').'</strong></td>
+				    <td>'.$data['serial_c'].'</td>
+				    <td><strong>'.utf8_encode('S./MOTOR:').'</strong></td>
+				    <td>'.$data['serial_m'].'</td>
+				  </tr>
+				  <tr>
+				    <td><strong>'.utf8_encode('PLACA:').'</strong></td>
+				    <td>'.$data['placa'].'</td>
+				    <td><strong>'.utf8_encode('AÑO:').'</strong></td>
+				    <td>'.$data['anio'].'</td>
+				  </tr>
+				  <tr>
+				    <td><strong>'.utf8_encode('PUESTOS:').'</strong></td>
+				    <td>'.$data['numPuesto'].'</td>
+				    <td><strong>'.utf8_encode('PESO:').'</strong></td>
+				    <td>'.$data['peso'].'</td>
+				  </tr>
+				</table>
+				</div>
+
+				<div class="head-table">'.utf8_encode('CONCEPTO').'</div>
+				<div class="box"  style="padding-bottom: 5px;"> 
+				<table class="tg5">
+				  <tr>
+				    <td colspan="2"><strong>'.utf8_encode('Daños a Personas Víctimas del Accidente de Tránsito').'</strong></td>
+				  </tr>
+				  <tr>
+				    <td class="tab" style="width: 90%;">'.utf8_encode('GASTOS MEDICOS .....................................................................................................................................................................................................................').'</td>
+				    <td class="tab2" style="width: 10%;">'.number_format( $data['gastosMedicos1'] ,2,",",".").'</td>
+				  </tr>
+				  <tr>
+				    <td class="tab">'.utf8_encode('INVALIDEZ ....................................................................................................................................................................................................................................').'</td>
+				    <td class="tab2">'.number_format( $data['invalidez1'] ,2,",",".").'</td>
+				  </tr>
+				  <tr>
+				    <td class="tab" >'.utf8_encode('MUERTE .......................................................................................................................................................................................................................................').'</td>
+				    <td class="tab2">'.number_format( $data['muerte1'] ,2,",",".").'</td>
+				  </tr>
+				  <tr>
+				    <td colspan="2"><strong>'.utf8_encode('Daños a Personas Ocupantes del Vehículo Antes Descrito:').'</strong></td>
+				  </tr>
+				  <tr>
+				    <td class="tab" style="width: 90%;">'.utf8_encode('GASTOS MEDICOS .....................................................................................................................................................................................................................').'</td>
+				    <td class="tab2" style="width: 10%;">'.number_format( $data['gastosMedicos2'] ,2,",",".").'</td>
+				  </tr>
+				  <tr>
+				    <td class="tab">'.utf8_encode('INVALIDEZ ....................................................................................................................................................................................................................................').'</td>
+				    <td class="tab2">'.number_format( $data['invalidez2'] ,2,",",".").'</td>
+				  </tr>
+				  <tr>
+				    <td class="tab" >'.utf8_encode('MUERTE .......................................................................................................................................................................................................................................').'</td>
+				    <td class="tab2">'.number_format( $data['muerte2'] ,2,",",".").'</td>
+				  </tr>
+				  <tr>
+				    <td colspan="2"><strong>'.utf8_encode('Otros').'</strong></td>
+				  </tr>
+				  <tr>
+				    <td class="tab">'.utf8_encode('DAÑOS A LA PROPIEDAD ..........................................................................................................................................................................................................').'</td>
+				    <td class="tab2">'.number_format( $data['daniosPropiedad'] ,2,",",".").'</td>
+				  </tr>
+				  <tr>
+				    <td class="tab" >'.utf8_encode('GRUA <i>(Solo procede en caso de choque)</i> ...................................................................................................................................................................................').'</td>
+				    <td class="tab2">'.number_format( $data['grua'] ,2,",",".").'</td>
+				  </tr>
+				  <tr>
+				    <td class="tab">'.utf8_encode('ESTACIONAMIENTO <i>(Solo procede en caso de choque)</i> ...........................................................................................................................................................').'</td>
+				    <td class="tab2">'.number_format( $data['estacionamiento'] ,2,",",".").'</td>
+				  </tr>
+				  <tr>
+				    <td class="tab" >'.utf8_encode('INDEMNIZACIÓN SEMANAL <i>(MAXIMO 3 SEMANAS)</i> ...............................................................................................................................................................').'</td>
+				    <td class="tab2">'.number_format( $data['indemnizacionSem'] ,2,",",".").'</td>
+				  </tr>
+				  <tr>
+				    <td class="tab">'.utf8_encode('ASISTENCIA LEGAL ...................................................................................................................................................................................................................').'</td>
+				    <td class="tab2">'.number_format( $data['asistenciaLegal'] ,2,",",".").'</td>
+				  </tr>
+				  <tr>
+				    <td class="tab">'.utf8_encode('<strong>TOTAL APORTE</strong> .........................................................................................................................................................................................................................').'</td>
+				    <td class="tab2" style="border-top: 1px solid;"><strong>'.number_format( $data['cobertura'] ,2,",",".").'</strong></td>
+				  </tr>
+				</table>
+				</div>
+					<div id="hora">'
+						.utf8_encode('Fecha y Hora de Impresión: ').$fecha.' - '.$hora.' 
+					</div>
+			';
+			
+			$this->doPDF($contrato, 'Contrato');
+			
+			
+		}
+	}
+?>
