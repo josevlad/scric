@@ -73,20 +73,14 @@
 			}
 		}
 		
-		public static function accessRole(array $level, $noAdmin = false) {
+		public static function accessRole(array $level) {
 			if (!Session::get(AUTHENTICATED)) {
 				header('location:' . BASE_URL . 'login/');
 				exit();
 			}
 			
 			Session::time();
-			/*
-			if($noAdmin == false){
-				if(Session::get('level') == 'Admin'){
-					return; 
-				}
-			}
-			*/
+			
 			if (!empty($level)) {
 				if (in_array(Session::get('level'), $level)) {
 					return;

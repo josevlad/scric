@@ -80,6 +80,8 @@
 		public function contratos() {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
+				Session::set('dataForm', $_POST);
+				
 				$keys 		= array();
 				$values		= array();
 				
@@ -158,6 +160,71 @@
 				$this->_view->setJs(array('adviser/contratos'));
 				
 				$this->_view->render('contratos'/*,$this->_sidebar_menu*/);
+			}
+		}
+		
+		public function procesoImp() {
+			
+			if (Session::get('print')) {
+				
+				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+					
+					switch ($_POST['resulImp']) {
+						case '1':
+							Session::destroy('dataForm');
+							Session::destroy('data');
+							Session::destroy('print');
+							Session::destroy('assignedFormat');
+							Session::destroy('lastTitular');
+							Session::destroy('lastContrato');
+							
+							$this->_view->redirect();
+							exit();
+						break;
+						
+						default:
+							;
+						break;
+					}
+					
+					
+				}else {
+					//content page-hader
+					$this->_view->icon_fa = 'fa-print';
+					$this->_view->titleHead = 'Impresión de Contrato';
+										
+					//validate
+					$this->_view->setJs(array('plugins/validate/validate'));
+
+					//pdf js
+					$this->_view->setJs(array('plugins/pdf/pdfobject'));
+
+					//printPage js
+					$this->_view->setJs(array('plugins/printPage/printPage'));
+					
+					//printPage js
+					$this->_view->setJs(array('plugins/bootbox/bootbox'));
+					
+					
+					
+					//custom config js
+					$this->_view->setJs(array('adviser/procesoImp'));
+					
+					$this->_view->render('procesoImp'/*,$this->_sidebar_menu*/);
+				}
+			}else {
+				$this->_view->redirect('adviser');
+			}
+			
+		}
+		
+		public function createVariableSession() {
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		
+				$printbtn = $_POST['printbtn'];
+				Session::set('printbtn', $printbtn);
+				echo Session::get('printbtn');
+		
 			}
 		}
 	}

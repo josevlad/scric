@@ -65,8 +65,8 @@
 			
 		}
 		
-		public function getIdPlanilla() {
-			$this->_query = 'SELECT id FROM planillas WHERE statusFormat_id =  "1" AND agencias_id = "'.Session::get('idAgencia').'" LIMIT 0 , 1';
+		public function getPlanilla() {
+			$this->_query = 'SELECT id,codigo FROM planillas WHERE statusFormat_id =  "1" AND agencias_id = "'.Session::get('idAgencia').'" LIMIT 0 , 1';
 			$data = $this->_db->query($this->_query);
 			
 			try {
@@ -80,25 +80,34 @@
 				exit();
 			}
 			
-			$id = array_shift($result);
-			$id = array_shift($id);
-			
-			return $id;
+			return $result;
 		}
 		
-		public function saveContract($data) {
+		public function saveContract($dataContract = false) {
+			
+			if (isset($dataContract)) {
+				$data = $dataContract;
+				Session::set('data', $dataContract);
+			}else if (!Session::get('data')) {
+				throw new Exception('No existe data para Crear Contrato');
+			}else {
+				$data = Session::get('data');
+			}
 			
 			$titular 	= array_shift($data);
 			$telefonos 	= array_shift($data);
 			$correos 	= array_shift($data);
 			$contrato 	= array_shift($data);
-			$idPlanilla = $this->getIdPlanilla();
-			$contrato[':planillas_id'] = $idPlanilla; 
+			$planilla = $this->getPlanilla();
+
+			Session::set('print',true);
+			
+			Session::set('assignedFormat', $planilla[0]['codigo']);
+			$contrato[':planillas_id'] = $planilla[0]['id']; 
 			
 			$tipoPago = $contrato[':tipoPago'];
 			unset($contrato[':tipoPago']);
 			
-			//print_r($contrato);
 			$this->_db->beginTransaction();
 			
 			try {
@@ -122,11 +131,11 @@
 					$result->bindValue($key, $value, PDO::PARAM_STR);
 				}
 				$result->execute();
-				$lastId = $this->_db->lastInsertId('titulares');
+				$lastTitular = $this->_db->lastInsertId('titulares');
 			// end tabla personas ==========================================
 			
 			// tabla contratos ==========================================
-				$contrato[':titulares_id'] = $lastId;
+				$contrato[':titulares_id'] = $lastTitular;
 				
 				//print_r($contrato);
 				//exit();
@@ -160,6 +169,7 @@
 					$result->bindValue($key, $value, PDO::PARAM_STR);
 				}
 				$result->execute();
+				$lastContrato = $this->_db->lastInsertId('contratos');
 			
 			// end tabla contratos ==========================================
 			
@@ -178,7 +188,7 @@
 				while ($i < count($telefonos)):
 					$result->bindValue(':tipoTelf_id', 	$telefonos[$i], 	PDO::PARAM_INT);
 					$result->bindValue(':numTelf', 		$telefonos[$i+1], 	PDO::PARAM_STR);
-					$result->bindValue(':titulares_id', $lastId, 			PDO::PARAM_INT);
+					$result->bindValue(':titulares_id', $lastTitular, 		PDO::PARAM_INT);
 					$result->execute();				
 					$i++;
 					$i++;
@@ -200,23 +210,23 @@
 				
 				for ($i = 0; $i < count($correos); $i++) {
 					$result->bindValue(':correo', 		$correos[$i], PDO::PARAM_STR);
-					$result->bindValue(':titulares_id', $lastId, 		PDO::PARAM_INT);
+					$result->bindValue(':titulares_id', $lastTitular, PDO::PARAM_INT);
 					$result->execute();
 				}
 			// tabla correos array =======================================
 			
 			//cambio de estatus planilla =======================================
 			
-				$this->_query = 'UPDATE planillas SET statusFormat_id = "2" WHERE id = '.$idPlanilla;
-				
-				$this->_db->prepare($this->_query)->execute();
-				
+				$this->_query = 'UPDATE planillas SET statusFormat_id = "2" WHERE id = '.$planilla[0]['id'];				
+				$this->_db->prepare($this->_query)->execute();				
 				
 			//cambio de estatus planilla =======================================
-			
+
+				Session::set('lastTitular', $lastTitular);
+				Session::set('lastContrato', $lastContrato);
+				
+				
 				$this->_db->commit();
-				Session::set('data', $data);
-				Session::set('lastId', $lastId);
 				return true;
 				
 			} catch (PDOException $e) {

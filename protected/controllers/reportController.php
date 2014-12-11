@@ -70,6 +70,7 @@
 			
 			$model 	= $this->loadModel('adviser');
 			$data 	= $model->getContrato(Session::get('lastId'));
+			//$data 	= $model->getContrato('1');
 			$telf 	= $model->getTelefonos($data['id']);
 			$correo = $model->getCorreos($data['id']);
 			$fecha	= $model->getFecha();
@@ -103,10 +104,11 @@
 					h1,h2,h3,h4,h5{text-align: center; margin-bottom: 10px;}
 					.p1{font-family:Arial, sans-serif; font-size:12px; margin-top: 10px;}
 					.box{border-style:solid;border-width:1px; margin-top: 2px;}
-					.head-table{font-weight: bold; margin-top: 8px; color: #7B7B7B}
+					.head-table{font-weight: bold; margin-top: 8px; color: #404040}
 					.tab{padding: 4px -25px 4px 20px !important; font-family:Arial, sans-serif; font-size:10px; color: #cccc }
 					.tab2{padding: 4px 15px 4px -15px !important; font-family:Arial, sans-serif; font-size:10px; color: #cccc; text-align: right; }
 					#hora{text-align: right; padding: 6px 5px 6px 0px; font-size:12px;}
+					.left-text{padding-left: 535px;}
 										
 				</style>
 	
@@ -157,8 +159,8 @@
 				  </tr>
 				  <tr>
 				    <td style="width: 35%;"><strong>'.utf8_encode('MONTO DE LA AFILIACIÓN R.C.V. Bs.F.').'</strong></td>
-				    <td style="width: 35%;">'.$data['precio'].'</td>
-				    <td style="width: 30%;"><strong>'.utf8_encode('TOTAL: ').'</strong> Bs.F '.$data['precio'].'</td>
+				    <td style="width: 35%;">'.number_format( $data['precio'],2,",","." ).'</td>
+				    <td style="width: 30%;"><strong>'.utf8_encode('TOTAL: ').'</strong> Bs.F '.number_format( $data['precio'],2,",","." ).'</td>
 				  </tr>
 				</table>
 				</div>
@@ -205,7 +207,7 @@
 				</table>
 				</div>
 
-				<div class="head-table">'.utf8_encode('CONCEPTO').'</div>
+				<div class="head-table">'.utf8_encode('CONCEPTO').' <div class="left-text">'.utf8_encode('APORTES MAXIMOS Bs.F.').'</div></div>
 				<div class="box"  style="padding-bottom: 5px;"> 
 				<table class="tg5">
 				  <tr>

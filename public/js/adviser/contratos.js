@@ -370,7 +370,7 @@ $(document).ready(function() {
 	var a = $("#init div").length + 1;
 	var b = $("#init div").length + 1;
 		
-	var maxPhones       = 2;	
+	var maxPhones       = 1;	
 	var addPhone        = $("#addPhone");	
 	$('#phones div#clone').hide();
 	
@@ -409,12 +409,12 @@ $(document).ready(function() {
 		return false
 	});
 	
-	var MaxPhones       = 2;	
+	var MaxMeil      	= 1;	
 	var addMail        	= $("#addMail");	
 	$('#mail div#clone2').hide();
 	
 	$(addMail).click(function(e){
-		if(b <= MaxPhones){
+		if(b <= MaxMeil){
 			
 			var clone = $('#mail div#clone2').clone(true);
 			
@@ -646,13 +646,19 @@ $(document).ready(function() {
 		submitHandler: function() {
 			//$(location).attr('href', myForm.attr('action'));
 			//location.reload();
+
 			
 			$.ajax({
 	            url:	myForm.attr('action'),
 	            type:	myForm.attr('method'),
 	            data:	myForm.serialize(),
 	            success: function(response) {
-	                console.log(response);
+	                //console.log(response);
+	                if (response == true) {
+	                	$(location).attr('href', BASE_URL+'adviser/procesoImp');
+					}else {
+						alert(response);
+					}
 	            }            
 	        });
         },
