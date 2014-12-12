@@ -25,7 +25,7 @@
 								<div class="well well-sm">
 									<?php echo utf8_encode('Código de Planilla Asignado al Contrato: ')?>
 									<strong>
-									<?php echo Session::get('assigned_format');?>
+									<?php echo Session::get('assignedFormat');?>
 									</strong>
 								</div>
 							</div>
@@ -33,7 +33,7 @@
 						
 						<div class="row">
 							<div class="col-sm-3">
-								<?php Session::destroy('printbtn');?>
+								<?php //Session::destroy('printbtn');?>
 								<?php $disabled = (Session::get('printbtn') == true) ? "disabled":"";?>
 									
 								<div class="form-group no-margin-hr">

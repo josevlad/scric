@@ -190,11 +190,17 @@ $(document).ready(function() {
 				url:	myForm.attr('action'),
 		        async: 	false,
 	            success: function(data) {
-	            	if (data == true) {
-	            		$(location).attr('href', BASE_URL+'adviser/');
-					}else{
-						alert(data);
+	            	//alert(data);
+	            	switch (data) {
+						case '1':
+							$(location).attr('href', BASE_URL+'adviser/');
+						break;
+						
+						case 'save':
+							$(location).attr('href', BASE_URL+'adviser/procesoImp/');
+						break;
 					}
+	            	
 	            	//console.log(data);
 	            	//location.reload();
 	            	

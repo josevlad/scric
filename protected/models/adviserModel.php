@@ -83,17 +83,11 @@
 			return $result;
 		}
 		
-		public function saveContract($dataContract = false) {
+		public function saveContract($dataContract) {
 			
-			if (isset($dataContract)) {
-				$data = $dataContract;
-				Session::set('data', $dataContract);
-			}else if (!Session::get('data')) {
-				throw new Exception('No existe data para Crear Contrato');
-			}else {
-				$data = Session::get('data');
-			}
-			
+			$data = $dataContract;
+			Session::set('data', $dataContract);
+						
 			$titular 	= array_shift($data);
 			$telefonos 	= array_shift($data);
 			$correos 	= array_shift($data);
@@ -105,7 +99,7 @@
 			Session::set('assignedFormat', $planilla[0]['codigo']);
 			$contrato[':planillas_id'] = $planilla[0]['id']; 
 			
-			$tipoPago = $contrato[':tipoPago'];
+			$tipoPago = $contrato[':tipoPago']; //convertirla a variable se session para la impresion de factura
 			unset($contrato[':tipoPago']);
 			
 			$this->_db->beginTransaction();
@@ -236,6 +230,83 @@
 			}
 		}
 		
+		public function onlyContract($contrato) {
+
+			Session::destroy('assignedFormat');
+			
+			$planilla = $this->getPlanilla();
+			Session::set('assignedFormat', $planilla[0]['codigo']);
+			$contrato[':planillas_id'] = $planilla[0]['id']; 
+			$contrato[':titulares_id'] = Session::get('lastTitular');
+			
+			
+			$this->_db->beginTransaction();
+			
+			try {
+				
+				// tabla contratos ==========================================
+				
+				$this->_query = '
+					INSERT INTO 
+						contratos(
+							modelo_id,			tipoTrans_id,	
+							anio,				color,
+							placa,				serial_c,
+							serial_m,			precio_id,
+							usoVehiculo_id,		peso,
+							fecha_exp,			hora_exp,
+							fecha_ven,			hora_ven,
+							statusCont_id,		planillas_id,
+							titulares_id					
+						) VALUES (
+							:modelo_id,			:tipoTrans_id,	
+							:anio,				:color,
+							:placa,				:serial_c,
+							:serial_m,			:precio_id,
+							:usoVehiculo_id,	:peso,
+							:fecha_exp,			:hora_exp,
+							:fecha_ven,			:hora_ven,
+							:statusCont_id,		:planillas_id,
+							:titulares_id				
+					)';
+				
+				$result = $this->_db->prepare($this->_query);
+				foreach( $contrato as $key => $value){
+					$result->bindValue($key, $value, PDO::PARAM_STR);
+				}
+				$result->execute();
+				$lastContrato = $this->_db->lastInsertId('contratos');
+			
+			// end tabla contratos ==========================================
+			
+			//cambio de estatus planilla =======================================
+				
+			$this->_query = 'UPDATE contratos SET statusCont_id = "4" WHERE  id ='.Session::get('lastContrato');
+			$this->_db->prepare($this->_query)->execute();
+			
+			//cambio de estatus planilla =======================================
+			
+			
+			//cambio de estatus planilla =======================================
+			
+				$this->_query = 'UPDATE planillas SET statusFormat_id = "2" WHERE id = '.$planilla[0]['id'];				
+				$this->_db->prepare($this->_query)->execute();				
+				
+			//cambio de estatus planilla =======================================
+				
+				Session::destroy('lastContrato');
+				Session::set('lastContrato', $lastContrato);
+				
+				$this->_db->commit();
+				return true;
+				
+			} catch (PDOException $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		}
+		
 		public function getContrato($id) {
 			
 			$this->_query = '
@@ -276,6 +347,8 @@
 					INNER JOIN marca ON modelo.marca_id = marca.id
 					INNER JOIN concepto ON concepto.cobertura_id = cobertura.id
 				WHERE
+					statusCont_id = 1
+				AND
 					titulares.id = '.$id;
 			
 			$data = $this->_db->query($this->_query);
@@ -405,15 +478,15 @@
 		
 		}
 		
-		public function updateStatusContrato() {
+		public function updateStatusContrato($ts,$id) {
 		
 			$this->_query = '
 				UPDATE 
 					contratos 
 				SET 
-					statusCont_id = 2 
+					statusCont_id = '.$ts.' 
 				WHERE 
-					contratos.id ='.Session::get('lastContrato');
+					contratos.id ='.$id;
 		
 			try {
 				$this->_db->beginTransaction();

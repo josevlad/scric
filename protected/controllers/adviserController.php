@@ -82,7 +82,7 @@
 			}
 		}
 		
-		public function contratos() {
+		public function contratos($dataForm = false) {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 				Session::set('dataForm', $_POST);
@@ -168,6 +168,29 @@
 			}
 		}
 		
+		public function reallocateForm() {
+			
+			$data = Session::get('data');
+			
+			for ($i = 0; $i < '3'; $i++) {
+				array_shift($data);
+			}
+			
+			$contrato = array_shift($data);
+			
+			unset($contrato[':tipoPago']);
+			
+			$resul = $this->_adviser->onlyContract($contrato);
+			Session::destroy('printbtn');
+			
+			if ($resul == true) {
+				echo '2';
+			}else {
+				echo $resul;
+			}
+			
+		}
+		
 		public function procesoImp() {
 			
 			if (Session::get('print')) {
@@ -176,10 +199,9 @@
 					
 					switch ($_POST['resulImp']) {
 						case '1':
-							$this->_adviser->updateStatusContrato();
+							$this->_adviser->updateStatusContrato('2',Session::get('lastContrato'));
 							Session::destroy('dataForm');
 							Session::destroy('data');
-							//Session::destroy('print');
 							Session::destroy('assignedFormat');
 							Session::destroy('lastTitular');
 							Session::destroy('lastContrato');
@@ -188,6 +210,13 @@
 							echo true;
 							exit();
 						break;
+							
+						case '2':
+							$this->reallocateForm(Session::get('dataForm'));
+							//echo true;
+							exit();
+						break;
+						
 						
 						default:
 							;
