@@ -404,5 +404,29 @@
 			return $hora;;
 		
 		}
+		
+		public function updateStatusContrato() {
+		
+			$this->_query = '
+				UPDATE 
+					contratos 
+				SET 
+					statusCont_id = 2 
+				WHERE 
+					contratos.id ='.Session::get('lastContrato');
+		
+			try {
+				$this->_db->beginTransaction();
+				$this->_db->prepare($this->_query)->execute();
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		
+		}
+		
 	}
 ?>

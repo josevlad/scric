@@ -190,7 +190,12 @@ $(document).ready(function() {
 				url:	myForm.attr('action'),
 		        async: 	false,
 	            success: function(data) {
-	            	console.log(data);
+	            	if (data == true) {
+	            		$(location).attr('href', BASE_URL+'adviser/');
+					}else{
+						alert(data);
+					}
+	            	//console.log(data);
 	            	//location.reload();
 	            	
 	            }            

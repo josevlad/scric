@@ -1,7 +1,15 @@
 <!-- content -->	
 	<div class="row">
 		<div class="col-md-12">
-		
+			
+			<?php if (isset($this->msg)):?>
+				<div class="row">
+					<div class="col-xs-12">
+						<?php echo $this->msg;?>
+					</div>
+				</div>
+			<?php endif;?>
+			
 			<div class="row">
 			
 				<div class="col-xs-4">				

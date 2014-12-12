@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 08-12-2014 a las 05:39:52
+-- Tiempo de generación: 11-12-2014 a las 10:35:29
 -- Versión del servidor: 5.6.12-log
 -- Versión de PHP: 5.4.16
 
@@ -55,6 +55,40 @@ INSERT INTO `clasevehiculo` (`id`, `claseVehiculo`) VALUES
 (14, 'SEMI REMOLQUE '),
 (15, 'TRAILER'),
 (16, 'AUTOMOVIL (TP)');
+
+--
+-- Volcado de datos para la tabla `cobertura`
+--
+
+INSERT INTO `cobertura` (`id`, `cobertura`, `claseVehiculo_id`, `statusCobert_id`) VALUES
+(1, '25000.00', 1, 1),
+(2, '40000.00', 1, 1),
+(3, '60000.00', 1, 1),
+(4, '80000.00', 1, 1),
+(5, '100000.00', 1, 1);
+
+--
+-- Volcado de datos para la tabla `concepto`
+--
+
+INSERT INTO `concepto` (`id`, `cobertura_id`, `gastosMedicos1`, `invalidez1`, `muerte1`, `gastosMedicos2`, `invalidez2`, `muerte2`, `daniosPropiedad`, `grua`, `estacionamiento`, `indemnizacionSem`, `asistenciaLegal`) VALUES
+(1, 1, '1400.00', '2300.00', '2300.00', '1400.00', '2300.00', '2300.00', '9000.00', '450.00', '450.00', '250.00', '2350.00');
+
+--
+-- Volcado de datos para la tabla `contratos`
+--
+
+INSERT INTO `contratos` (`id`, `placa`, `anio`, `color`, `serial_c`, `serial_m`, `peso`, `fecha_exp`, `hora_ven`, `fecha_ven`, `hora_exp`, `tipoTrans_id`, `usoVehiculo_id`, `precio_id`, `statusCont_id`, `titulares_id`, `planillas_id`, `modelo_id`) VALUES
+(9, 'QWE123', 2008, 'BLANCO', 'ASDQWE', 'ZXCASD', '330', '2014-12-10', '5:07 PM', '2015-12-10', '5:07 PM', 2, 1, 2, 1, 11, 8, 24),
+(11, 'QWEASDZXC', 2010, 'BLANCO', '123QWE', 'ZXCASD', '330', '2014-12-10', '6:03 PM', '2015-12-10', '6:03 PM', 2, 1, 2, 1, 13, 9, 24);
+
+--
+-- Volcado de datos para la tabla `correos`
+--
+
+INSERT INTO `correos` (`id`, `correo`, `titulares_id`) VALUES
+(8, 'email@mail.com', 11),
+(10, 'myMail@mail.com', 13);
 
 --
 -- Volcado de datos para la tabla `estado`
@@ -473,6 +507,24 @@ INSERT INTO `municipio` (`id`, `municipio`, `estado_id`) VALUES
 (344, 'LOBATERA', 22),
 (345, 'MICHELENA', 22),
 (346, 'MALDONADO', 22);
+
+--
+-- Volcado de datos para la tabla `numpuesto`
+--
+
+INSERT INTO `numpuesto` (`id`, `numPuesto`, `tipoVehiculo_id`) VALUES
+(1, '12', 6),
+(2, '18', 6),
+(3, '19', 6),
+(4, '20', 6),
+(5, '21', 6),
+(6, '22', 6),
+(7, '24', 6),
+(8, '26', 6),
+(9, '28', 6),
+(10, '32', 6),
+(11, '41', 6),
+(12, '49', 6);
 
 --
 -- Volcado de datos para la tabla `parroquia`
@@ -1569,6 +1621,78 @@ INSERT INTO `perfilusuario` (`id`, `perfilUsuario`) VALUES
 (1, 'SUPER_U'),
 (2, 'ADMIN_DB'),
 (3, 'ASESOR');
+
+--
+-- Volcado de datos para la tabla `planillas`
+--
+
+INSERT INTO `planillas` (`id`, `codigo`, `fecha_reg`, `agencias_id`, `statusFormat_id`) VALUES
+(1, '1', '2014-08-12', 1, 2),
+(2, '2', '2014-08-12', 1, 2),
+(3, '3', '2014-08-12', 1, 2),
+(4, '4', '2014-08-12', 1, 2),
+(5, '5', '2014-08-12', 1, 2),
+(6, '200', '2014-10-12', 1, 2),
+(7, '201', '2014-10-12', 1, 2),
+(8, '202', '2014-10-12', 1, 2),
+(9, '203', '2014-10-12', 1, 2),
+(10, '204', '2014-10-12', 1, 1),
+(11, '205', '2014-10-12', 1, 1),
+(12, '206', '2014-10-12', 1, 1),
+(13, '207', '2014-10-12', 1, 1),
+(14, '208', '2014-10-12', 1, 1),
+(15, '209', '2014-10-12', 1, 1),
+(16, '210', '2014-10-12', 1, 1),
+(17, '211', '2014-10-12', 1, 1),
+(18, '212', '2014-10-12', 1, 1),
+(19, '213', '2014-10-12', 1, 1),
+(20, '214', '2014-10-12', 1, 1),
+(21, '215', '2014-10-12', 1, 1),
+(22, '216', '2014-10-12', 1, 1),
+(23, '217', '2014-10-12', 1, 1),
+(24, '218', '2014-10-12', 1, 1),
+(25, '219', '2014-10-12', 1, 1),
+(26, '220', '2014-10-12', 1, 1),
+(27, '221', '2014-10-12', 1, 1),
+(28, '222', '2014-10-12', 1, 1),
+(29, '223', '2014-10-12', 1, 1),
+(30, '224', '2014-10-12', 1, 1),
+(31, '225', '2014-10-12', 1, 1),
+(32, '226', '2014-10-12', 1, 1),
+(33, '227', '2014-10-12', 1, 1),
+(34, '228', '2014-10-12', 1, 1),
+(35, '229', '2014-10-12', 1, 1),
+(36, '230', '2014-10-12', 1, 1),
+(37, '231', '2014-10-12', 1, 1),
+(38, '232', '2014-10-12', 1, 1),
+(39, '233', '2014-10-12', 1, 1),
+(40, '234', '2014-10-12', 1, 1),
+(41, '235', '2014-10-12', 1, 1),
+(42, '236', '2014-10-12', 1, 1),
+(43, '237', '2014-10-12', 1, 1),
+(44, '238', '2014-10-12', 1, 1),
+(45, '239', '2014-10-12', 1, 1),
+(46, '240', '2014-10-12', 1, 1),
+(47, '241', '2014-10-12', 1, 1),
+(48, '242', '2014-10-12', 1, 1),
+(49, '243', '2014-10-12', 1, 1),
+(50, '244', '2014-10-12', 1, 1),
+(51, '245', '2014-10-12', 1, 1),
+(52, '246', '2014-10-12', 1, 1),
+(53, '247', '2014-10-12', 1, 1),
+(54, '248', '2014-10-12', 1, 1),
+(55, '249', '2014-10-12', 1, 1),
+(56, '250', '2014-10-12', 1, 1);
+
+--
+-- Volcado de datos para la tabla `precio`
+--
+
+INSERT INTO `precio` (`id`, `precio`, `numPuesto_id`, `cobertura_id`) VALUES
+(1, 520, 1, 1),
+(2, 520, 2, 1),
+(3, 520, 3, 1);
+
 --
 -- Volcado de datos para la tabla `pregunta`
 --
@@ -1614,6 +1738,16 @@ INSERT INTO `statususuarios` (`id`, `statusUsuarios`) VALUES
 (2, 'INACTIVO');
 
 --
+-- Volcado de datos para la tabla `telefonos`
+--
+
+INSERT INTO `telefonos` (`id`, `numTelf`, `titulares_id`, `tipoTelf_id`) VALUES
+(17, '(5465) 456-46-54', 11, 1),
+(18, '(8978) 979-87-98', 11, 2),
+(21, '(1231) 231-23-12', 13, 1),
+(22, '(1243) 423-42-54', 13, 2);
+
+--
 -- Volcado de datos para la tabla `tipopago`
 --
 
@@ -1652,14 +1786,6 @@ INSERT INTO `tipotrans` (`id`, `tipoTrans`) VALUES
 (3, 'DUAL');
 
 --
--- Volcado de datos para la tabla `usovehiculo`
---
-
-INSERT INTO `usovehiculo` (`id`, `usoVehiculo`, `claseVehiculo_id`) VALUES
-(1, 'TRANSPORTE PUBLICO', 1);
-
-
---
 -- Volcado de datos para la tabla `tipovehiculo`
 --
 
@@ -1681,61 +1807,19 @@ INSERT INTO `tipovehiculo` (`id`, `tipoVehiculo`, `claseVehiculo_id`) VALUES
 (15, 'VAN', 1);
 
 --
--- Volcado de datos para la tabla `planillas`
+-- Volcado de datos para la tabla `titulares`
 --
 
-INSERT INTO `planillas` (`id`, `codigo`, `fecha_reg`, `agencias_id`, `statusFormat_id`) VALUES
-(1, '1', '2014-08-12', 1, 1),
-(2, '2', '2014-08-12', 1, 1),
-(3, '3', '2014-08-12', 1, 1),
-(4, '4', '2014-08-12', 1, 1),
-(5, '5', '2014-08-12', 1, 1);
+INSERT INTO `titulares` (`id`, `dni`, `nombres`, `apellidos`, `direccion`, `tipoPersona_id`, `parroquia_id`) VALUES
+(11, 'V - 34.534.623', 'ETHAN ETIENNE', 'CASTAÑEDA RUIZ', 'BLOQUE 11', 1, 337),
+(13, 'V - 34.564.564', 'ETHAN ETIENNE', 'CASTAÑEDA RUIZ', 'BLOQUE 11, UD-3', 1, 337);
 
 --
--- Volcado de datos para la tabla `numpuesto`
+-- Volcado de datos para la tabla `usovehiculo`
 --
 
-INSERT INTO `numpuesto` (`id`, `numPuesto`, `tipoVehiculo_id`) VALUES
-(1, '12', 6),
-(2, '18', 6),
-(3, '19', 6),
-(4, '20', 6),
-(5, '21', 6),
-(6, '22', 6),
-(7, '24', 6),
-(8, '26', 6),
-(9, '28', 6),
-(10, '32', 6),
-(11, '41', 6),
-(12, '49', 6);
-
---
--- Volcado de datos para la tabla `cobertura`
---
-
-INSERT INTO `cobertura` (`id`, `cobertura`, `claseVehiculo_id`, `statusCobert_id`) VALUES
-(1, '25000.00', 1, 1),
-(2, '40000.00', 1, 1),
-(3, '60000.00', 1, 1),
-(4, '80000.00', 1, 1),
-(5, '100000.00', 1, 1);
-
-
---
--- Volcado de datos para la tabla `precio`
---
-
-INSERT INTO `precio` (`id`, `precio`, `numPuesto_id`, `cobertura_id`) VALUES
-(1, '520.00', 1, 1),
-(2, '520.00', 2, 1),
-(3, '520.00', 3, 1);
-
---
--- Volcado de datos para la tabla `concepto`
---
-
-INSERT INTO `concepto` (`id`, `cobertura_id`, `gastosMedicos1`, `invalidez1`, `muerte1`, `gastosMedicos2`, `invalidez2`, `muerte2`, `daniosPropiedad`, `grua`, `estacionamiento`, `indemnizacionSem`, `asistenciaLegal`) VALUES
-(1, 1, '1400.00', '2300.00', '2300.00', '1400.00', '2300.00', '2300.00', '9000.00', '450.00', '450.00', '250.00', '2350.00');
+INSERT INTO `usovehiculo` (`id`, `usoVehiculo`, `claseVehiculo_id`) VALUES
+(1, 'TRANSPORTE PUBLICO', 1);
 
 --
 -- Volcado de datos para la tabla `usuarios`

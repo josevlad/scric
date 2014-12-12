@@ -14,6 +14,11 @@
 			$this->_view->icon_fa = 'fa-database';
 			$this->_view->titleHead = 'Administracion de Base de datos';
 			
+			if (Session::get('print')) {
+				$this->_view->msg = App::boxMessage('Registro exitoso', "El contrato fue creado con exito!", "success");
+			}
+			Session::destroy('print');
+			
 			$this->_view->render('index');		
 		}
 		
@@ -171,14 +176,16 @@
 					
 					switch ($_POST['resulImp']) {
 						case '1':
+							$this->_adviser->updateStatusContrato();
 							Session::destroy('dataForm');
 							Session::destroy('data');
-							Session::destroy('print');
+							//Session::destroy('print');
 							Session::destroy('assignedFormat');
 							Session::destroy('lastTitular');
 							Session::destroy('lastContrato');
 							
-							$this->_view->redirect();
+							
+							echo true;
 							exit();
 						break;
 						

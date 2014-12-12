@@ -69,7 +69,7 @@
 		public function contratoPdf() {
 			
 			$model 	= $this->loadModel('adviser');
-			$data 	= $model->getContrato(Session::get('lastId'));
+			$data 	= $model->getContrato(Session::get('lastTitular'));
 			//$data 	= $model->getContrato('1');
 			$telf 	= $model->getTelefonos($data['id']);
 			$correo = $model->getCorreos($data['id']);
