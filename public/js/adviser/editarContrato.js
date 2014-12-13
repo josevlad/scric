@@ -29,7 +29,6 @@ function loadSelect( parameters ){
 	else {
 		var choose = '';
 	}
-	
 	$.post(		
  		url, 
 		{ table: table }, 
@@ -75,7 +74,31 @@ function selectDependent( parameters ){
 	
 }
 
-function selectOptionDependent( parameters ) {
+function selectOptionDependent( parameters ){
+	
+	var element = $( parameters.selector );
+	var url 	= parameters.url;
+	var table	= element.attr('table');
+	var choose 	= element.attr('choose');
+	var id 		= element.attr('id-data');
+	
+	$.post(		
+ 		url, 
+ 		{ table: table, id: id }, 
+		function(data){
+			element.empty();
+			element.append('<option value="">Seleccione...</option>');
+			for (var i=0; i<data.length; i++) {
+				if ( choose == data[i].id ) {
+					element.append('<option selected value="' + data[i].id + '">' + data[i].option + '</option>');
+				}else {
+					element.append('<option value="' + data[i].id + '">' + data[i].option + '</option>');
+				}
+			}
+		}, "json"); 
+	
+}
+function selectOptionDependent2( parameters ) {
 	
 	var selector	=	parameters.selector;
 	var element		= 	$( parameters.selector )
@@ -101,6 +124,7 @@ function selectOptionDependent( parameters ) {
 	);
 	
 }
+
 
 function getval() {
     var currentTime = new Date()
@@ -163,6 +187,11 @@ $(document).ready(function() {
 	});
 	
 	loadSelect({
+		selector:	'.tipoTelf', 
+		url:		BASE_URL + "select/loadSelect"
+	});
+	
+	loadSelect({
 		selector:	'#marca', 
 		url:		BASE_URL + "select/loadSelect"
 	});
@@ -184,40 +213,68 @@ $(document).ready(function() {
 	
 	//==================================================
 	
+	// select dependiente 1
 	selectDependent({
 		origin:		'#estado',
 		selector:	'#municipio', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
+		selectOptionDependent({
+			selector: 	'#municipio',
+			url:		BASE_URL + "select/loadSelectDepent",			
+		});
+	
 	
 	$('#estado').change(function () {
 		$('#parroquia_id').empty();
 		$('#parroquia_id').append('<option value="">Seleccione...</option>');
 	});
 	
+	// select dependiente 2
 	selectDependent({
 		origin:		'#municipio',
 		selector:	'#parroquia_id', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
-
+		selectOptionDependent({
+			selector: 	'#parroquia_id',
+			url:		BASE_URL + "select/loadSelectDepent",			
+		});
+	
+	// select dependiente 3
 	selectDependent({
 		origin:		'#marca',
 		selector:	'#modelo_id', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
 
+		selectOptionDependent({
+			selector: 	'#modelo_id',
+			url:		BASE_URL + "select/loadSelectDepent",			
+		});
+		
+	// select dependiente 4
 	selectDependent({
 		origin:		'#claseVehiculo',
 		selector:	'#tipoVehiculo', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
 	
+		selectOptionDependent({
+			selector: 	'#tipoVehiculo',
+			url:		BASE_URL + "select/loadSelectDepent",			
+		});
+	
 	selectDependent({
 		origin:		'#tipoVehiculo',
 		selector:	'#numPuesto', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
+		
+		selectOptionDependent({
+			selector: 	'#numPuesto',
+			url:		BASE_URL + "select/loadSelectDepent",			
+		});
 	
 	$('#claseVehiculo').change(function () {
 		$('#numPuesto').empty();
@@ -244,7 +301,7 @@ $(document).ready(function() {
 			$('#precio_id').val('');
 			$('#precioTxt').val('Sin precio');
 			
-			selectOptionDependent({
+			selectOptionDependent2({
 				selector:	'#cobertura', 
 				url:		BASE_URL + "select/loadSelectDepent",
 				id:			$('#claseVehiculo').val(),
@@ -266,8 +323,7 @@ $(document).ready(function() {
 			$('#precioTxt').val('Sin precio');
 		}else {
 			$.post(
-		 		BASE_URL+'adviser/getPrecio',
-		 		{ 
+		 		BASE_URL+'adviser/getPrecio',{ 
 		 			cobertura_id: cobertura_id, 
 		 			numPuesto_id: numPuesto_id 
 		 		}, 
@@ -285,6 +341,11 @@ $(document).ready(function() {
 		selector:	'#usoVehiculo_id', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
+		
+		selectOptionDependent({
+			selector: 	'#usoVehiculo_id',
+			url:		BASE_URL + "select/loadSelectDepent",			
+		});
 	
 	/*
 	loadSelect({
@@ -300,12 +361,17 @@ $(document).ready(function() {
 	
 	*/
 	
-	var selectYear = $("#anio");
-	
+	var selectYear 	= $("#anio");
+	var choose 		= selectYear.attr('choose');
 	var yy = new Date(); // Año
 	selectYear.append('<option value="">Seleccione...</option>');
 	for (var i=0; i<100; i++) {
-		selectYear.append('<option value="' + (yy.getFullYear()-i) + '">' + (yy.getFullYear()-i) + '</option>');
+		
+		if (choose == (yy.getFullYear()-i)) {
+			selectYear.append('<option selected value="' + (yy.getFullYear()-i) + '">' + (yy.getFullYear()-i) + '</option>');
+		}else {
+			selectYear.append('<option value="' + (yy.getFullYear()-i) + '">' + (yy.getFullYear()-i) + '</option>');
+		}
 	}
 	
 	
@@ -315,7 +381,7 @@ $(document).ready(function() {
 // maskedinput 
 	// =============================================== dni ===========================================
 	var select1 = $('#tipoPersona_id');
-	$('#dni').attr('disabled', true);
+	//$('#dni').attr('disabled', true);
 	$('#dni').attr('placeholder', 'Seleccione el Tipo de Persona');
 	
 	select1.change(function () {
@@ -367,9 +433,9 @@ $(document).ready(function() {
 // Section of Content dinamic 	
 	
 	// Cant Max Content Dinamic  ============================================================================
-	var a = $("#init div").length + 1;
-	var b = $("#init div").length + 1;
-		
+	var a = $("#aux").val();
+	var b = $("#aux2").val();
+	
 	var maxPhones       = 1;	
 	var addPhone        = $("#addPhone");	
 	$('#phones div#clone').hide();
@@ -414,14 +480,14 @@ $(document).ready(function() {
 	$('#mail div#clone2').hide();
 	
 	$(addMail).click(function(e){
-		if(b <= MaxMeil){
+		if(b < MaxMeil){
 			
 			var clone = $('#mail div#clone2').clone(true);
 			
 			clone.attr('id','parent');
 			
-			$('#aux2').attr('value', b );
-		    $('.email',clone).attr('name','mail_'+b);
+			$('#aux2').attr('value', (b+1) );
+		    $('.email',clone).attr('name','mail_'+(b+1));
 		    
 		    $(clone).appendTo('#mail').show('1500');
 		    
@@ -454,7 +520,7 @@ $(document).ready(function() {
 	
 	$("body").on("click",".delete2", function(e){
 		
-		if( b > 1 ) {
+		if( b > 0 ) {
 			$(this).parent('div').hide("1500", function(){ $(this).remove(); });
 			$('#aux2').attr('value', $('#aux2').attr('value')-1 );
 			b--;
@@ -498,7 +564,7 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var myForm = $('#adviser_contratos');
+	var myForm = $('#adviser_editarContrato');
 	
 	$.validator.setDefaults({
 		errorClass: 'form_error',
@@ -566,7 +632,7 @@ $(document).ready(function() {
 			municipio:			"required",
 			parroquia_id:		"required",
 			direccion:			"required",
-			tipo_1:			"required",
+			tipo_1:				"required",
 			num_Telf:			"required",
 			marca:				"required",
 			modelo_id:			"required",
@@ -642,7 +708,7 @@ $(document).ready(function() {
 			},
 			claseVehiculo:		"Selección requerida",
 			tipoVehiculo:		"Selección requerida",
-			numPuesto:			"Selección requerida",//peso
+			numPuesto:			"Selección requerida",//
 			tipoPago:			"Selección requerida",
 			cobertura:			"Selección requerida",
 			uso:				"Selección requerida",
@@ -658,7 +724,7 @@ $(document).ready(function() {
 			//location.reload();
 			bootbox.confirm(
 					'<div class="alert alert-dark bootbox-text">'+
-						'<h4><strong><i class="fa fa-exclamation-triangle"></i> ¡Precaución!</strong> ¿La información Cargada es la correcta?.</h4>'+
+						'<h4><strong><i class="fa fa-exclamation-triangle"></i> ¡Precaución!</strong> ¿Se han correjido los datos correctamente?</h4>'+
 					'</div>',
 				function(result) {
 				if (result == true) {
@@ -667,12 +733,14 @@ $(document).ready(function() {
 			            type:	myForm.attr('method'),
 			            data:	myForm.serialize(),
 			            success: function(response) {
-			                //console.log(response);
+			               // console.log(response);
+			               
 			                if (response == true) {
 			                	$(location).attr('href', BASE_URL+'adviser/procesoImp');
 							}else {
 								alert(response);
 							}
+							
 			            }            
 			        });
 				}

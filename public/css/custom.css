@@ -117,3 +117,7 @@ iframe {
 	position: absolute;
 	top: 0%;
 }
+
+.bootbox-text{
+	text-align: center;	
+}

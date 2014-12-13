@@ -1,0 +1,502 @@
+<!-- content -->	
+	<div class="row">
+		<div class="col-md-12">
+		
+			<form id="adviser_contratos" action="<?php echo BASE_URL.'adviser/contratos'; ?>" method="post" class="form-horizontal">
+
+<!-- ================================== PANEL ================================== -->
+						
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">Datos del Titular</span>
+					</div>
+				
+					<div class="panel-body">
+						<!-- ------------------------------------------------------------------------------------------- -->
+						<div class="row">
+											
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label ><?php echo utf8_encode('Tipo de Persona'); ?></label>
+									<select 
+										class="form-control"
+										id="tipoPersona_id" 
+										name="tipoPersona_id"
+										table="tipoPersona"
+									></select>
+								</div>
+							</div><!-- col-sm-6 -->
+							
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Documeto de Identidad'); ?></label>
+									<input 
+										type="text"
+										class="form-control"
+										id="dni" 
+										name="dni"
+									>
+								</div>
+							</div>						
+							
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Nombres <samp class="small">(completo)</samp>'); ?></label>
+									<input 
+										type="text"
+										class="form-control"
+										id="nombres" 
+										name="nombres"
+									>
+								</div>
+							</div>
+													
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Apellidos <samp class="small">(completo)</samp>'); ?></label>
+									<input 
+										type="text"
+										class="form-control"
+										id="apellidos" 
+										name="apellidos"
+									>
+								</div>
+							</div>
+							
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+						<div class="row">
+						
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label ><?php echo utf8_encode('Estado'); ?></label>
+									<select 
+										class="form-control"
+										id="estado" 
+										name="estado"
+										table="estado"
+									></select>
+								</div>
+							</div><!-- col-sm-6 -->
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Municipio'); ?></label>
+									<select 
+										class="form-control"
+										id="municipio" 
+										name="municipio"
+										table="municipio"
+									></select>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Parroquia'); ?></label>
+									<select 
+										class="form-control"
+										id="parroquia_id" 
+										name="parroquia_id"
+										table="parroquia"
+									></select>
+								</div>
+							</div>
+							
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Dirección'); ?></label>
+									<input 
+										type="text"
+										class="form-control"
+										id="direccion" 
+										name="direccion"
+									>
+								</div>
+							</div>
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						<input type="hidden" class="aux" name="aux" id="aux" value="1">
+						<div class="row">
+						
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label ><?php echo utf8_encode('Tipo de Teléfono')?></label>
+									<select 
+										class="form-control"
+										id="tipo_1" 
+										name="tipo_1"
+										table="tipoTelf"
+									></select>
+								</div>
+							</div><!-- col-sm-6 -->
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Número de Teléfono'); ?></label>
+									<input 
+										type="text"
+										class="form-control phone"
+										id="telf_1" 
+										name="telf_1"
+									>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr" style="padding-top: 23px;">
+									
+									<div class="btn btn-success" id="addPhone">
+										<i class="fa fa-phone"></i>
+										Agregar Telf.
+									</div>
+									<div class="btn btn-success" id="addMail">
+										<i class="fa fa-phone"></i>
+										Agregar E-mail
+									</div>
+								</div>
+							</div>
+							
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+						<div id="phones">
+						
+							<div class="row" id="clone">
+							
+								
+								<div class="col-sm-4">
+									<div class="form-group no-margin-hr">
+										<label ><?php echo utf8_encode('Tipo de Teléfono')?></label>
+										<select 
+											class="form-control tp_phone"
+											id="tipoTelf" 
+											name=""
+											table="tipoTelf"
+										></select>
+									</div>
+								</div>
+								
+								<div class="col-sm-4">
+									<div class="form-group no-margin-hr">
+										<label><?php echo utf8_encode('Número de Teléfono'); ?></label>
+										<input 
+											type="text"
+											class="form-control num_phone phone"
+											id="" 
+											name=""
+										>
+									</div>
+								</div>
+								
+								<div class="btn btn-success delete" style="margin: 23px 12px;" >
+									<i class="fa fa-remove"></i>
+								</div>
+								
+							</div>
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+						<input type="hidden" class="aux2" name="aux2" id="aux2" value="0">
+						<div id="mail">
+						
+							<div class="row" id="clone2">
+							
+								<div class="col-sm-8">
+									
+									<div class="form-group no-margin-hr">
+										<label><?php echo utf8_encode('Correo Eléctronico'); ?></label>
+										<input 
+											type="text"
+											class="form-control email"
+											id="" 
+											name=""
+										>
+									</div>
+								</div>
+								
+								<div class="btn btn-success delete2" style="margin: 23px 12px;" >
+									<i class="fa fa-remove"></i>
+								</div>
+								
+							</div>
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+					</div>
+				
+				</div>
+				
+<!-- ================================== PANEL ================================== -->
+								
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title"><?php echo utf8_encode('Carácteristicas del Vehículo')?></span>
+					</div>
+					<div class="panel-body buttons-with-margins">
+						<!-- ------------------------------------------------------------------------------------------- -->
+						<div class="row">
+											
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label ><?php echo utf8_encode('Marca del Vehículo');?></label>
+									<select 
+										class="form-control"
+										id="marca" 
+										name="marca"
+										table="marca"
+									></select>
+								</div>
+							</div>						
+							
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Modelo del Vehículo');?></label>
+									<select 
+										class="form-control"
+										id="modelo_id" 
+										name="modelo_id"
+										table="modelo"
+									></select>
+								</div>
+							</div>
+							
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Tipo de Transmición');?></label>
+									<select 
+										class="form-control"
+										id="tipoTrans_id" 
+										name="tipoTrans_id"
+										table="tipoTrans"
+									></select>
+								</div>
+							</div>
+							
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Año del Vehículo');?></label>
+									<select 
+										class="form-control"
+										id="anio" 
+										name="anio"
+									></select>
+								</div>
+							</div>
+							
+							
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+						<div class="row">
+																	
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label ><?php echo utf8_encode('Color del Vehículo');?></label>
+									<input 
+										type="text"
+										class="form-control"
+										id="color" 
+										name="color"
+									>
+								</div>
+							</div>	
+												
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Placa del Vehículo');?></label>
+									<input 
+										type="text"
+										class="form-control"
+										id="placa" 
+										name="placa"
+									>
+								</div>
+							</div>
+							
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Serial de Carroceria');?></label>
+									<input 
+										type="text"
+										class="form-control"
+										id="serial_c" 
+										name="serial_c"
+									>
+								</div>
+							</div>
+							
+							<div class="col-sm-3">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Serial del Motor');?></label>
+									<input 
+										type="text"
+										class="form-control"
+										id="serial_m" 
+										name="serial_m"
+									>
+								</div>
+							</div>
+							
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+						<div class="row">
+						
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label ><?php echo utf8_encode('Clase de Vehículo');?></label>
+									<select 
+										class="form-control"
+										id="claseVehiculo" 
+										name="claseVehiculo"
+										table="claseVehiculo"
+									></select>
+								</div>
+							</div><!-- col-sm-6 -->
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Tipo de Vehículo');?></label>
+									<select 
+										class="form-control"
+										id="tipoVehiculo" 
+										name="tipoVehiculo"
+										table="tipoVehiculo"
+									></select>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Número de Puestos');?></label>
+									<select 
+										class="form-control"
+										id="numPuesto" 
+										name="numPuesto"
+										table="numPuesto"
+									></select>
+								</div>
+							</div>
+							
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+						<div class="row">
+						
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label ><?php echo utf8_encode('Tipo de Pago');?></label>
+									<select 
+										class="form-control"
+										id="tipoPago" 
+										name="tipoPago"
+										table="tipoPago"
+									></select>
+								</div>
+							</div><!-- col-sm-6 -->
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Cobertura de RCV');?></label>
+									<select 
+										class="form-control"
+										id="cobertura" 
+										name="cobertura"
+										table="cobertura"
+									></select>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Precio');?></label>
+									<input 
+										type="text"
+										class="form-control"
+										id="precioTxt" 
+										name="precioTxt"
+										disabled="disabled"
+										value="Sin precio"
+									>
+									<input
+										type="hidden"
+										id="precio_id"
+										name="precio_id"
+									>
+								</div>
+							</div>
+							
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+						<div class="row">
+											
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label ><?php echo utf8_encode('Uso del Vehículo');?></label>
+									<select 
+										class="form-control"
+										id="usoVehiculo_id" 
+										name="usoVehiculo_id"
+										table="usoVehiculo"
+									></select>
+								</div>
+							</div>						
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Capacidad de Carga (peso)');?></label>
+									<input 
+										class="form-control"
+										id="peso" 
+										name="peso"
+									>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr date">
+									<label><?php echo utf8_encode('Inicio del contrato');?></label>
+									<input 
+										type="text" 
+										class="form-control" 
+										id="fecha_exp"
+										name="fecha_exp"
+										value=""
+									>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr date hour" style="padding-top: 5px;">
+									<label><?php echo utf8_encode('');?></label>
+									<input 
+										type="text" 
+										class="form-control" 
+										id="hora_exp"
+										name="hora_exp"
+										value=""
+									>
+								</div>
+							</div>
+							
+							
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+					</div>
+				</div>
+				
+<!-- ================================== PANEL ================================== -->
+							
+				<div class="text-right">
+					<button type="submit" class="btn btn-primary">Guardar</button>
+				</div>
+			</form>
+			
+		</div>
+	</div>
+<!-- end content -->

@@ -17,7 +17,8 @@
 			if (Session::get('print')) {
 				$this->_view->msg = App::boxMessage('Registro exitoso', "El contrato fue creado con exito!", "success");
 			}
-			Session::destroy('print');
+			Session::set('print', true);
+			//Session::destroy('print');
 			
 			$this->_view->render('index');		
 		}
@@ -158,6 +159,9 @@
 				//maskedinput
 				$this->_view->setJs(array('plugins/maskedinput/maskedinput'));
 				
+				//printPage js
+				$this->_view->setJs(array('plugins/bootbox/bootbox'));				
+				
 				//validate
 				$this->_view->setJs(array('plugins/validate/validate'));
 				
@@ -188,9 +192,9 @@
 			}else {
 				echo $resul;
 			}
-			
 		}
 		
+				
 		public function procesoImp() {
 			
 			if (Session::get('print')) {
@@ -199,28 +203,33 @@
 					
 					switch ($_POST['resulImp']) {
 						case '1':
-							$this->_adviser->updateStatusContrato('2',Session::get('lastContrato'));
-							Session::destroy('dataForm');
-							Session::destroy('data');
-							Session::destroy('assignedFormat');
-							Session::destroy('lastTitular');
-							Session::destroy('lastContrato');
-							
-							
-							echo true;
+							$this->_adviser->updateStatusContrato('2',Session::get('lastContrato'));							
+							echo '1';
 							exit();
 						break;
 							
 						case '2':
-							$this->reallocateForm(Session::get('dataForm'));
-							//echo true;
+							$this->reallocateForm();
 							exit();
 						break;
 						
-						
-						default:
-							;
+						case '3':
+							echo '3';
+							exit();
 						break;
+
+						case '4':
+							$res = $this->reimpresion();
+							echo ($res=='4') ? '4' : $res;
+							exit();
+						break;
+
+						case '5':
+							$res = $this->reimpresion();
+							echo ($res=='4') ? '5' : $res;
+							exit();
+						break;
+														
 					}
 					
 					
@@ -229,9 +238,6 @@
 					$this->_view->icon_fa = 'fa-print';
 					$this->_view->titleHead = 'Impresión de Contrato';
 										
-					//validate
-					$this->_view->setJs(array('plugins/validate/validate'));
-
 					//pdf js
 					$this->_view->setJs(array('plugins/pdf/pdfobject'));
 
@@ -240,8 +246,6 @@
 					
 					//printPage js
 					$this->_view->setJs(array('plugins/bootbox/bootbox'));
-					
-					
 					
 					//custom config js
 					$this->_view->setJs(array('adviser/procesoImp'));
@@ -254,6 +258,289 @@
 			
 		}
 		
+		public function impFact() {
+				
+			if (Session::get('print')) {
+		
+				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+						
+					switch ($_POST['resulImp2']) {
+						case '1':
+							$fecha = App::saveDate($this->_adviser->getFecha());
+							$facturas_id = $this->_adviser->getFactura();
+							
+							$data = array(
+								':fecah_em' 	=> $fecha,
+								':facturas_id' 	=> $facturas_id[0]['id'],
+								':contratos_id'	=> Session::get('lastContrato'),
+								':tipoPago_id'	=> Session::get('tipoPago'),	
+							);
+							
+							$this->_adviser->insertFat($data, $facturas_id[0]['id']);
+							
+							
+							Session::destroy('data');
+							Session::destroy('dataForm');
+							Session::destroy('lastTitular');
+							Session::destroy('lastContrato');
+							Session::destroy('assignedFormat');
+							Session::destroy('contadorImp');
+							Session::destroy('tipoPago');
+							Session::destroy('printbtn');
+							echo '1';
+						
+							exit();
+						break;
+								
+						case '2':
+							$fecha = App::saveDate($this->_adviser->getFecha());
+							$facturas_id = $this->_adviser->getFactura();
+							$data = array(
+								':fecah_em' 	=> $fecha,
+								':facturas_id' 	=> $facturas_id,
+								':contratos_id'	=> Session::get('lastContrato'),
+								':tipoPago_id'	=> Session::get('tipoPago'),	
+							);
+							
+							$res = $this->_adviser->insertFat($data);
+							if ($res == true) {
+								echo '1';
+							}else{
+								echo $res;
+							}
+							exit();
+						break;
+		
+						case '3':
+							Session::destroy('printbtn');
+							echo '3';
+							exit();
+						break;
+		
+						case '4':
+							Session::destroy('printbtn');
+							echo '3';
+							exit();
+						break;
+		
+					}
+						
+						
+				}else {
+
+					Session::destroy('printbtn');
+					//content page-hader
+					$this->_view->icon_fa = 'fa-print';
+					$this->_view->titleHead = 'Impresión de Factura';
+		
+					//pdf js
+					$this->_view->setJs(array('plugins/pdf/pdfobject'));
+		
+					//printPage js
+					$this->_view->setJs(array('plugins/printPage/printPage'));
+						
+					//printPage js
+					$this->_view->setJs(array('plugins/bootbox/bootbox'));
+						
+					//custom config js
+					$this->_view->setJs(array('adviser/impFact'));
+					
+					$this->_view->codFact = $this->_adviser->getFactura();
+						
+					$this->_view->render('impFact'/*,$this->_sidebar_menu*/);
+				}
+			}else {
+				$this->_view->redirect('adviser');
+			}
+				
+		}
+		
+		public function editContrato() {
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				
+				Session::destroy('dataForm');
+				Session::set('dataForm', $_POST);
+				
+				//App::varDump($_POST);
+				
+				$keys 		= array();
+				$values		= array();
+				
+				$titular 	= array(); 
+				$telefonos 	= array();
+				$correos 	= array();
+				$contrato 	= array();
+				
+				foreach ($_POST as $key => $value){
+					if($key == 'fecha_exp'){
+						array_push( $keys	, ':'.$key 		);
+						array_push( $values	, App::saveDate($value) 	);
+					}else {
+						array_push( $keys	, ':'.$key 	);
+						array_push( $values	,  $value	);
+					}
+				}
+				
+				for ($i = 0; $i < '8'; $i++) {
+					$titular[$keys[$i]] = $values[$i];
+				}
+				
+				unset($titular[':estado']);
+				unset($titular[':municipio']);
+				
+				$to = ($_POST['aux'] * 2) + 9;
+				
+				for ($i = '8'; $i < $to; $i++) {
+					$telefonos[] = $values[$i];
+				}
+				unset($telefonos['0']);
+				
+				$from 	= $to +1;
+				$to2	= $_POST['aux2'] + $from;
+				
+				for ($i = $from; $i < $to2 ; $i++) {
+					$correos[] = $values[$i];
+				}
+				
+				$from2 = $from + $to2;
+				
+				for ($i = $to2; $i < count($_POST) ; $i++) {
+					$contrato[$keys[$i]] = $values[$i];
+				}
+				unset($contrato[':marca']);
+				unset($contrato[':claseVehiculo']);
+				unset($contrato[':tipoVehiculo']);
+				unset($contrato[':numPuesto']);
+				unset($contrato[':cobertura']);
+				
+				$contrato[':fecha_ven'] 	= App::saveDate( App::oneYearMore($_POST['fecha_exp']) );
+				$contrato[':hora_ven'] 		= $_POST['hora_exp'];
+				$contrato[':statusCont_id'] = '1';
+				
+				$data[] = $titular;
+				$data[] = $telefonos;
+				$data[] = $correos;
+				$data[] = $contrato;
+				
+				echo $this->_adviser->updateContract($data);
+				//saveContract
+				
+			}else {
+				//content page-hader
+				$this->_view->icon_fa = 'fa-pencil-square-o';
+				$this->_view->titleHead = 'Edición de Contrato';
+				
+				//maskedinput
+				$this->_view->setJs(array('plugins/maskedinput/maskedinput'));
+				
+				//printPage js
+				$this->_view->setJs(array('plugins/bootbox/bootbox'));
+				
+				//validate
+				$this->_view->setJs(array('plugins/validate/validate'));
+				
+				//custom config js
+				$this->_view->setJs(array('adviser/editContrato'));
+				
+				$this->_view->data = Session::get('dataForm');
+				
+				$this->_view->render('editContrato'/*,$this->_sidebar_menu*/);
+			}
+		}
+		
+		public function editarContrato() {
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		
+				Session::destroy('dataForm');
+				Session::set('dataForm', $_POST);
+				
+				$keys 		= array();
+				$values		= array();
+		
+				$titular 	= array();
+				$telefonos 	= array();
+				$correos 	= array();
+				$contrato 	= array();
+		
+				foreach ($_POST as $key => $value){
+					if($key == 'fecha_exp'){
+						array_push( $keys	, ':'.$key 		);
+						array_push( $values	, App::saveDate($value) 	);
+					}else {
+						array_push( $keys	, ':'.$key 	);
+						array_push( $values	,  $value	);
+					}
+				}
+		
+				for ($i = 0; $i < '8'; $i++) {
+					$titular[$keys[$i]] = $values[$i];
+				}
+		
+				unset($titular[':estado']);
+				unset($titular[':municipio']);
+		
+				$to = ($_POST['aux'] * 2) + 9;
+		
+				for ($i = '8'; $i < $to; $i++) {
+					$telefonos[] = $values[$i];
+				}
+				unset($telefonos['0']);
+		
+				$from 	= $to +1;
+				$to2	= $_POST['aux2'] + $from;
+		
+				for ($i = $from; $i < $to2 ; $i++) {
+					$correos[] = $values[$i];
+				}
+		
+				$from2 = $from + $to2;
+		
+				for ($i = $to2; $i < count($_POST) ; $i++) {
+					$contrato[$keys[$i]] = $values[$i];
+				}
+				unset($contrato[':marca']);
+				unset($contrato[':claseVehiculo']);
+				unset($contrato[':tipoVehiculo']);
+				unset($contrato[':numPuesto']);
+				unset($contrato[':cobertura']);
+		
+				$contrato[':fecha_ven'] 	= App::saveDate( App::oneYearMore($_POST['fecha_exp']) );
+				$contrato[':hora_ven'] 		= $_POST['hora_exp'];
+				$contrato[':statusCont_id'] = '1';
+		
+				$data[] = $titular;
+				$data[] = $telefonos;
+				$data[] = $correos;
+				$data[] = $contrato;
+				
+				//App::varDump($data);
+				
+				echo $this->_adviser->updateContract2($data);
+				//saveContract
+		
+			}else {
+				//content page-hader
+				$this->_view->icon_fa = 'fa-pencil-square-o';
+				$this->_view->titleHead = 'Edición de Contrato';
+		
+				//maskedinput
+				$this->_view->setJs(array('plugins/maskedinput/maskedinput'));
+		
+				//printPage js
+				$this->_view->setJs(array('plugins/bootbox/bootbox'));
+		
+				//validate
+				$this->_view->setJs(array('plugins/validate/validate'));
+		
+				//custom config js
+				$this->_view->setJs(array('adviser/editarContrato'));
+		
+				$this->_view->data = Session::get('dataForm');
+		
+				$this->_view->render('editarContrato'/*,$this->_sidebar_menu*/);
+			}
+		}
+		
 		public function createVariableSession() {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		
@@ -262,6 +549,30 @@
 				echo Session::get('printbtn');
 		
 			}
+		}
+		
+		public function reimpresion() {
+			
+			if (Session::get('contadorImp')){
+				
+				if (Session::get('contadorImp') == '1') {
+					echo 'Ha agotados las oportunidades de impresion';
+					exit();
+				}else{
+
+					$aux = Session::get('contadorImp');
+					Session::destroy('contadorImp');
+					Session::destroy('printbtn');
+					Session::set('contadorImp', $aux - 1);
+					
+					echo '4';
+				}
+			}else {
+				Session::set('contadorImp', 3);
+				Session::destroy('printbtn');
+				echo '4';
+			}
+			
 		}
 	}
 ?>

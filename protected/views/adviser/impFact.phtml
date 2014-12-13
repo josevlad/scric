@@ -4,7 +4,7 @@
 			
 			<div class="panel">
 					<div class="panel-heading">
-						<span class="panel-title"><?php echo utf8_encode('Contrato de Impresión')?></span>
+						<span class="panel-title"><?php echo utf8_encode('Factura de Impresión')?></span>
 					</div>
 					<?php //App::varDump(Session::get('data')); ?>
 					<div class="panel-body"><?php /*Session::destroy('contadorImp');*/  ?>
@@ -25,11 +25,8 @@
 								<div class="well well-sm">
 									<?php echo utf8_encode('Código de Planilla Asignado al Contrato: ')?>
 									<strong>
-									<?php echo Session::get('assignedFormat');?>
-									</strong>
-									<div style="position: absolute; right: 2%;  top: 18%;">
-										<?php echo utf8_encode('Oportunidad de Impresión: ').'<strong>'.(Session::get('contadorImp')-1).'</strong>'?>
-									</div>
+									<?php echo $this->codFact[0]['codigo'];?>
+									</strong>									
 								</div>
 							</div>
 						</div>
@@ -40,14 +37,10 @@
 								<?php $disabled = (Session::get('printbtn') == true) ? "disabled":"";?>
 									
 								<div class="form-group no-margin-hr">
-									<button id="printbtn" class="btn btn-success" <?php echo $disabled?> >
+									<button id="printbtn" class="btn btn-success" >
 										<i class="fa fa-print"></i> 
 										Imprimir
-									</button>
-									<a href="<?php echo BASE_URL;?>adviser/editarContrato" class="btn btn-success">
-										<i class="fa fa-pencil"></i> 
-										Editar datos
-									</a>
+									</button>									
 								</div>
 								
 							</div>
@@ -55,7 +48,7 @@
 						</div>
 						<?php $hideForm = (Session::get('printbtn') == true) ? "":"hideForm";?>
 						
-						<form id="adviser_procesoImp" action="<?php echo BASE_URL; ?>adviser/procesoImp" method="post">
+						<form id="adviser_impFact" action="<?php echo BASE_URL; ?>adviser/impFact" method="post">
 						
 							<div id="<?php echo $hideForm?>">
 							<div class="row">												
@@ -71,31 +64,25 @@
 									<div class="form-group no-margin-hr">
 										<div class="radio" style="margin-top: 0;">
 											<label>
-												<input type="radio" name="resulImp" id="" value="1" class="px">
+												<input type="radio" name="resulImp2" id="" value="1" class="px">
 												<span class="lbl"><?php echo utf8_encode('Proceso realizado con éxito!')?></span>
 											</label>
 										</div>
 										<div class="radio" style="margin-top: 0;">
 											<label>
-												<input type="radio" name="resulImp" id="" value="2" class="px">
+												<input type="radio" name="resulImp2" id="" value="2" class="px">
 												<span class="lbl"><?php echo utf8_encode('Durante la impresión, se dañó la planilla')?></span>
 											</label>
 										</div>
 										<div class="radio" style="margin-top: 0;">
 											<label>
-												<input type="radio" name="resulImp" id="" value="3" class="px">
-												<span class="lbl"><?php echo utf8_encode('Impresión sin problemas, pero hay error en datos')?></span>
-											</label>
-										</div>										
-										<div class="radio" style="margin-top: 0;">
-											<label>
-												<input type="radio" name="resulImp" id="" value="4" class="px">
+												<input type="radio" name="resulImp2" id="" value="3" class="px">
 												<span class="lbl"><?php echo utf8_encode('Se envió la solicitud de impresión, pero la impresora nunca imprimió')?></span>
 											</label>
 										</div>
 										<div class="radio" style="margin-top: 0;">
 											<label>
-												<input type="radio" name="resulImp" id="" value="5" class="px">
+												<input type="radio" name="resulImp2" id="" value="4" class="px">
 												<span class="lbl"><?php echo utf8_encode('Cancelé la impresion sin intención')?></span>
 											</label>
 										</div>

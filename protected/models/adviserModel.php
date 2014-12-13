@@ -83,6 +83,24 @@
 			return $result;
 		}
 		
+		public function getFactura() {
+			$this->_query = 'SELECT id,codigo FROM facturas WHERE statusFormat_id =  "1" AND agencias_id = "'.Session::get('idAgencia').'" LIMIT 0 , 1';
+			$data = $this->_db->query($this->_query);
+				
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+				
+			return $result;
+		}
+		
 		public function saveContract($dataContract) {
 			
 			$data = $dataContract;
@@ -99,7 +117,9 @@
 			Session::set('assignedFormat', $planilla[0]['codigo']);
 			$contrato[':planillas_id'] = $planilla[0]['id']; 
 			
-			$tipoPago = $contrato[':tipoPago']; //convertirla a variable se session para la impresion de factura
+			Session::set('tipoPago', $contrato[':tipoPago']);
+			
+			//$tipoPago = $contrato[':tipoPago']; //convertirla a variable se session para la impresion de factura
 			unset($contrato[':tipoPago']);
 			
 			$this->_db->beginTransaction();
@@ -230,6 +250,345 @@
 			}
 		}
 		
+		public function updateContract($dataContract) {
+			
+			$data = $dataContract;
+			Session::destroy('data');
+			Session::set('data', $dataContract);
+		
+			$titular 	= array_shift($data);
+			$telefonos 	= array_shift($data);
+			$correos 	= array_shift($data);
+			$contrato 	= array_shift($data);
+			$planilla = $this->getPlanilla();
+			//App::varDump($dataContract);
+			//exit();
+			Session::destroy('assignedFormat');
+			
+			Session::set('assignedFormat', $planilla[0]['codigo']);
+			$contrato[':planillas_id'] = $planilla[0]['id'];
+				
+			$tipoPago = $contrato[':tipoPago']; //convertirla a variable se session para la impresion de factura
+			unset($contrato[':tipoPago']);
+				
+			$this->_db->beginTransaction();
+				
+			try {
+		
+				// tabla titular =========================================
+					
+				$this->_query = '
+					UPDATE 
+						titulares 
+					SET 
+						dni				=	:dni,
+						nombres			=	:nombres,
+						apellidos		=	:apellidos,
+						direccion		=	:direccion,
+						tipoPersona_id	=	:tipoPersona_id,
+						parroquia_id	=	:parroquia_id 
+					WHERE 
+						titulares.id ='.Session::get('lastTitular');
+		
+				$result = $this->_db->prepare($this->_query);
+				foreach( $titular as $key => $value){
+					$result->bindValue($key, $value, PDO::PARAM_STR);
+				}
+				$result->execute();
+				$lastTitular = Session::get('lastTitular');
+				// end tabla personas ==========================================
+					
+				// tabla contratos ==========================================
+				$contrato[':titulares_id'] = $lastTitular;
+		
+				//print_r($contrato);
+				//exit();
+		
+				$this->_query = '
+					INSERT INTO
+						contratos(
+							modelo_id,			tipoTrans_id,
+							anio,				color,
+							placa,				serial_c,
+							serial_m,			precio_id,
+							usoVehiculo_id,		peso,
+							fecha_exp,			hora_exp,
+							fecha_ven,			hora_ven,
+							statusCont_id,		planillas_id,
+							titulares_id
+						) VALUES (
+							:modelo_id,			:tipoTrans_id,
+							:anio,				:color,
+							:placa,				:serial_c,
+							:serial_m,			:precio_id,
+							:usoVehiculo_id,	:peso,
+							:fecha_exp,			:hora_exp,
+							:fecha_ven,			:hora_ven,
+							:statusCont_id,		:planillas_id,
+							:titulares_id
+					)';
+		
+				$result = $this->_db->prepare($this->_query);
+				foreach( $contrato as $key => $value){
+					$result->bindValue($key, $value, PDO::PARAM_STR);
+				}
+				$result->execute();
+				$lastContrato = $this->_db->lastInsertId('contratos');
+					
+				// end tabla contratos ==========================================
+				
+				// Delete Telf ==========================================
+				$this->_query = '
+						DELETE FROM 
+							telefonos 
+						WHERE 
+							titulares_id ='.$lastTitular;
+					
+				$this->_db->prepare($this->_query)->execute();
+				
+				// Delete Telf ==========================================
+				
+				// tabla telefonos array =======================================
+				$this->_query = '
+					INSERT INTO
+						telefonos(
+							tipoTelf_id, 	numTelf, 	titulares_id
+						) VALUES (
+							:tipoTelf_id, 	:numTelf, 	:titulares_id
+					)';
+		
+				$result = $this->_db->prepare($this->_query);
+		
+				$i = 1;
+				while ($i < count($telefonos)):
+					$result->bindValue(':tipoTelf_id', 	$telefonos[$i], 	PDO::PARAM_INT);
+					$result->bindValue(':numTelf', 		$telefonos[$i+1], 	PDO::PARAM_STR);
+					$result->bindValue(':titulares_id', $lastTitular, 		PDO::PARAM_INT);
+					$result->execute();
+					$i++;
+					$i++;
+				endwhile;
+		
+				// end tabla telefonos array =======================================
+				
+				// Delete Telf ==========================================
+				$this->_query = '
+						DELETE FROM 
+							correos 
+						WHERE 
+							titulares_id ='.$lastTitular;
+					
+				$this->_db->prepare($this->_query)->execute();
+				
+				// Delete Telf ==========================================
+				
+				// tabla correos array =======================================
+				$this->_query = '
+					INSERT INTO
+						correos(
+							correo, 	titulares_id
+						) VALUES (
+							:correo, 	:titulares_id
+					)';
+		
+				$result = $this->_db->prepare($this->_query);
+		
+		
+				for ($i = 0; $i < count($correos); $i++) {
+					$result->bindValue(':correo', 		$correos[$i], PDO::PARAM_STR);
+					$result->bindValue(':titulares_id', $lastTitular, PDO::PARAM_INT);
+					$result->execute();
+				}
+				// tabla correos array =======================================
+					
+				//cambio de estatus planilla =======================================
+					
+				$this->_query = 'UPDATE planillas SET statusFormat_id = "2" WHERE id = '.$planilla[0]['id'];
+				$this->_db->prepare($this->_query)->execute();
+		
+				//cambio de estatus planilla =======================================
+				
+				$this->_query = '
+					UPDATE
+						contratos
+					SET
+						statusCont_id = 4
+					WHERE
+						contratos.id ='.Session::get('lastContrato');
+				$this->_db->prepare($this->_query)->execute();
+				
+				//$this->updateStatusContrato('4',Session::get('lastContrato'));
+				Session::destroy('lastContrato');
+				Session::set('lastTitular', $lastTitular);
+				Session::set('lastContrato', $lastContrato);
+		
+		
+				$this->_db->commit();
+				return true;
+		
+			} catch (PDOException $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		}
+		
+		public function updateContract2($dataContract) {
+			
+			//App::varDump($dataContract);
+			//exit();
+			$data = $dataContract;
+			Session::destroy('data');
+			Session::set('data', $dataContract);
+		
+			$titular 	= array_shift($data);
+			$telefonos 	= array_shift($data);
+			$correos 	= array_shift($data);
+			$contrato 	= array_shift($data);
+			
+			Session::set('tipoPago', $contrato[':tipoPago']);
+			
+			//$tipoPago = $contrato[':tipoPago']; //convertirla a variable se session para la impresion de factura
+			unset($contrato[':tipoPago']);
+			unset($contrato[':statusCont_id']);
+			
+			//App::varDump($contrato);
+			
+			$this->_db->beginTransaction();
+		
+			try {
+		
+				// tabla titular =========================================
+					
+				$this->_query = '
+					UPDATE
+						titulares
+					SET
+						dni				=	:dni,
+						nombres			=	:nombres,
+						apellidos		=	:apellidos,
+						direccion		=	:direccion,
+						tipoPersona_id	=	:tipoPersona_id,
+						parroquia_id	=	:parroquia_id
+					WHERE
+						titulares.id ='.Session::get('lastTitular');
+		
+				$result = $this->_db->prepare($this->_query);
+				foreach( $titular as $key => $value){
+					$result->bindValue($key, $value, PDO::PARAM_STR);
+				}
+				$result->execute();
+				$lastTitular = Session::get('lastTitular');
+				// end tabla personas ==========================================
+					
+				// tabla contratos ==========================================
+						
+				//print_r($contrato);
+				//exit();
+				
+				$this->_query = '
+					UPDATE 
+						contratos 
+					SET 
+						modelo_id 			= 	:modelo_id,
+						tipoTrans_id		=	:tipoTrans_id,
+						anio 				= 	:anio,
+						color 				= 	:color,
+						placa 				=	:placa,
+						serial_c 			= 	:serial_c,
+						serial_m 			= 	:serial_m,
+						precio_id 			= 	:precio_id,
+						usoVehiculo_id 		= 	:usoVehiculo_id,
+						peso 				= 	:peso,
+						fecha_exp 			= 	:fecha_exp,
+						hora_exp 			= 	:hora_exp,
+						fecha_ven 			= 	:fecha_ven,
+						hora_ven 			= 	:hora_ven
+					WHERE
+						contratos.id ='.Session::get('lastContrato');
+		
+				$result = $this->_db->prepare($this->_query);
+				foreach( $contrato as $key => $value){
+					$result->bindValue($key, $value, PDO::PARAM_STR);
+				}
+				$result->execute();
+					
+				// end tabla contratos ==========================================
+		
+				// Delete Telf ==========================================
+				$this->_query = '
+						DELETE FROM
+							telefonos
+						WHERE
+							titulares_id ='.$lastTitular;
+					
+				$this->_db->prepare($this->_query)->execute();
+		
+				// Delete Telf ==========================================
+		
+				// tabla telefonos array =======================================
+				$this->_query = '
+					INSERT INTO
+						telefonos(
+							tipoTelf_id, 	numTelf, 	titulares_id
+						) VALUES (
+							:tipoTelf_id, 	:numTelf, 	:titulares_id
+					)';
+		
+				$result = $this->_db->prepare($this->_query);
+		
+				$i = 1;
+				while ($i < count($telefonos)):
+					$result->bindValue(':tipoTelf_id', 	$telefonos[$i], 	PDO::PARAM_INT);
+					$result->bindValue(':numTelf', 		$telefonos[$i+1], 	PDO::PARAM_STR);
+					$result->bindValue(':titulares_id', $lastTitular, 		PDO::PARAM_INT);
+					$result->execute();
+					$i++;
+					$i++;
+				endwhile;
+		
+				// end tabla telefonos array =======================================
+		
+				// Delete Correos ==========================================
+				$this->_query = '
+						DELETE FROM
+							correos
+						WHERE
+							titulares_id ='.$lastTitular;
+					
+				$this->_db->prepare($this->_query)->execute();
+		
+				// Delete Correos ==========================================
+		
+				// tabla correos array =======================================
+				$this->_query = '
+					INSERT INTO
+						correos(
+							correo, 	titulares_id
+						) VALUES (
+							:correo, 	:titulares_id
+					)';
+		
+				$result = $this->_db->prepare($this->_query);
+		
+		
+				for ($i = 0; $i < count($correos); $i++) {
+					$result->bindValue(':correo', 		$correos[$i], PDO::PARAM_STR);
+					$result->bindValue(':titulares_id', $lastTitular, PDO::PARAM_INT);
+					$result->execute();
+				}
+				// tabla correos array =======================================
+						
+				$this->_db->commit();
+				return true;
+		
+			} catch (PDOException $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		}
+		
 		public function onlyContract($contrato) {
 
 			Session::destroy('assignedFormat');
@@ -307,7 +666,8 @@
 			}
 		}
 		
-		public function getContrato($id) {
+		public function getContrato($id, $st = '1') {
+			
 			
 			$this->_query = '
 				SELECT
@@ -347,7 +707,7 @@
 					INNER JOIN marca ON modelo.marca_id = marca.id
 					INNER JOIN concepto ON concepto.cobertura_id = cobertura.id
 				WHERE
-					statusCont_id = 1
+					statusCont_id = '.$st.'
 				AND
 					titulares.id = '.$id;
 			
@@ -371,12 +731,9 @@
 			
 			$this->_query = '
 				SELECT
-					telefonos.numTelf,
-					tipotelf.tipoTelf
+					telefonos.numTelf
 				FROM
 					telefonos
-				INNER JOIN 
-					tipotelf ON telefonos.tipoTelf_id = tipotelf.id
 				WHERE 
 					titulares_id ='.$id;
 			
@@ -396,7 +753,7 @@
 			$telf = '';
 			
 			for ($i = 0; $i < count($result); $i++) {
-				$telf .= $result[$i]['numTelf'].' ';
+				$telf .= $result[$i]['numTelf'].'&nbsp;&nbsp;&nbsp;&nbsp;';
 			}
 			
 			return $telf;
@@ -474,7 +831,7 @@
 			}
 			
 			$hora = App::format12Hours($result[0]['hora']);
-			return $hora;;
+			return $hora;
 		
 		}
 		
@@ -500,6 +857,63 @@
 			}
 		
 		}
+		
+		public function formaPago($id) {
+			$this->_query = '
+				SELECT tipoPago FROM tipopago WHERE id ='.$id;
+				
+			$data = $this->_db->query($this->_query);
+				
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+			
+			if (count($result) > 0) {
+				$tp = $result[0]['tipoPago'];
+			}else {
+				$tp = '<i>Tipo de pago no definido</i>';
+			}
+				
+			return $tp;
+		}
+		
+		public function insertFat($data, $id) {
+			
+			$this->_db->beginTransaction();
+			
+			try {
+				$this->_query ='
+					INSERT INTO
+						factemitidas(
+							fecah_em, 		facturas_id,
+							contratos_id, 	tipoPago_id
+					) VALUES (
+							:fecah_em, 		:facturas_id,
+							:contratos_id, 	:tipoPago_id
+				)';
+				$this->_db->prepare($this->_query)->execute($data);
+				
+				
+				$this->_query = 'UPDATE facturas SET statusFormat_id = "2" WHERE id = '.$id;
+				$this->_db->prepare($this->_query)->execute();
+				
+				
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		}
+		
 		
 	}
 ?>

@@ -592,11 +592,6 @@ $(document).ready(function() {
 			cobertura:			"required",
 			uso:				"required",
 			carga:				"required",
-			peso:{
-				required: 		true,
-				digits: 		true,
-			},
-			usoVehiculo_id:		"required",
 		},
 		messages: {
 			tipoPersona_id:		"Selección requerida",
@@ -642,43 +637,30 @@ $(document).ready(function() {
 			},
 			claseVehiculo:		"Selección requerida",
 			tipoVehiculo:		"Selección requerida",
-			numPuesto:			"Selección requerida",//peso
+			numPuesto:			"Selección requerida",//
 			tipoPago:			"Selección requerida",
 			cobertura:			"Selección requerida",
 			uso:				"Selección requerida",
 			carga:				"Selección requerida",
-			peso:{
-				required: 		"Campo requerido",
-				digits: 		"Introduzca un serial válido.",
-			},
-			usoVehiculo_id:		"Selección requerida",
 		},
 		submitHandler: function() {
 			//$(location).attr('href', myForm.attr('action'));
 			//location.reload();
-			bootbox.confirm(
-					'<div class="alert alert-dark bootbox-text">'+
-						'<h4><strong><i class="fa fa-exclamation-triangle"></i> ¡Precaución!</strong> ¿La información Cargada es la correcta?.</h4>'+
-					'</div>',
-				function(result) {
-				if (result == true) {
-					$.ajax({
-			            url:	myForm.attr('action'),
-			            type:	myForm.attr('method'),
-			            data:	myForm.serialize(),
-			            success: function(response) {
-			                //console.log(response);
-			                if (response == true) {
-			                	$(location).attr('href', BASE_URL+'adviser/procesoImp');
-							}else {
-								alert(response);
-							}
-			            }            
-			        });
-				}
-			}); 
+
 			
-			
+			$.ajax({
+	            url:	myForm.attr('action'),
+	            type:	myForm.attr('method'),
+	            data:	myForm.serialize(),
+	            success: function(response) {
+	                //console.log(response);
+	                if (response == true) {
+	                	$(location).attr('href', BASE_URL+'adviser/procesoImp');
+					}else {
+						alert(response);
+					}
+	            }            
+	        });
         },
 		success: function(element) {
 			element.remove();
