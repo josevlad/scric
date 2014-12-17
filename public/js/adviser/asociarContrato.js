@@ -201,26 +201,6 @@ $(document).ready(function() {
 	// Load Select for Data Base =======================================================================================
 	
 	loadSelect({
-		selector:	'#tipoPersona_id', 
-		url:		BASE_URL + "select/loadSelect"
-	});
-
-	loadSelect({
-		selector:	'#estado', 
-		url:		BASE_URL + "select/loadSelect"
-	});
-	
-	loadSelect({
-		selector:	'#tipo_1', 
-		url:		BASE_URL + "select/loadSelect"
-	});
-	
-	loadSelect({
-		selector:	'#tipoTelf', 
-		url:		BASE_URL + "select/loadSelect"
-	});
-	
-	loadSelect({
 		selector:	'#marca', 
 		url:		BASE_URL + "select/loadSelect"
 	});
@@ -242,23 +222,6 @@ $(document).ready(function() {
 	
 	//==================================================
 	
-	selectDependent({
-		origin:		'#estado',
-		selector:	'#municipio', 
-		url:		BASE_URL + "select/loadSelectDepent"
-	});
-	
-	$('#estado').change(function () {
-		$('#parroquia_id').empty();
-		$('#parroquia_id').append('<option value="">Seleccione...</option>');
-	});
-	
-	selectDependent({
-		origin:		'#municipio',
-		selector:	'#parroquia_id', 
-		url:		BASE_URL + "select/loadSelectDepent"
-	});
-
 	selectDependent({
 		origin:		'#marca',
 		selector:	'#modelo_id', 
@@ -370,156 +333,9 @@ $(document).ready(function() {
 		
 // datepicker 
 	
-// maskedinput 
-	// =============================================== dni ===========================================
-	var select1 = $('#tipoPersona_id');
-	$('#dni').attr('disabled', true);
-	$('#dni').attr('placeholder', 'Seleccione el Tipo de Persona');
-	
-	select1.change(function () {
-		$('#dni').val('');
-		
-		if ($(this).val() == '1') {
-			$('#dni').attr('disabled', false);
-			$('#dni').attr('placeholder', 'V - 00.000.000');			
-		}else if ($(this).val() == '2') {
-			$('#dni').attr('disabled', false);
-			$('#dni').attr('placeholder', 'J - 00000000 - 0');
-		}else if ($(this).val() == '3') {
-			$('#dni').attr('disabled', false);
-			$('#dni').attr('placeholder', 'G - 00000000 - 0');
-		}else {
-			$('#dni').attr('disabled', true);
-			$('#dni').attr('placeholder', 'Seleccione el Tipo de Persona');
-		}
-	
-	})
-	
-	$(document).on("focus", "#dni", function() { 
-		
-		if (select1.val() == '1') {
-			$.mask.definitions['~']='[VEve]';
-			$(this).mask("~ - 99.999.999");
-		}else if (select1.val() == '2') {
-			$.mask.definitions['~']='[Jj]';
-			$(this).mask("~ - 99999999 - 9");
-		}else if (select1.val() == '3') {
-			$.mask.definitions['~']='[Gg]';
-			$(this).mask("~ - 99999999 - 9");
-		}else{
-			$(this).di
-		}
-		
-	});
-	
-	// =============================================== Phone ===========================================
-	
-	$(document).on("focus", ".phone", function() { 
-		$(this).mask("(9999) 999-99-99");
-	});
-	
-	// =============================================== dni ===========================================
-	
-// End maskedinput 
-	
-// Section of Content dinamic 	
-	
-	// Cant Max Content Dinamic  ============================================================================
-	var a = $("#init div").length + 1;
-	var b = $("#init div").length + 1;
-		
-	var maxPhones       = 1;	
-	var addPhone        = $("#addPhone");	
-	$('#phones div#clone').hide();
-	
-	$(addPhone).click(function(e){
-		if(a <= maxPhones){
-			
-			var clone = $('#phones div#clone').clone(true);
-			
-			clone.attr('id','parent');
-			
-			$('#aux').attr('value', (a+1) );
-		    $('.tp_phone',clone).attr('id','tipo_'+(a+1));
-		    $('.tp_phone',clone).attr('name','tipo_'+(a+1));
 
-		    $('.num_phone',clone).attr('id','telf_'+(a+1));
-		    $('.num_phone',clone).attr('name','telf_'+(a+1));
-		    
-		    $(clone).appendTo('#phones').show('1500');
-		    
-			$('.tp_phone',clone).rules('add',{
-				required:true,
-				messages:{
-					required:"Selección requerida"
-				}
-			});
-		    
-			$('.num_phone',clone).rules('add',{
-				required:true,
-				messages:{
-					required:"Campo requerido"
-				}
-			});
-			
-			a++;
-		}
-		return false
-	});
 	
-	var MaxMeil      	= 1;	
-	var addMail        	= $("#addMail");	
-	$('#mail div#clone2').hide();
-	
-	$(addMail).click(function(e){
-		if(b <= MaxMeil){
-			
-			var clone = $('#mail div#clone2').clone(true);
-			
-			clone.attr('id','parent');
-			
-			$('#aux2').attr('value', b );
-		    $('.email',clone).attr('name','mail_'+b);
-		    
-		    $(clone).appendTo('#mail').show('1500');
-		    
-			$('.email',clone).rules('add',{
-				required: true,
-			    email: true,				
-				messages:{
-					required:"Campo requerido",
-					email: "Formato invalido",
-				}
-			});
-		    
-			b++;
-		}
-		return false
-	});
-	
-	// Remove Select and Input Dinamic all ===================================================================
-	
-	$("body").on("click",".delete", function(e){
-		
-		if( a > 1 ) {
-			$(this).parent('div').hide("1500", function(){ $(this).remove(); });
-			$('#aux').attr('value', $('#aux').attr('value')-1 );
-			a--;
-		}
-			
-		return false;
-	});
-	
-	$("body").on("click",".delete2", function(e){
-		
-		if( b > 1 ) {
-			$(this).parent('div').hide("1500", function(){ $(this).remove(); });
-			$('#aux2').attr('value', $('#aux2').attr('value')-1 );
-			b--;
-		}
-			
-		return false;
-	});
+
 	
 	// Remove Select and Input Dinamic all ===================================================================
 	
@@ -556,7 +372,7 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var myForm = $('#adviser_contratos');
+	var myForm = $('#adviser_asociarContrato');
 	
 	$.validator.setDefaults({
 		errorClass: 'form_error',
@@ -603,29 +419,6 @@ $(document).ready(function() {
 	
 	myForm.validate({
 		rules:{
-			tipoPersona_id:		"required",			
-			dni:{
-				required: 		true,
-				//remote: 		BASE_URL + "partners/remoteQuery", 
-			},
-			nombres:{
-				required: 		true,
-				minlength: 		2,
-				maxlength: 		30,
-				lettersonly: 	true,
-			},
-			apellidos:{
-				required: 		true,
-				minlength: 		2,
-				maxlength: 		30,
-				lettersonly: 	true,				
-			},
-			estado:				"required",
-			municipio:			"required",
-			parroquia_id:		"required",
-			direccion:			"required",
-			tipo_1:			"required",
-			num_Telf:			"required",
 			marca:				"required",
 			modelo_id:			"required",
 			tipoTrans_id:		"required",
@@ -637,14 +430,17 @@ $(document).ready(function() {
 			placa:{
 				required: 		true,
 				serial: 		true,
+				remote:			BASE_URL + 'select/remote'
 			},
 			serial_c:{
 				required: 		true, 
 				serial: 		true,
+				remote:			BASE_URL + 'select/remote'
 			},
 			serial_m:{
 				required: 		true,
 				serial: 		true,
+				remote:			BASE_URL + 'select/remote'
 			},
 			claseVehiculo:		"required",
 			tipoVehiculo:		"required",
@@ -659,31 +455,7 @@ $(document).ready(function() {
 			},
 			usoVehiculo_id:		"required",
 		},
-		messages: {
-			tipoPersona_id:		"Selección requerida",
-			dni:{
-				required: 		"Campo requerido",
-				number: 		"Introduzca un número válido.",
-				remote: 		"Cédula ya está registrada.",
-			},
-			nombres:{
-				required: 		"Campo requerido",
-				minlength: 		"Mínimo 2 carácteres",
-				maxlength: 		"Máximo 30 carácteres",
-				lettersonly: 	"Introduzca caracteres válidos.",
-			},
-			apellidos:{
-				required:		"Campo requerido",
-				minlength: 		"Mínimo 2 carácteres",
-				maxlength: 		"Máximo 30 carácteres",
-				lettersonly: 	"Introduzca caracteres válidos.",
-			},
-			estado:				"Selección requerida",
-			municipio:			"Selección requerida",
-			parroquia_id:		"Selección requerida",
-			direccion: 			"Campo requerido",
-			tipo_1:				"Selección requerida",
-			num_Telf:			"Campo requerido",
+		messages: {			
 			marca:				"Selección requerida",
 			modelo_id:			"Selección requerida",
 			tipoTrans_id:		"Selección requerida",
@@ -695,14 +467,17 @@ $(document).ready(function() {
 			placa:{
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
+				remote:			"Placa asociada a un contrato"
 			},
 			serial_c:{
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
+				remote:			"Serial asociada a un contrato"
 			},
 			serial_m:{
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
+				remote:			"Serial asociada a un contrato"
 			},
 			claseVehiculo:		"Selección requerida",
 			tipoVehiculo:		"Selección requerida",
@@ -731,12 +506,7 @@ $(document).ready(function() {
 			            type:	myForm.attr('method'),
 			            data:	myForm.serialize(),
 			            success: function(response) {
-			                //console.log(response);
-			                if (response == true) {
-			                	$(location).attr('href', BASE_URL+'adviser/procesoImp');
-							}else {
-								alert(response);
-							}
+			                $(location).attr('href', BASE_URL+'adviser/procesoImp2');
 			            }            
 			        });
 				}

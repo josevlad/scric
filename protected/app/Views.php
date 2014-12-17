@@ -14,20 +14,6 @@
 	
 		public function render($view, $menu = FALSE, $layout = FALSE) {
 			
-			$top_menu = array(
-				array(
-					'id'	=>'index',
-					'title'	=>'INICIO',
-					'link'	=> BASE_URL . 'index'					
-				),
-				array(
-					'id'	=>'persons',
-					'title'	=>'PERSONAS',
-					'link'	=> BASE_URL . 'persons'
-				)
-					
-			);
-
 			$js 	= array();
 			$css 	= array();
 			
@@ -40,8 +26,7 @@
 			}
 				
 			$_view_params = array(
-				'top_menu'=> $top_menu,
-				//'sidebar_menu' => $sidebar_menu,
+				'menu' => $menu,
 				'js' => $js,
 				'css' => $css,
 					

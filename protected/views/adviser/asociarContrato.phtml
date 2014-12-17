@@ -7,7 +7,7 @@
 			<div id="countPlanillas" numP=<?php echo $this->countPlanillas; ?>></div>
 			<div id="countFacturas"  numF=<?php echo $this->countFacturas;?>></div>
 			
-			<form id="adviser_contratos" action="<?php echo BASE_URL.'adviser/contratos'; ?>" method="post" class="form-horizontal">
+			<form id="adviser_asociarContrato" action="<?php echo BASE_URL.'adviser/asociarContrato'; ?>" method="post" class="form-horizontal">
 
 <!-- ================================== PANEL ================================== -->
 						
@@ -17,225 +17,35 @@
 					</div>
 				
 					<div class="panel-body">
-						<!-- ------------------------------------------------------------------------------------------- -->
-						<div class="row">
-							
-							<div id="sectionAjax">
-								
-							</div>
-								
-							<div class="col-sm-3">
-								<div class="form-group no-margin-hr">
-									<label ><?php echo utf8_encode('Tipo de Persona'); ?></label>
-									<select 
-										class="form-control"
-										id="tipoPersona_id" 
-										name="tipoPersona_id"
-										table="tipoPersona"
-									></select>
-								</div>
-							</div><!-- col-sm-6 -->
-							
-							<div class="col-sm-3">
-								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Documeto de Identidad'); ?></label>
-									<input 
-										type="text" 
-										class="form-control"
-										id="dni" 
-										name="dni"
-									>
-								</div>
-							</div>						
-							
-							<div class="col-sm-3">
-								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Nombres <samp class="small">(completo)</samp>'); ?></label>
-									<input 
-										type="text"
-										class="form-control"
-										id="nombres" 
-										name="nombres"
-									>
-								</div>
-							</div>
-													
-							<div class="col-sm-3">
-								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Apellidos <samp class="small">(completo)</samp>'); ?></label>
-									<input 
-										type="text"
-										class="form-control"
-										id="apellidos" 
-										name="apellidos"
-									>
-								</div>
-							</div>
-							
-						</div>
-						<!-- ------------------------------------------------------------------------------------------- -->
-						
-						<div class="row">
-						
-							<div class="col-sm-4">
-								<div class="form-group no-margin-hr">
-									<label ><?php echo utf8_encode('Estado'); ?></label>
-									<select 
-										class="form-control"
-										id="estado" 
-										name="estado"
-										table="estado"
-									></select>
-								</div>
-							</div><!-- col-sm-6 -->
-							
-							<div class="col-sm-4">
-								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Municipio'); ?></label>
-									<select 
-										class="form-control"
-										id="municipio" 
-										name="municipio"
-										table="municipio"
-									></select>
-								</div>
-							</div>
-							
-							<div class="col-sm-4">
-								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Parroquia'); ?></label>
-									<select 
-										class="form-control"
-										id="parroquia_id" 
-										name="parroquia_id"
-										table="parroquia"
-									></select>
-								</div>
-							</div>
-							
-						</div>
-						<!-- ------------------------------------------------------------------------------------------- -->
-						
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Dirección'); ?></label>
-									<input 
-										type="text"
-										class="form-control"
-										id="direccion" 
-										name="direccion"
-									>
-								</div>
-							</div>
-						</div>
-						<!-- ------------------------------------------------------------------------------------------- -->
-						<input type="hidden" class="aux" name="aux" id="aux" value="1">
-						<div class="row">
-						
-							<div class="col-sm-4">
-								<div class="form-group no-margin-hr">
-									<label ><?php echo utf8_encode('Tipo de Teléfono')?></label>
-									<select 
-										class="form-control"
-										id="tipo_1" 
-										name="tipo_1"
-										table="tipoTelf"
-									></select>
-								</div>
-							</div><!-- col-sm-6 -->
-							
-							<div class="col-sm-4">
-								<div class="form-group no-margin-hr">
-									<label><?php echo utf8_encode('Número de Teléfono'); ?></label>
-									<input 
-										type="text"
-										class="form-control phone"
-										id="telf_1" 
-										name="telf_1"
-									>
-								</div>
-							</div>
-							
-							<div class="col-sm-4">
-								<div class="form-group no-margin-hr" style="padding-top: 23px;">
-									
-									<div class="btn btn-success" id="addPhone">
-										<i class="fa fa-phone"></i>
-										Agregar Telf.
+						<?php //App::varDump($this->data); ?>
+						<div class="col-md-12">
+
+								<div class="panel panel-success panel-dark widget-profile">
+									<div class="panel-heading">
+										<div class="widget-profile-bg-icon"><i class="fa fa-user"></i></div>
+										<div class="widget-profile-header">
+											<h5><span><?php echo $this->data['nombres'].', '.$this->data['apellidos'];?></span></h5>
+										</div>
 									</div>
-									<div class="btn btn-success" id="addMail">
-										<i class="fa fa-phone"></i>
-										Agregar E-mail
+									<div class="list-group">
+										<div class="list-group-item">
+											<i class="fa fa-credit-card list-group-icon"></i>
+											RIF/CI: <strong><?php echo $this->data['dni']?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-user list-group-icon"></i>
+												Tipo de Persona: <strong><?php echo $this->data['tipoPersona']?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-map-marker list-group-icon"></i>
+											<?php echo utf8_encode('Dirección: ')?> <strong><?php echo $this->data['direccion'].', '.$this->data['parroquia'].', '.$this->data['municipio'].', '.$this->data['estado'];?></strong>
+										</div>
+										
 									</div>
-								</div>
+								</div> 
+
+				
 							</div>
-							
-						</div>
-						<!-- ------------------------------------------------------------------------------------------- -->
-						
-						<div id="phones">
-						
-							<div class="row" id="clone">
-							
-								
-								<div class="col-sm-4">
-									<div class="form-group no-margin-hr">
-										<label ><?php echo utf8_encode('Tipo de Teléfono')?></label>
-										<select 
-											class="form-control tp_phone"
-											id="tipoTelf" 
-											name=""
-											table="tipoTelf"
-										></select>
-									</div>
-								</div>
-								
-								<div class="col-sm-4">
-									<div class="form-group no-margin-hr">
-										<label><?php echo utf8_encode('Número de Teléfono'); ?></label>
-										<input 
-											type="text"
-											class="form-control num_phone phone"
-											id="" 
-											name=""
-										>
-									</div>
-								</div>
-								
-								<div class="btn btn-success delete" style="margin: 23px 12px;" >
-									<i class="fa fa-remove"></i>
-								</div>
-								
-							</div>
-						</div>
-						<!-- ------------------------------------------------------------------------------------------- -->
-						
-						<input type="hidden" class="aux2" name="aux2" id="aux2" value="0">
-						<div id="mail">
-						
-							<div class="row" id="clone2">
-							
-								<div class="col-sm-8">
-									
-									<div class="form-group no-margin-hr">
-										<label><?php echo utf8_encode('Correo Eléctronico'); ?></label>
-										<input 
-											type="text"
-											class="form-control email"
-											id="" 
-											name=""
-										>
-									</div>
-								</div>
-								
-								<div class="btn btn-success delete2" style="margin: 23px 12px;" >
-									<i class="fa fa-remove"></i>
-								</div>
-								
-							</div>
-						</div>
-						<!-- ------------------------------------------------------------------------------------------- -->
 						
 					</div>
 				
@@ -245,7 +55,7 @@
 								
 				<div class="panel">
 					<div class="panel-heading">
-						<span class="panel-title"><?php echo utf8_encode('Carácteristicas del Vehículo')?></span>
+						<span class="panel-title"><?php echo utf8_encode('Carácteristicas del Vehículo a Asociar')?></span>
 					</div>
 					<div class="panel-body buttons-with-margins">
 						<!-- ------------------------------------------------------------------------------------------- -->

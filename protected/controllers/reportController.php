@@ -91,10 +91,10 @@
 		public function doPDF2($content, $pdf_name) {
 			//ob_start();
 			echo '
-				<page backleft="0mm" backtop="37mm" backright="0mm" backbottom="0mm">'
+				<page backleft="0mm" backtop="32mm" backright="0mm" backbottom="0mm">'
 					.$this->header2()
 					.$this->footer2()
-					.$content.'<div style="margin:140px 0px"></div>'.$content.'
+					.$content.'<div style="margin:130px 0px"></div>'.$content.'
             	</page>
 			';
 		
@@ -109,14 +109,12 @@
 		public function facturaPdf() {
 				
 			$model 	= $this->loadModel('adviser');
-			$data 	= $model->getContrato(Session::get('lastTitular'), '2');
-			//$data 	= $model->getContrato('1');
+			$data 	= $model->getContrato(Session::get('lastContrato'), '2');			
 			$telf 	= $model->getTelefonos(Session::get('lastTitular'));
 			$correo = $model->getCorreos(Session::get('lastTitular'));
 			$fecha	= $model->getFecha();
 			$hora	= $model->getHora();
-			$dataS	= Session::get('data');
-			$fp 	= $model->formaPago($dataS[3][':tipoPago']); 
+			$fp 	= $model->formaPago(Session::get('tipoPago')); 
 		
 			//App::varDump($data);
 				
@@ -236,7 +234,7 @@
 		public function contratoPdf() {
 			
 			$model 	= $this->loadModel('adviser');
-			$data 	= $model->getContrato(Session::get('lastTitular'));
+			$data 	= $model->getContrato(Session::get('lastContrato'));
 			//$data 	= $model->getContrato('1');
 			$telf 	= $model->getTelefonos(Session::get('lastTitular'));			
 			$correo = $model->getCorreos(Session::get('lastTitular'));
@@ -442,6 +440,56 @@
 			';
 			
 			$this->doPDF($contrato, 'Contrato');
+			
+			
+		}
+		
+		public function carnetPdf() {
+			
+			$model 	= $this->loadModel('adviser');
+			$data 	= $model->getContrato(Session::get('lastContrato'));
+			//$data 	= $model->getContrato('1');
+			$telf 	= $model->getTelefonos(Session::get('lastTitular'));			
+			$correo = $model->getCorreos(Session::get('lastTitular'));
+			$fecha	= $model->getFecha();
+			$hora	= $model->getHora();
+			
+			$header= '
+			    <page_header>
+					<div style="height: 0%; width: 100%; border: 0px solid #ccc; margin: 0px 0px 0px 0px; padding: 0px 0px 0px 4px;">
+					</div>
+			    </page_header>
+		     ';
+			
+			$content ='
+				<div style="height: 99.8%; width: 100%; border: 0px solid #ccc; margin: 0px;">
+					
+					
+				</div>
+			';
+			
+			$footer = '
+				<page_footer>
+			        <div style="height: 0%; width: 100%; border: 0px solid #ccc; margin: 0px; font-size:12px;">
+					</div>
+			    </page_footer>
+			';
+			
+			//ob_start();
+			echo '
+				<page backleft="0mm" backtop="0mm" backright="0mm" backbottom="0mm">'
+					.$header
+					.$footer
+					.$content.'
+            	</page>
+			';
+			
+			$this->getLibrary('html2pdf/html2pdf.class');
+			$this->_pdf = new HTML2PDF(SHEET_ORIENTATION,'Letter',LANGUAJE_PDF,TRUE,CHARSET_PDF);
+			$this->_pdf->writeHTML(ob_get_clean());
+			
+			$this->_pdf->Output('carnet'.'.pdf'); // mostrar agregandole la extención .pdf
+			//$pdf->Output('ejemplo.pdf', 'D');  //forzar descarga
 			
 			
 		}

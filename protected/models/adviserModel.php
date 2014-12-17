@@ -83,6 +83,24 @@
 			return $result;
 		}
 		
+		public function getPlanillas() {
+			$this->_query = 'SELECT id,codigo FROM planillas WHERE statusFormat_id =  "1" AND agencias_id = "'.Session::get('idAgencia').'"';
+			$data = $this->_db->query($this->_query);
+				
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+				
+			return $result;
+		}
+		
 		public function getFactura() {
 			$this->_query = 'SELECT id,codigo FROM facturas WHERE statusFormat_id =  "1" AND agencias_id = "'.Session::get('idAgencia').'" LIMIT 0 , 1';
 			$data = $this->_db->query($this->_query);
@@ -98,6 +116,24 @@
 				exit();
 			}
 				
+			return $result;
+		}
+		
+		public function getFacturas() {
+			$this->_query = 'SELECT id,codigo FROM facturas WHERE statusFormat_id =  "1" AND agencias_id = "'.Session::get('idAgencia').'"';
+			$data = $this->_db->query($this->_query);
+		
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		
 			return $result;
 		}
 		
@@ -268,7 +304,7 @@
 			Session::set('assignedFormat', $planilla[0]['codigo']);
 			$contrato[':planillas_id'] = $planilla[0]['id'];
 				
-			$tipoPago = $contrato[':tipoPago']; //convertirla a variable se session para la impresion de factura
+			Session::set('tipoPago', $contrato[':tipoPago']);
 			unset($contrato[':tipoPago']);
 				
 			$this->_db->beginTransaction();
@@ -448,7 +484,7 @@
 			
 			Session::set('tipoPago', $contrato[':tipoPago']);
 			
-			//$tipoPago = $contrato[':tipoPago']; //convertirla a variable se session para la impresion de factura
+			Session::set('tipoPago', $contrato[':tipoPago']);
 			unset($contrato[':tipoPago']);
 			unset($contrato[':statusCont_id']);
 			
@@ -671,7 +707,7 @@
 			
 			$this->_query = '
 				SELECT
-					titulares.id,					titulares.dni,
+					titulares.dni,
 					titulares.nombres,				titulares.apellidos,
 					titulares.direccion,			numpuesto.numPuesto,
 					parroquia.parroquia,			municipio.municipio,
@@ -709,7 +745,7 @@
 				WHERE
 					statusCont_id = '.$st.'
 				AND
-					titulares.id = '.$id;
+					contratos.id = '.$id;
 			
 			$data = $this->_db->query($this->_query);
 				
@@ -912,6 +948,150 @@
 				echo "Error :: ".$e->getMessage();
 				exit();
 			}
+		}
+		
+		public function disableFat( $id ) {
+				
+			$this->_db->beginTransaction();
+				
+			try {
+				
+				$this->_query = 'UPDATE facturas SET statusFormat_id = "3" WHERE id = '.$id;
+				$this->_db->prepare($this->_query)->execute();
+		
+		
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		}
+		
+		public function getAjaxTitular($dni) {
+			$this->_query = '
+				SELECT * FROM titulares WHERE dni = "'.$dni.'"';
+				
+			$data = $this->_db->query($this->_query);
+		
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+				
+			return json_encode( $result );
+		}
+		
+		public function assocContract($contrato) {
+			
+			
+			
+			$planilla = $this->getPlanilla();
+			Session::set('assignedFormat', $planilla[0]['codigo']);
+			$contrato[':planillas_id'] = $planilla[0]['id'];
+			$contrato[':titulares_id'] = Session::get('lastTitular');
+			$this->_db->beginTransaction();
+				
+			try {
+		
+				// tabla contratos ==========================================
+		
+				$this->_query = '
+					INSERT INTO
+						contratos(
+							modelo_id,			tipoTrans_id,
+							anio,				color,
+							placa,				serial_c,
+							serial_m,			precio_id,
+							usoVehiculo_id,		peso,
+							fecha_exp,			hora_exp,
+							fecha_ven,			hora_ven,
+							statusCont_id,		planillas_id,
+							titulares_id
+						) VALUES (
+							:modelo_id,			:tipoTrans_id,
+							:anio,				:color,
+							:placa,				:serial_c,
+							:serial_m,			:precio_id,
+							:usoVehiculo_id,	:peso,
+							:fecha_exp,			:hora_exp,
+							:fecha_ven,			:hora_ven,
+							:statusCont_id,		:planillas_id,
+							:titulares_id
+					)';
+		
+				$result = $this->_db->prepare($this->_query);
+				foreach( $contrato as $key => $value){
+					$result->bindValue($key, $value, PDO::PARAM_STR);
+				}
+				$result->execute();
+				$lastContrato = $this->_db->lastInsertId('contratos');
+					
+				// end tabla contratos ==========================================
+					
+				//cambio de estatus planilla =======================================
+					
+				$this->_query = 'UPDATE planillas SET statusFormat_id = "2" WHERE id = '.$planilla[0]['id'];
+				$this->_db->prepare($this->_query)->execute();
+		
+				//cambio de estatus planilla =======================================
+				
+				Session::set('lastContrato', $lastContrato);
+				Session::set('print',true);
+		
+				$this->_db->commit();
+				return true;
+		
+			} catch (PDOException $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		}
+		
+		public function getTitular($id) {
+				
+			$this->_query = '
+				SELECT
+					titulares.id,
+					titulares.dni,
+					titulares.nombres,
+					titulares.apellidos,
+					titulares.direccion,
+					tipopersona.tipoPersona,
+					parroquia.parroquia,
+					municipio.municipio,
+					estado.estado
+				FROM
+					titulares
+					INNER JOIN tipopersona ON titulares.tipoPersona_id = tipopersona.id
+					INNER JOIN parroquia ON titulares.parroquia_id = parroquia.id
+					INNER JOIN municipio ON parroquia.municipio_id = municipio.id
+					INNER JOIN estado ON municipio.estado_id = estado.id
+				WHERE
+					titulares.id = '.$id;
+				
+			$data = $this->_db->query($this->_query);
+		
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+				
+			return array_shift( $result );
 		}
 		
 		

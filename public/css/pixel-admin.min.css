@@ -10016,7 +10016,7 @@ body:not(.right-to-left) .no-border-l {
 #menu-content-demo {
     white-space: nowrap!important;
     position: relative;
-    padding-left: 86px!important
+    padding-left: 15px!important
 }
 #menu-content-demo img {
     width: 54px;

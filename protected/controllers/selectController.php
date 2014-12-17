@@ -85,6 +85,37 @@
 			
 		}
 		
+		public function remote() {
+			
+			if (isset($_GET['placa'])) {
+				$result = $this->_select->getRemote($_GET['placa'],'placa');
+				if ( count($result) == true ) {
+					$valid = 'false'; //valor para activar el mensaje de error en validate jquery
+				}else{
+					$valid = 'true';
+				}
+				echo $valid;
+			}elseif (isset($_GET['serial_c'])) {
+				$result = $this->_select->getRemote($_GET['serial_c'],'serial_c');
+				if ( count($result) == true ) {
+					$valid = 'false'; //valor para activar el mensaje de error en validate jquery
+				}else{
+					$valid = 'true';
+				}
+				echo $valid;
+			}elseif (isset($_GET['serial_m'])) {
+				$result = $this->_select->getRemote($_GET['serial_m'],'serial_m');
+				if ( count($result) == true ) {
+					$valid = 'false'; //valor para activar el mensaje de error en validate jquery
+				}else{
+					$valid = 'true';
+				}
+				echo $valid;
+			}
+			
+			
+		}
+		
 	}
 
 ?>

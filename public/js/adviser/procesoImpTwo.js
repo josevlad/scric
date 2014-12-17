@@ -108,7 +108,7 @@ $(document).ready(function() {
 	var BASE_URL = getBaseUrl();
 	
 	var contratoPDF = new PDFObject({ 
-		url: BASE_URL+'report/facturaPdf',
+		url: BASE_URL+'report/contratoPdf',
 		id: "viewerPDF",
 		 width: "100%",
 		 height: "298px"
@@ -122,7 +122,7 @@ $(document).ready(function() {
 	$('#hideForm').hide();
 	
 	$('#viewerPDF').printPage({
-    	url: 		BASE_URL+'report/facturaPdf',
+    	url: 		BASE_URL+'report/contratoPdf',
 		attr: 		'href',
 		message:	'Espere mientras se crea el reporte'
     });
@@ -142,10 +142,11 @@ $(document).ready(function() {
 				);
 				
 				$('#printbtn').attr('disabled', true);
+				$('#editarContrac').attr('disabled', true);
 				$('#hideForm').delay(7000).show('slow');
 				
 				$('#viewerPDF').click().printPage({
-			    	url: 		BASE_URL+'report/facturaPdf',
+			    	url: 		BASE_URL+'report/contratoPdf',
 					attr: 		'href',
 					message:	'Espere mientras se crea el reporte'
 			    });
@@ -171,12 +172,12 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var myForm = $('#adviser_impFact');
+	var myForm = $('#adviser_procesoImp2');
 	
 	myForm.submit (function() { 
 
 		
-		var isChecked = jQuery("input[name=resulImp2]:checked").val();
+		var isChecked = jQuery("input[name=resulImp]:checked").val();
 	    var booleanVlaueIsChecked = false;
 	    
 	    if(isChecked){
@@ -193,15 +194,18 @@ $(document).ready(function() {
 			            data:	myForm.serialize(),
 						url:	myForm.attr('action'),
 				        async: 	false,
-			            success: function(res) {			            	
+			            success: function(res) {
+			            				            	
 			            	if (res == 1) {
-			            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
+			            		$(location).attr('href', BASE_URL + 'adviser/impFact');
 							}else if (res == 2) {
-								$(location).attr('href', BASE_URL + 'adviser/impFact');
+								$(location).attr('href', BASE_URL + 'adviser/procesoImp');
 							}else if (res == 3) {
-			            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+			            		$(location).attr('href', BASE_URL + 'adviser/');
 							}else if (res == 4) {
-			            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+			            		$(location).attr('href', BASE_URL + 'adviser/');
+							}else if (res == 5) {
+			            		$(location).attr('href', BASE_URL + 'adviser/');
 							}else{
 								alert(res);
 							}
@@ -227,13 +231,15 @@ $(document).ready(function() {
 					            success: function(res) {
 					            						            	
 					            	if (res == 1) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
+					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
 									}else if (res == 2) {
-										$(location).attr('href', BASE_URL + 'adviser/impFact');
+										$(location).attr('href', BASE_URL + 'adviser/procesoImp2');
 									}else if (res == 3) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp2');
 									}else if (res == 4) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+					            		$(location).attr('href', BASE_URL + 'adviser/');
+									}else if (res == 5) {
+					            		$(location).attr('href', BASE_URL + 'adviser/');
 									}else{
 										alert(res);
 									}
@@ -261,13 +267,15 @@ $(document).ready(function() {
 					            success: function(res) {
 					            	
 					            	if (res == 1) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
+					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
 									}else if (res == 2) {
-										$(location).attr('href', BASE_URL + 'adviser/impFact');
+										$(location).attr('href', BASE_URL + 'adviser/procesoImp2');
 									}else if (res == 3) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+					            		$(location).attr('href', BASE_URL + 'adviser/editAsoc');
 									}else if (res == 4) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp2');
+									}else if (res == 5) {
+					            		$(location).attr('href', BASE_URL + 'adviser/');
 									}else{
 										alert(res);
 									}
@@ -296,13 +304,15 @@ $(document).ready(function() {
 					            success: function(res) {
 					            	
 					            	if (res == 1) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
+					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
 									}else if (res == 2) {
-										$(location).attr('href', BASE_URL + 'adviser/impFact');
+										$(location).attr('href', BASE_URL + 'adviser/procesoImp');
 									}else if (res == 3) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+					            		$(location).attr('href', BASE_URL + 'adviser/editContrato');
 									}else if (res == 4) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp');
+									}else if (res == 5) {
+					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp');
 									}else{
 										alert(res);
 									}
@@ -331,13 +341,15 @@ $(document).ready(function() {
 					            success: function(res) {
 					            	
 					            	if (res == 1) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
+					            		$(location).attr('href', BASE_URL + 'adviser/');
 									}else if (res == 2) {
-										$(location).attr('href', BASE_URL + 'adviser/impFact');
+										$(location).attr('href', BASE_URL + 'adviser/procesoImp');
 									}else if (res == 3) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+					            		$(location).attr('href', BASE_URL + 'adviser/editContrato');
 									}else if (res == 4) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp');
+									}else if (res == 5) {
+					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp');
 									}else{
 										alert(res);
 									}

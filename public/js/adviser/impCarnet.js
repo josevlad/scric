@@ -108,7 +108,7 @@ $(document).ready(function() {
 	var BASE_URL = getBaseUrl();
 	
 	var contratoPDF = new PDFObject({ 
-		url: BASE_URL+'report/facturaPdf',
+		url: BASE_URL+'report/carnetPdf',
 		id: "viewerPDF",
 		 width: "100%",
 		 height: "298px"
@@ -122,7 +122,7 @@ $(document).ready(function() {
 	$('#hideForm').hide();
 	
 	$('#viewerPDF').printPage({
-    	url: 		BASE_URL+'report/facturaPdf',
+    	url: 		BASE_URL+'report/carnetPdf',
 		attr: 		'href',
 		message:	'Espere mientras se crea el reporte'
     });
@@ -145,7 +145,7 @@ $(document).ready(function() {
 				$('#hideForm').delay(7000).show('slow');
 				
 				$('#viewerPDF').click().printPage({
-			    	url: 		BASE_URL+'report/facturaPdf',
+			    	url: 		BASE_URL+'report/carnetPdf',
 					attr: 		'href',
 					message:	'Espere mientras se crea el reporte'
 			    });
@@ -171,12 +171,12 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var myForm = $('#adviser_impFact');
+	var myForm = $('#adviser_impCarnet');
 	
 	myForm.submit (function() { 
 
 		
-		var isChecked = jQuery("input[name=resulImp2]:checked").val();
+		var isChecked = jQuery("input[name=resulImp3]:checked").val();
 	    var booleanVlaueIsChecked = false;
 	    
 	    if(isChecked){
@@ -195,13 +195,13 @@ $(document).ready(function() {
 				        async: 	false,
 			            success: function(res) {			            	
 			            	if (res == 1) {
-			            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
+			            		$(location).attr('href', BASE_URL + 'adviser/');
 							}else if (res == 2) {
-								$(location).attr('href', BASE_URL + 'adviser/impFact');
+								$(location).attr('href', BASE_URL + 'adviser/impCarnet');
 							}else if (res == 3) {
-			            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+			            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
 							}else if (res == 4) {
-			            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+			            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
 							}else{
 								alert(res);
 							}
@@ -211,12 +211,12 @@ $(document).ready(function() {
 				case '2':
 					bootbox.confirm(
 							'<div class="alert alert-dark bootbox-text">'+
-								'<strong><i class="fa fa-exclamation-triangle"></i> ¡Precaución!</strong> tome en cuenta lo siguente:'+
+								'<strong><i class="fa fa-exclamation-triangle"></i> ¡Precaución!</strong> tome en cuenta lo siguente antes de continuar:'+
 							'</div>'+
-							'<p class="text-warning"><strong>1.- </strong> El contrato actual pasará a estatus "ERROR".</p>'+
-							'<p class="text-warning"><strong>2.- </strong> Se creará Otro con un nuevo número de contrato y se le asignará una nueva planilla.</p>'+
-							'<p class="text-warning"><strong>3.- </strong> El contrato actual no podrá ser utilizado de nuevo.</p>'+
-							'<p class="text-warning bootbox-text">¿Desea Continuar con la reaccionación?</p>',
+							'<p class="text-warning"><strong>1.- </strong> Verifique que la impresora esté bien conectada (corriente y pc).</p>'+
+							'<p class="text-warning"><strong>2.- </strong> Que no exista cola de impresión la impresora usada.</p>'+
+							'<p class="text-warning"><strong>3.- </strong> De ser necesario, pruebe una impresión con otro programa.</p>'+
+							'<p class="text-warning bootbox-text">¿Desea Continuar?</p>',
 						function(result) {
 						if (result == true) {
 							$.ajax({
@@ -227,13 +227,13 @@ $(document).ready(function() {
 					            success: function(res) {
 					            						            	
 					            	if (res == 1) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
+					            		$(location).attr('href', BASE_URL + 'adviser/');
 									}else if (res == 2) {
-										$(location).attr('href', BASE_URL + 'adviser/impFact');
+										$(location).attr('href', BASE_URL + 'adviser/impCarnet');
 									}else if (res == 3) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+					            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
 									}else if (res == 4) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
+					            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
 									}else{
 										alert(res);
 									}
@@ -245,12 +245,12 @@ $(document).ready(function() {
 				case '3':
 					bootbox.confirm(
 							'<div class="alert alert-dark bootbox-text">'+
-								'<strong><i class="fa fa-exclamation-triangle"></i> ¡Precaución!</strong> tome en cuenta lo siguente:'+
-							'</div>'+
-							'<p class="text-warning"><strong>1.- </strong> El contrato actual pasará a estatus "ERROR".</p>'+
-							'<p class="text-warning"><strong>2.- </strong> Se creará Otro con un nuevo número de contrato y se le asignará una nueva planilla.</p>'+
-							'<p class="text-warning"><strong>3.- </strong> El contrato actual no podrá ser utilizado de nuevo.</p>'+
-							'<p class="text-warning bootbox-text">¿Desea Continuar hacia la edición de datos?</p>',
+							'<strong><i class="fa fa-exclamation-triangle"></i> ¡Precaución!</strong> tome en cuenta lo siguente antes de continuar:'+
+						'</div>'+
+						'<p class="text-warning"><strong>1.- </strong> Verifique que la impresora esté bien conectada (corriente y pc).</p>'+
+						'<p class="text-warning"><strong>2.- </strong> Que no exista cola de impresión la impresora usada.</p>'+
+						'<p class="text-warning"><strong>3.- </strong> De ser necesario, pruebe una impresión con otro programa.</p>'+
+						'<p class="text-warning bootbox-text">¿Desea Continuar el proceso?</p>',
 						function(result) {
 						if (result == true) {
 							$.ajax({
@@ -261,83 +261,13 @@ $(document).ready(function() {
 					            success: function(res) {
 					            	
 					            	if (res == 1) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
+					            		$(location).attr('href', BASE_URL + 'adviser/');
 									}else if (res == 2) {
-										$(location).attr('href', BASE_URL + 'adviser/impFact');
+										$(location).attr('href', BASE_URL + 'adviser/impCarnet');
 									}else if (res == 3) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
-									}else if (res == 4) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
-									}else{
-										alert(res);
-									}
-					            }            
-					        });
-						}
-					}); 
-				break;
-				case '4':
-					bootbox.confirm(
-							'<div class="alert alert-dark bootbox-text">'+
-								'<strong><i class="fa fa-exclamation-triangle"></i> ¡Precaución!</strong> tome en cuenta lo siguente antes de continuar:'+
-							'</div>'+
-							'<p class="text-warning"><strong>1.- </strong> Verifique que la impresora esté bien conectada (corriente y pc).</p>'+
-							'<p class="text-warning"><strong>2.- </strong> Que no exista cola de impresión la impresora usada.</p>'+
-							'<p class="text-warning"><strong>3.- </strong> Solo tendrá 2 oportunidades mas de imprimir este contrato.</p>'+
-							'<p class="text-warning"><strong>3.- </strong> De ser necesario, pruebe una impresión con otro programa.</p>'+
-							'<p class="text-warning bootbox-text">¿Desea Continuar?</p>',
-						function(result) {
-						if (result == true) {
-							$.ajax({
-					            type:	myForm.attr('method'),
-					            data:	myForm.serialize(),
-								url:	myForm.attr('action'),
-						        async: 	false,
-					            success: function(res) {
-					            	
-					            	if (res == 1) {
 					            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
-									}else if (res == 2) {
-										$(location).attr('href', BASE_URL + 'adviser/impFact');
-									}else if (res == 3) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
 									}else if (res == 4) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
-									}else{
-										alert(res);
-									}
-					            }            
-					        });
-						}
-					}); 
-				break;
-				case '5':
-					bootbox.confirm(
-							'<div class="alert alert-dark bootbox-text">'+
-								'<strong><i class="fa fa-exclamation-triangle"></i> ¡Precaución!</strong> tome en cuenta lo siguente antes de continuar:'+
-							'</div>'+
-							'<p class="text-warning"><strong>1.- </strong> Verifique que la impresora esté bien conectada (corriente y pc).</p>'+
-							'<p class="text-warning"><strong>2.- </strong> Que no exista cola de impresión la impresora usada.</p>'+
-							'<p class="text-warning"><strong>3.- </strong> Solo tendrá 2 oportunidades mas de imprimir este contrato.</p>'+
-							'<p class="text-warning"><strong>3.- </strong> De ser necesario, pruebe una impresión con otro programa.</p>'+
-							'<p class="text-warning bootbox-text">¿Desea Continuar?</p>',
-						function(result) {
-						if (result == true) {
-							$.ajax({
-					            type:	myForm.attr('method'),
-					            data:	myForm.serialize(),
-								url:	myForm.attr('action'),
-						        async: 	false,
-					            success: function(res) {
-					            	
-					            	if (res == 1) {
 					            		$(location).attr('href', BASE_URL + 'adviser/impCarnet');
-									}else if (res == 2) {
-										$(location).attr('href', BASE_URL + 'adviser/impFact');
-									}else if (res == 3) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
-									}else if (res == 4) {
-					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
 									}else{
 										alert(res);
 									}

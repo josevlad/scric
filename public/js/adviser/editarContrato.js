@@ -434,25 +434,27 @@ $(document).ready(function() {
 	
 	// Cant Max Content Dinamic  ============================================================================
 	var a = $("#aux").val();
+	//alert(a);
 	var b = $("#aux2").val();
-	
+	//alert(b);
 	var maxPhones       = 1;	
 	var addPhone        = $("#addPhone");	
 	$('#phones div#clone').hide();
 	
 	$(addPhone).click(function(e){
 		if(a <= maxPhones){
-			
+			var cont = 1 + 1;
 			var clone = $('#phones div#clone').clone(true);
 			
 			clone.attr('id','parent');
+						
+			$('#aux').attr('value', cont );
 			
-			$('#aux').attr('value', (a+1) );
-		    $('.tp_phone',clone).attr('id','tipo_'+(a+1));
-		    $('.tp_phone',clone).attr('name','tipo_'+(a+1));
+		    $('.tp_phone',clone).attr('id','tipo_'+cont);
+		    $('.tp_phone',clone).attr('name','tipo_'+cont);
 
-		    $('.num_phone',clone).attr('id','telf_'+(a+1));
-		    $('.num_phone',clone).attr('name','telf_'+(a+1));
+		    $('.num_phone',clone).attr('id','telf_'+cont);
+		    $('.num_phone',clone).attr('name','telf_'+cont);
 		    
 		    $(clone).appendTo('#phones').show('1500');
 		    
@@ -469,7 +471,7 @@ $(document).ready(function() {
 					required:"Campo requerido"
 				}
 			});
-			
+			cont = 0;
 			a++;
 		}
 		return false

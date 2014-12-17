@@ -1,19 +1,20 @@
 <?php
 	class configController extends Controller {
 		
-		protected $_sidebar_menu;
+		protected $_menuSB;
 		private $_config;
 		
 		public function __construct() {
 			Session::accessRole(array('SUPER_U'));
 			parent::__construct();
 			$this->_config = $this->loadModel('config');
+			$this->_menuSB = $this->createMenu();
 		}
 		
 		function index() {
 			$this->_view->icon_fa = 'fa-database';
 			$this->_view->titleHead = 'Administracion de Base de datos';
-			$this->_view->render('index');
+			$this->_view->render('index',$this->_menuSB);
 		}
 		
 		public function remote() {
@@ -78,7 +79,7 @@
 				//custom config js
 				$this->_view->setJs(array('config/agencias'));
 				
-				$this->_view->render('agencias');
+				$this->_view->render('agencias',$this->_menuSB);
 				
 			}		
 		}
@@ -99,7 +100,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/claseVehiculo'));
 		
-			$this->_view->render('claseVehiculo');
+			$this->_view->render('claseVehiculo',$this->_menuSB);
 		
 		}
 		
@@ -119,7 +120,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/estado'));
 		
-			$this->_view->render('estado');
+			$this->_view->render('estado',$this->_menuSB);
 		
 		}
 		
@@ -139,7 +140,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/marca'));
 		
-			$this->_view->render('marca');
+			$this->_view->render('marca',$this->_menuSB);
 		
 		}
 		
@@ -159,7 +160,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/perfilUsuario'));
 		
-			$this->_view->render('perfilUsuario');
+			$this->_view->render('perfilUsuario',$this->_menuSB);
 		
 		}
 		
@@ -179,7 +180,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/pregunta'));
 		
-			$this->_view->render('pregunta');
+			$this->_view->render('pregunta',$this->_menuSB);
 		
 		}
 		
@@ -199,7 +200,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/statusCont'));
 		
-			$this->_view->render('statusCont');
+			$this->_view->render('statusCont',$this->_menuSB);
 		
 		}
 		
@@ -219,7 +220,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/statusFormat'));
 		
-			$this->_view->render('statusFormat');
+			$this->_view->render('statusFormat',$this->_menuSB);
 		
 		}
 		
@@ -239,7 +240,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/statusUsuarios'));
 		
-			$this->_view->render('statusUsuarios');
+			$this->_view->render('statusUsuarios',$this->_menuSB);
 		
 		}
 				
@@ -259,7 +260,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/tipoPago'));
 		
-			$this->_view->render('tipoPago');
+			$this->_view->render('tipoPago',$this->_menuSB);
 		
 		}
 		
@@ -279,7 +280,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/tipoPersona'));
 		
-			$this->_view->render('tipoPersona');
+			$this->_view->render('tipoPersona',$this->_menuSB);
 		
 		}
 		
@@ -299,7 +300,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/tipoTelf'));
 		
-			$this->_view->render('tipoTelf');
+			$this->_view->render('tipoTelf',$this->_menuSB);
 		
 		}
 		
@@ -319,7 +320,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/tipoTrans'));
 		
-			$this->_view->render('tipoTrans');
+			$this->_view->render('tipoTrans',$this->_menuSB);
 		
 		}
 		
@@ -344,7 +345,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/cobertura'));
 		
-			$this->_view->render('cobertura');
+			$this->_view->render('cobertura',$this->_menuSB);
 		
 		}
 		
@@ -364,7 +365,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/tipoVehiculo'));
 		
-			$this->_view->render('tipoVehiculo');
+			$this->_view->render('tipoVehiculo',$this->_menuSB);
 		
 		}
 		
@@ -384,7 +385,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/modelo'));
 		
-			$this->_view->render('modelo');
+			$this->_view->render('modelo',$this->_menuSB);
 		
 		}
 		
@@ -404,7 +405,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/municipio'));
 		
-			$this->_view->render('municipio');
+			$this->_view->render('municipio',$this->_menuSB);
 		
 		}
 		
@@ -424,7 +425,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/numPuesto'));
 		
-			$this->_view->render('numPuesto');
+			$this->_view->render('numPuesto',$this->_menuSB);
 		
 		}
 		
@@ -444,7 +445,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/parroquia'));
 		
-			$this->_view->render('parroquia');
+			$this->_view->render('parroquia',$this->_menuSB);
 		
 		}
 
@@ -464,7 +465,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/usoVehiculo'));
 		
-			$this->_view->render('usoVehiculo');
+			$this->_view->render('usoVehiculo',$this->_menuSB);
 		
 		}
 
@@ -513,7 +514,7 @@
 				//custom config js
 				$this->_view->setJs(array('config/precio'));
 			
-				$this->_view->render('precio');
+				$this->_view->render('precio',$this->_menuSB);
 			
 			}
 		
@@ -563,7 +564,7 @@
 				//custom config js
 				$this->_view->setJs(array('config/asignarPrecio'));
 			
-				$this->_view->render('asignarPrecio');
+				$this->_view->render('asignarPrecio',$this->_menuSB);
 			
 			}
 		}
@@ -615,7 +616,7 @@
 				//custom config js
 				$this->_view->setJs(array('config/usuarios'));
 			
-				$this->_view->render('usuarios');
+				$this->_view->render('usuarios',$this->_menuSB);
 			}
 		
 		}
@@ -647,7 +648,7 @@
 			//custom config js
 			$this->_view->setJs(array('config/name'));
 		
-			$this->_view->render('name');
+			$this->_view->render('name',$this->_menuSB);
 		
 		}
 		
@@ -709,7 +710,7 @@
 				//custom config js
 				$this->_view->setJs(array('config/asignarConcepto'));
 			
-				$this->_view->render('asignarConcepto');
+				$this->_view->render('asignarConcepto',$this->_menuSB);
 			
 			}
 		

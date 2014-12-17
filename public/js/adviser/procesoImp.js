@@ -142,6 +142,7 @@ $(document).ready(function() {
 				);
 				
 				$('#printbtn').attr('disabled', true);
+				$('#editarContrac').attr('disabled', true);
 				$('#hideForm').delay(7000).show('slow');
 				
 				$('#viewerPDF').click().printPage({

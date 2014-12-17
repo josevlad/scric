@@ -447,7 +447,7 @@ $(document).ready(function() {
 			
 			clone.attr('id','parent');
 			
-			$('#aux').attr('value', (a+1) );
+			$('#aux').attr('value', 1+1 );
 		    $('.tp_phone',clone).attr('id','tipo_'+(a+1));
 		    $('.tp_phone',clone).attr('name','tipo_'+(a+1));
 
