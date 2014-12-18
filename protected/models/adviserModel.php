@@ -481,9 +481,7 @@
 			$telefonos 	= array_shift($data);
 			$correos 	= array_shift($data);
 			$contrato 	= array_shift($data);
-			
-			Session::set('tipoPago', $contrato[':tipoPago']);
-			
+						
 			Session::set('tipoPago', $contrato[':tipoPago']);
 			unset($contrato[':tipoPago']);
 			unset($contrato[':statusCont_id']);
@@ -625,6 +623,68 @@
 			}
 		}
 		
+		public function saveEditAsoc($dataEdit) {
+	
+			//App::varDump($dataEdit);
+			//exit();
+			$contrato = $dataEdit;
+			Session::destroy('contrato');
+			Session::set('contrato', $contrato);
+			Session::destroy('data');
+			Session::destroy('dataForm');
+			Session::set('dataForm', $_POST);
+			Session::set('data', $dataEdit);
+				
+			//App::varDump($contrato);
+			//exit();
+				
+			$this->_db->beginTransaction();
+		
+			try {
+				// tabla contratos ==========================================
+		
+				//print_r($contrato);
+				//exit();
+		
+				$this->_query = '
+					UPDATE
+						contratos
+					SET
+						modelo_id 			= 	:modelo_id,
+						tipoTrans_id		=	:tipoTrans_id,
+						anio 				= 	:anio,
+						color 				= 	:color,
+						placa 				=	:placa,
+						serial_c 			= 	:serial_c,
+						serial_m 			= 	:serial_m,
+						precio_id 			= 	:precio_id,
+						usoVehiculo_id 		= 	:usoVehiculo_id,
+						peso 				= 	:peso,
+						fecha_exp 			= 	:fecha_exp,
+						hora_exp 			= 	:hora_exp,
+						fecha_ven 			= 	:fecha_ven,
+						hora_ven 			= 	:hora_ven
+					WHERE
+						contratos.id ='.Session::get('lastContrato');
+		
+				$result = $this->_db->prepare($this->_query);
+				foreach( $contrato as $key => $value){
+					$result->bindValue($key, $value, PDO::PARAM_STR);
+				}
+				$result->execute();
+					
+				// end tabla contratos ==========================================
+						
+				$this->_db->commit();
+				return true;
+		
+			} catch (PDOException $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		}
+		
 		public function onlyContract($contrato) {
 
 			Session::destroy('assignedFormat');
@@ -634,7 +694,8 @@
 			$contrato[':planillas_id'] = $planilla[0]['id']; 
 			$contrato[':titulares_id'] = Session::get('lastTitular');
 			
-			
+			//App::varDump($contrato);
+			//exit();
 			$this->_db->beginTransaction();
 			
 			try {
@@ -989,7 +1050,38 @@
 			return json_encode( $result );
 		}
 		
-		public function assocContract($contrato) {
+		public function getAjaxAuto($type, $value) {
+			
+			$cases = array(
+				'placa' 	=> 'SELECT contratos.placa FROM contratos WHERE contratos.placa =  "'.$value.'"',
+				'serial_c' 	=> 'SELECT contratos.serial_c FROM contratos WHERE contratos.serial_c =  "'.$value.'"',
+				'serial_m' 	=> 'SELECT contratos.serial_m FROM contratos WHERE contratos.serial_m =  "'.$value.'"'
+			);
+			
+			if (array_key_exists($type, $cases)) {
+				$this->_query = $cases[$type];
+			}else {
+				throw new Exception('Solicitus no existente (AdviserModel - getAjaxAuto)');
+				exit();
+			}
+			
+			$data = $this->_db->query($this->_query);
+		
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		
+			return json_encode( $result );
+		}
+		
+		public function asocContract($contrato) {
 			
 			
 			

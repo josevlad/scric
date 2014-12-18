@@ -29,6 +29,7 @@ function loadSelect( parameters ){
 	else {
 		var choose = '';
 	}
+	
 	$.post(		
  		url, 
 		{ table: table }, 
@@ -151,7 +152,7 @@ function getval() {
 $(document).ready(function() {
 	
 	var BASE_URL = getBaseUrl();
-	
+
 //strToUpper
 	strToUpper2('#dni');
 	strToUpper('#nombres');
@@ -161,6 +162,28 @@ $(document).ready(function() {
 	strToUpper('#placa');
 	strToUpper('#serial_c');
 	strToUpper('#serial_m');
+	
+	var dniSaved = $('#dni').val();
+	$('#dni').focusout(function(event){
+		$.post(		
+	 		BASE_URL+'adviser/ajaxTitular', 
+			{ dni: $(this).val() }, 
+			function(data){
+				if (data.length > 0) {
+					bootbox.alert(
+							'<div class="alert alert-danger alert-dark" style="text-align: center;">'+
+								'<h4><strong>!Atencion¡</strong> Este usuario ya exite en la base de datos</h4>'+
+							'</div>', 
+						function() {
+							$('#dni').val(dniSaved);
+						}); 
+				}
+			}, "json"
+		);
+		/*
+		$(this).val($(this).val().toUpperCase());
+		*/
+	});
 	
 // Section of Content Select
 	
@@ -540,15 +563,15 @@ $(document).ready(function() {
 	var d = new Date();
 	var today = d.getDate()+'-'+(d.getMonth()+1)+'-'+d.getFullYear();
 	
-	$('#hora_exp').val(getval());
+	$('#hora_exp').val('11:59 PM');
 	$('.hour').on("focus", "#hora_exp", function() { 
-		$(this).val(getval());		
+		$(this).val('11:59 PM');		
 	});
 	$('.hour').on("focusout", "#hora_exp", function() { 
-		$(this).val(getval());		
+		$(this).val('11:59 PM');		
 	});
 	$('.hour').on("keyup", "#hora_exp", function() { 
-		$(this).val(getval());		
+		$(this).val('11:59 PM');		
 	});
 	
 	$('#fecha_exp').val(today);
@@ -644,14 +667,17 @@ $(document).ready(function() {
 			placa:{
 				required: 		true,
 				serial: 		true,
+				remote:			BASE_URL + 'select/remote'
 			},
 			serial_c:{
 				required: 		true, 
 				serial: 		true,
+				remote:			BASE_URL + 'select/remote'
 			},
 			serial_m:{
 				required: 		true,
 				serial: 		true,
+				remote:			BASE_URL + 'select/remote'
 			},
 			claseVehiculo:		"required",
 			tipoVehiculo:		"required",
@@ -689,7 +715,7 @@ $(document).ready(function() {
 			municipio:			"Selección requerida",
 			parroquia_id:		"Selección requerida",
 			direccion: 			"Campo requerido",
-			tipo_1:			"Selección requerida",
+			tipo_1:				"Selección requerida",
 			num_Telf:			"Campo requerido",
 			marca:				"Selección requerida",
 			modelo_id:			"Selección requerida",
@@ -699,14 +725,17 @@ $(document).ready(function() {
 			placa:{
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
+				remote:			"Placa asociada a un contrato"
 			},
 			serial_c:{
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
+				remote:			"Serial asociada a un contrato"
 			},
 			serial_m:{
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
+				remote:			"Serial asociada a un contrato"
 			},
 			claseVehiculo:		"Selección requerida",
 			tipoVehiculo:		"Selección requerida",

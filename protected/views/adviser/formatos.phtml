@@ -6,7 +6,11 @@
 
 <!-- ================================== PANEL ================================== -->
 				<div id="init">
-				</div>			
+				</div>
+				
+				<?php echo (!Session::get('format')) ? "" : App::boxMessage('!Éxito¡', 'Formatos Guardados con éxito', 'success'); ?>
+				<?php Session::destroy('format')?>
+							
 				<div class="panel">
 					<div class="panel-heading">
 						<span class="panel-title"><?php echo utf8_encode('Registro de Planillas o Factiras')?></span>

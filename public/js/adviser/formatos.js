@@ -121,7 +121,7 @@ $(document).ready(function() {
 
 //fecha actual fija 	
 	var d = new Date();
-	var today = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+	var today = d.getDate()+'-'+(d.getMonth()+1)+'-'+d.getFullYear();
 	
 	$('#fecha_reg').val(today);
 	$('.date').on("focus", "#fecha_reg", function() { 

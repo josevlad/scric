@@ -1,0 +1,97 @@
+@CHARSET "ISO-8859-1";
+
+
+.tg_carnet  {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+.tg_carnet th{
+	font-family:Arial, sans-serif;
+	font-size:8px;
+	font-weight:normal;
+	border-style:solid;
+	border-width:0px;
+	text-align: center;
+	padding: 0px;
+}
+
+.tg_carnet td{
+	font-family:Arial, sans-serif;
+	font-size:8px;
+	border-style:dotted;
+	border-width:0.5px;
+	font-weight: normal;	
+}
+th.boxLogo{
+	width: 90px;
+	border-style:solid;
+	border-width:0.5px;
+	
+}
+th.boxLogo2{
+	padding: 2px 27px 0px 27px; 
+	border-style:solid;
+	border-width:0.5px;
+	
+}
+.tg_carnet td.tg_footer{
+	text-align: center;
+	font-size: 6px;
+	font-weight: bold;
+	border-style:none;	
+}
+
+.logo1{
+	height: 50px;
+	margin: 0px -45px 0px -24px;
+}
+.logo2{
+	height: 35px;
+	margin: 0px 0px -10px 0px;
+}
+
+.company{
+	font-size: 8px;
+	font-weight: bold;
+	text-align: center;
+}
+span.rif{
+	font-size: 6px;
+	font-weight: normal;
+	text-align: center;
+}
+.title{
+	text-align: center;
+	border-style:none;
+}
+.titleBack{
+	text-align: center;
+	font-size: 12px;
+	border-style:none;
+}
+
+.txt1{
+	text-align: right;
+}
+
+.txt2{
+	width: 320px; 
+	border: solid 0px;
+	text-align: center;
+	font-size: 10px;
+	border-style:none;
+	font-weight: normal;
+	padding-bottom: 7px;
+	margin-bottom: 50px;
+}
+.txt3{
+	text-align: center; 
+	border-style:none;
+}
+.borde-none{
+	border-style: none; 
+}
+.box{
+	border: 0.5px solid #000;
+}

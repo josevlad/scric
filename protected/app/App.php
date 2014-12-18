@@ -22,9 +22,9 @@
 				<div class="alert alert-'.$type.' ">
 					<a class="close" data-dismiss="alert" href="ui_elements.html#"><i class="fa fa-close"></i></a>
 						<h4> <i class="icon-remove-sign"></i>
-							'.$title.'
+							'.utf8_encode($title).'
                         </h4>
-						'.$content.'
+						'.utf8_encode($content).'
 				</div>';
 			return $messeger;
 		}

@@ -45,24 +45,26 @@
 				
 				$fecha_reg 	= App::saveDate( $_POST['fecha_reg'] );
 				$table 		= $_POST['type'];
-				$result 	= 'false';
 				$desde 		= $_POST['desde'];
 				$hasta 		= $_POST['hasta'];
+				$result 	= 'false';
+				
 				
 				for ($i = $desde; $i <= $hasta; $i++) {
 						
 					$bind_values = array(
 						':codigo'=> $i, 
-						':fecha_reg'=> utf8_encode( $fecha_reg ), 
+						':fecha_reg'=> $fecha_reg, 
 						'statusFormat_id'=> '1', 
 						'agencias_id'=> Session::get('idAgencia')
 					);
+					
 					
 					$res = $this->_adviser->saveFormato( $bind_values, $table );
 					
 					$result = $res;					
 				}
-				
+				Session::set('format', true);
 				echo $result;
 				
 			}else {
@@ -80,6 +82,8 @@
 				
 				//custom adviser js
 				$this->_view->setJs(array('adviser/formatos'));
+				
+				$this->_view->success = Session::get('format');
 				
 				$this->_view->render('formatos',$this->_menuSB);
 			}
@@ -203,8 +207,11 @@
 		}
 		
 		public function reallocateForm2() {
-											
-			$resul = $this->_adviser->onlyContract(Session::get('contrato'));
+			
+			$data = Session::get('contrato');
+			$data[':statusCont_id'] = '1';
+			
+			$resul = $this->_adviser->onlyContract($data);
 			Session::destroy('printbtn');
 				
 			if ($resul == true) {
@@ -289,30 +296,31 @@
 							$this->_adviser->updateStatusContrato('2',Session::get('lastContrato'));
 							echo '1';
 							exit();
-							break;
+						break;
 								
 						case '2':
 							$this->reallocateForm2();
 							exit();
-							break;
+						break;
 		
 						case '3':
+							$this->_adviser->updateStatusContrato('4',Session::get('lastContrato'));
 							Session::destroy('printbtn');
 							echo '3';
 							exit();
-							break;
+						break;
 		
 						case '4':
 							$res = $this->reimpresion();
 							echo ($res=='4') ? '4' : $res;
 							exit();
-							break;
+						break;
 		
 						case '5':
 							$res = $this->reimpresion();
 							echo ($res=='4') ? '5' : $res;
 							exit();
-							break;
+						break;
 		
 					}
 						
@@ -731,6 +739,24 @@
 			}
 		}
 		
+		public function ajaxAuto() {
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				
+				if (isset($_POST['placa'])) {
+					$result = $this->_adviser->getAjaxAuto('placa',$_POST['placa']);
+				}
+				if (isset($_POST['serial_c'])) {
+					$result = $this->_adviser->getAjaxAuto('serial_c',$_POST['serial_c']);
+				}
+				if (isset($_POST['serial_m'])) {
+					$result = $this->_adviser->getAjaxAuto('serial_m',$_POST['serial_m']);
+				}
+				
+				echo $result;
+				
+			}
+		}
+		
 		public function asociarContrato($id = false) {
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {			
@@ -771,7 +797,7 @@
 				//print_r($contrato);
 				Session::set('contrato', $contrato);
 				Session::set('dataForm', $_POST);
-				echo $this->_adviser->assocContract($contrato);
+				echo $this->_adviser->asocContract($contrato);
 				
 			}else {
 				//content page-hader
@@ -800,7 +826,7 @@
 			}
 		}
 		
-		public function editAsoc() {
+		public function editarAsoc() {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 				Session::destroy('contrato');
@@ -824,21 +850,23 @@
 					$contrato[$keys[$i]] = $values[$i];
 				}
 				
+
+				Session::set('tipoPago', $contrato[':tipoPago']);
+				
 				unset($contrato[':marca']);
 				unset($contrato[':claseVehiculo']);
 				unset($contrato[':tipoVehiculo']);
 				unset($contrato[':numPuesto']);
-				Session::set('tipoPago', $contrato[':tipoPago']);
 				unset($contrato[':tipoPago']);
 				unset($contrato[':cobertura']);
-				
-				$contrato[':fecha_ven'] = $_POST['fecha_exp'];
+								
+				$fecha_ven = App::oneYearMore( $_POST['fecha_exp'] );
+				$contrato[':fecha_ven'] = App::saveDate($fecha_ven);
 				$contrato[':hora_ven'] = $_POST['hora_exp'];
-				$contrato[':statusCont_id'] = '1';
 				
 				//print_r($contrato);
 				Session::set('contrato', $contrato);
-				echo $this->_adviser->assocContract($contrato);
+				echo $this->_adviser->saveEditAsoc($contrato);
 			
 			}else {
 				//content page-hader
@@ -855,11 +883,79 @@
 				$this->_view->setJs(array('plugins/validate/validate'));
 			
 				//custom config js
-				$this->_view->setJs(array('adviser/editContrato'));
-			
+				$this->_view->setJs(array('adviser/editarAsoc'));
+				
+				$this->_view->dataTitular = $this->_adviser->getTitular(Session::get('lastTitular'));
 				$this->_view->data = Session::get('dataForm');
 			
-				$this->_view->render('editContrato',$this->_menuSB);
+				$this->_view->render('editarAsoc',$this->_menuSB);
+			}
+		}
+		
+		public function editarAsoc2() {
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		
+				Session::destroy('contrato');
+		
+				$keys 		= array();
+				$values		= array();
+					
+				$contrato 	= array();
+		
+				foreach ($_POST as $key => $value){
+					if($key == 'fecha_exp'){
+						array_push( $keys	, ':'.$key 		);
+						array_push( $values	, App::saveDate($value) 	);
+					}else {
+						array_push( $keys	, ':'.$key 	);
+						array_push( $values	,  $value	);
+					}
+				}
+		
+				for ($i = 0; $i < count($_POST) ; $i++) {
+					$contrato[$keys[$i]] = $values[$i];
+				}
+		
+		
+				Session::set('tipoPago', $contrato[':tipoPago']);
+		
+				unset($contrato[':marca']);
+				unset($contrato[':claseVehiculo']);
+				unset($contrato[':tipoVehiculo']);
+				unset($contrato[':numPuesto']);
+				unset($contrato[':tipoPago']);
+				unset($contrato[':cobertura']);
+		
+				$fecha_ven = App::oneYearMore( $_POST['fecha_exp'] );
+				$contrato[':fecha_ven'] = App::saveDate($fecha_ven);
+				$contrato[':hora_ven'] = $_POST['hora_exp'];
+				$contrato[':statusCont_id'] = '1';
+		
+				//print_r($contrato);
+				Session::set('contrato', $contrato);
+				echo $this->_adviser->onlyContract($contrato);
+					
+			}else {
+				//content page-hader
+				$this->_view->icon_fa = 'fa-pencil-square-o';
+				$this->_view->titleHead = 'Edición de Contrato';
+					
+				//maskedinput
+				$this->_view->setJs(array('plugins/maskedinput/maskedinput'));
+					
+				//printPage js
+				$this->_view->setJs(array('plugins/bootbox/bootbox'));
+					
+				//validate
+				$this->_view->setJs(array('plugins/validate/validate'));
+					
+				//custom config js
+				$this->_view->setJs(array('adviser/editarAsoc2'));
+		
+				$this->_view->dataTitular = $this->_adviser->getTitular(Session::get('lastTitular'));
+				$this->_view->data = Session::get('dataForm');
+					
+				$this->_view->render('editarAsoc2',$this->_menuSB);
 			}
 		}
 	}

@@ -64,15 +64,15 @@
 			
 			switch ($type) {
 				case 'placa':
-					$this->_query = 'SELECT contratos.placa FROM contratos WHERE contratos.statusCont_id = "2" AND contratos.placa =  "'.$var.'"';
+					$this->_query = 'SELECT contratos.placa FROM contratos WHERE contratos.placa =  "'.$var.'"';
 				break;
 				
 				case 'serial_c':
-					$this->_query = 'SELECT contratos.serial_c FROM contratos WHERE contratos.statusCont_id = "2" AND contratos.serial_c =  "'.$var.'"';
+					$this->_query = 'SELECT contratos.serial_c FROM contratos WHERE contratos.serial_c =  "'.$var.'"';
 				break;
 				
 				case 'serial_m':
-					$this->_query = 'SELECT contratos.serial_m FROM contratos WHERE contratos.statusCont_id = "2" AND contratos.serial_m =  "'.$var.'"';
+					$this->_query = 'SELECT contratos.serial_m FROM contratos WHERE contratos.serial_m =  "'.$var.'"';
 				break;
 				
 			}
@@ -81,7 +81,7 @@
 		
 			try {
 				$this->_db->beginTransaction();
-				$result = $data->fetchAll();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
 				$this->_db->commit();
 			}
 			catch (Exception $e) {

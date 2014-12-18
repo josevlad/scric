@@ -75,7 +75,31 @@ function selectDependent( parameters ){
 	
 }
 
-function selectOptionDependent( parameters ) {
+function selectOptionDependent( parameters ){
+	
+	var element = $( parameters.selector );
+	var url 	= parameters.url;
+	var table	= element.attr('table');
+	var choose 	= element.attr('choose');
+	var id 		= element.attr('id-data');
+	
+	$.post(		
+ 		url, 
+ 		{ table: table, id: id }, 
+		function(data){
+			element.empty();
+			element.append('<option value="">Seleccione...</option>');
+			for (var i=0; i<data.length; i++) {
+				if ( choose == data[i].id ) {
+					element.append('<option selected value="' + data[i].id + '">' + data[i].option + '</option>');
+				}else {
+					element.append('<option value="' + data[i].id + '">' + data[i].option + '</option>');
+				}
+			}
+		}, "json"); 
+	
+}
+function selectOptionDependent2( parameters ) {
 	
 	var selector	=	parameters.selector;
 	var element		= 	$( parameters.selector )
@@ -102,6 +126,7 @@ function selectOptionDependent( parameters ) {
 	
 }
 
+
 function getval() {
     var currentTime = new Date()
     var hours = currentTime.getHours()
@@ -127,39 +152,7 @@ function getval() {
 $(document).ready(function() {
 	
 	var BASE_URL = getBaseUrl();
-	
-//verificación de formatos
-	if ($('#stPlanillas').attr('dt-Planilla') == 0) {
-		bootbox.alert(
-			'<div class="alert alert-danger alert-dark" style="text-align: center;">'+
-				'<h4><strong>!Atencion¡</strong> Aun no puede crear un contrato, ya que no existe planillas registradas en el sistema. por favor registre un lote</h4>'+
-			'</div>', 
-			function() {
-			 $(location).attr('href', BASE_URL+'adviser/formatos');
-		});
-	}else if ($('#stFacturas').attr('dt-Facturas') == 0) {
-		bootbox.alert(
-			'<div class="alert alert-danger alert-dark" style="text-align: center;">'+
-				'<h4><strong>!Atencion¡</strong> Aun no puede crear un contrato, ya que no existe Facturas registradas en el sistema. por favor registre un lote</h4>'+
-			'</div>', 
-			function() {
-			 $(location).attr('href', BASE_URL+'adviser/formatos');
-		});
-	}else if ($('#countPlanillas').attr('numP') < 20) {
-		bootbox.alert(
-				'<div class="alert alert-dark" style="text-align: center;">'+
-					'<h4><strong>!Atencion¡</strong> quedan '+$('#countPlanillas').attr('numP')+' Planillas para crear contratos, se sugiere registrar mas formatos al sistema</h4>'+
-				'</div>', 
-				function() {
-			});
-	}else if ($('#countFacturas').attr('numF') < 20 ) {
-		bootbox.alert(
-			'<div class="alert alert-dark" style="text-align: center;">'+
-				'<h4><strong>!Atencion¡</strong> quedan '+$('#countFacturas').attr('numF')+' Facturas para imprimir, se sugiere registrar mas formatos al sistema</h4>'+
-			'</div>', 
-			function() {
-		});
-	}
+
 //strToUpper
 	strToUpper2('#dni');
 	strToUpper('#nombres');
@@ -170,30 +163,89 @@ $(document).ready(function() {
 	strToUpper('#serial_c');
 	strToUpper('#serial_m');
 	
-//load imput
+	var dniSaved = $('#dni').val();
 	$('#dni').focusout(function(event){
 		$.post(		
 	 		BASE_URL+'adviser/ajaxTitular', 
 			{ dni: $(this).val() }, 
 			function(data){
 				if (data.length > 0) {
-					bootbox.confirm(
-							'<div class="alert alert-info alert-dark" style="text-align: center;">'+
-								'<h4><strong>!Atencion¡</strong> Este usuario ya exite, ¿desea asociarle un nuevo contrato de vehiculo?.</h4>'+
+					bootbox.alert(
+							'<div class="alert alert-danger alert-dark" style="text-align: center;">'+
+								'<h4><strong>!Atencion¡</strong> Este usuario ya exite en la base de datos</h4>'+
 							'</div>', 
-						function(result) {
-							if(result){								
-								$(location).attr('href', BASE_URL+'adviser/asociarContrato/'+data[0]['id']);								
-							}else {
-								$('#dni').val('');
-							}	
+						function() {
+							$('#dni').val(dniSaved);
 						}); 
 				}
 			}, "json"
 		);
-		/*
-		$(this).val($(this).val().toUpperCase());
-		*/
+	});
+	
+	var placaSaved = $('#placa').attr('data');
+	$('#placa').focusout(function(event){
+		$.post(		
+	 		BASE_URL+'adviser/ajaxAuto', 
+			{ placa: $(this).val() }, 
+			function(data){
+				//console.log(data);
+				if ( data.length > 0 ) {
+					if ( data['0'].placa != placaSaved ) {
+						bootbox.alert(
+							'<div class="alert alert-danger alert-dark" style="text-align: center;">'+
+								'<h4><strong>!ERROR¡</strong> Esta placa pertenece a un contrato existente</h4>'+
+							'</div>', 
+							function() {
+								$('#placa').val(placaSaved);
+						});
+					} 
+				}
+			}, "json"
+		);
+	});
+	
+	var serialcSaved = $('#serial_c').attr('data');
+	$('#serial_c').focusout(function(event){
+		$.post(		
+	 		BASE_URL+'adviser/ajaxAuto', 
+			{ serial_c: $(this).val() }, 
+			function(data){
+				//console.log(data);
+				if ( data.length > 0 ) {
+					if ( data['0'].serial_c != serialcSaved ) {
+						bootbox.alert(
+							'<div class="alert alert-danger alert-dark" style="text-align: center;">'+
+								'<h4><strong>!ERROR¡</strong> Este Serial pertenece a un contrato existente</h4>'+
+							'</div>', 
+							function() {
+								$('#serial_c').val(serialcSaved);
+						});
+					} 
+				}
+			}, "json"
+		);
+	});
+	
+	var serialmSaved = $('#serial_m').attr('data');
+	$('#serial_m').focusout(function(event){
+		$.post(		
+	 		BASE_URL+'adviser/ajaxAuto', 
+			{ serial_m: $(this).val() }, 
+			function(data){
+				//console.log(data);
+				if ( data.length > 0 ) {
+					if ( data['0'].serial_m != serialmSaved ) {
+						bootbox.alert(
+							'<div class="alert alert-danger alert-dark" style="text-align: center;">'+
+								'<h4><strong>!ERROR¡</strong> Este Serial pertenece a un contrato existente</h4>'+
+							'</div>', 
+							function() {
+								$('#serial_m').val(serialmSaved);
+						});
+					} 
+				}
+			}, "json"
+		);
 	});
 	
 // Section of Content Select
@@ -221,6 +273,11 @@ $(document).ready(function() {
 	});
 	
 	loadSelect({
+		selector:	'.tipoTelf', 
+		url:		BASE_URL + "select/loadSelect"
+	});
+	
+	loadSelect({
 		selector:	'#marca', 
 		url:		BASE_URL + "select/loadSelect"
 	});
@@ -242,40 +299,68 @@ $(document).ready(function() {
 	
 	//==================================================
 	
+	// select dependiente 1
 	selectDependent({
 		origin:		'#estado',
 		selector:	'#municipio', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
+		selectOptionDependent({
+			selector: 	'#municipio',
+			url:		BASE_URL + "select/loadSelectDepent",			
+		});
+	
 	
 	$('#estado').change(function () {
 		$('#parroquia_id').empty();
 		$('#parroquia_id').append('<option value="">Seleccione...</option>');
 	});
 	
+	// select dependiente 2
 	selectDependent({
 		origin:		'#municipio',
 		selector:	'#parroquia_id', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
-
+		selectOptionDependent({
+			selector: 	'#parroquia_id',
+			url:		BASE_URL + "select/loadSelectDepent",			
+		});
+	
+	// select dependiente 3
 	selectDependent({
 		origin:		'#marca',
 		selector:	'#modelo_id', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
 
+		selectOptionDependent({
+			selector: 	'#modelo_id',
+			url:		BASE_URL + "select/loadSelectDepent",			
+		});
+		
+	// select dependiente 4
 	selectDependent({
 		origin:		'#claseVehiculo',
 		selector:	'#tipoVehiculo', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
 	
+		selectOptionDependent({
+			selector: 	'#tipoVehiculo',
+			url:		BASE_URL + "select/loadSelectDepent",			
+		});
+	
 	selectDependent({
 		origin:		'#tipoVehiculo',
 		selector:	'#numPuesto', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
+		
+		selectOptionDependent({
+			selector: 	'#numPuesto',
+			url:		BASE_URL + "select/loadSelectDepent",			
+		});
 	
 	$('#claseVehiculo').change(function () {
 		$('#numPuesto').empty();
@@ -302,7 +387,7 @@ $(document).ready(function() {
 			$('#precio_id').val('');
 			$('#precioTxt').val('Sin precio');
 			
-			selectOptionDependent({
+			selectOptionDependent2({
 				selector:	'#cobertura', 
 				url:		BASE_URL + "select/loadSelectDepent",
 				id:			$('#claseVehiculo').val(),
@@ -324,8 +409,7 @@ $(document).ready(function() {
 			$('#precioTxt').val('Sin precio');
 		}else {
 			$.post(
-		 		BASE_URL+'adviser/getPrecio',
-		 		{ 
+		 		BASE_URL+'adviser/getPrecio',{ 
 		 			cobertura_id: cobertura_id, 
 		 			numPuesto_id: numPuesto_id 
 		 		}, 
@@ -343,6 +427,11 @@ $(document).ready(function() {
 		selector:	'#usoVehiculo_id', 
 		url:		BASE_URL + "select/loadSelectDepent"
 	});
+		
+		selectOptionDependent({
+			selector: 	'#usoVehiculo_id',
+			url:		BASE_URL + "select/loadSelectDepent",			
+		});
 	
 	/*
 	loadSelect({
@@ -358,12 +447,17 @@ $(document).ready(function() {
 	
 	*/
 	
-	var selectYear = $("#anio");
-	
+	var selectYear 	= $("#anio");
+	var choose 		= selectYear.attr('choose');
 	var yy = new Date(); // Año
 	selectYear.append('<option value="">Seleccione...</option>');
 	for (var i=0; i<100; i++) {
-		selectYear.append('<option value="' + (yy.getFullYear()-i) + '">' + (yy.getFullYear()-i) + '</option>');
+		
+		if (choose == (yy.getFullYear()-i)) {
+			selectYear.append('<option selected value="' + (yy.getFullYear()-i) + '">' + (yy.getFullYear()-i) + '</option>');
+		}else {
+			selectYear.append('<option value="' + (yy.getFullYear()-i) + '">' + (yy.getFullYear()-i) + '</option>');
+		}
 	}
 	
 	
@@ -373,7 +467,7 @@ $(document).ready(function() {
 // maskedinput 
 	// =============================================== dni ===========================================
 	var select1 = $('#tipoPersona_id');
-	$('#dni').attr('disabled', true);
+	//$('#dni').attr('disabled', true);
 	$('#dni').attr('placeholder', 'Seleccione el Tipo de Persona');
 	
 	select1.change(function () {
@@ -425,26 +519,28 @@ $(document).ready(function() {
 // Section of Content dinamic 	
 	
 	// Cant Max Content Dinamic  ============================================================================
-	var a = $("#init div").length + 1;
-	var b = $("#init div").length + 1;
-		
+	var a = $("#aux").val();
+	//alert(a);
+	var b = $("#aux2").val();
+	//alert(b);
 	var maxPhones       = 1;	
 	var addPhone        = $("#addPhone");	
 	$('#phones div#clone').hide();
 	
 	$(addPhone).click(function(e){
 		if(a <= maxPhones){
-			
+			var cont = 1 + 1;
 			var clone = $('#phones div#clone').clone(true);
 			
 			clone.attr('id','parent');
+						
+			$('#aux').attr('value', cont );
 			
-			$('#aux').attr('value', (a+1) );
-		    $('.tp_phone',clone).attr('id','tipo_'+(a+1));
-		    $('.tp_phone',clone).attr('name','tipo_'+(a+1));
+		    $('.tp_phone',clone).attr('id','tipo_'+cont);
+		    $('.tp_phone',clone).attr('name','tipo_'+cont);
 
-		    $('.num_phone',clone).attr('id','telf_'+(a+1));
-		    $('.num_phone',clone).attr('name','telf_'+(a+1));
+		    $('.num_phone',clone).attr('id','telf_'+cont);
+		    $('.num_phone',clone).attr('name','telf_'+cont);
 		    
 		    $(clone).appendTo('#phones').show('1500');
 		    
@@ -461,7 +557,7 @@ $(document).ready(function() {
 					required:"Campo requerido"
 				}
 			});
-			
+			cont = 0;
 			a++;
 		}
 		return false
@@ -472,14 +568,14 @@ $(document).ready(function() {
 	$('#mail div#clone2').hide();
 	
 	$(addMail).click(function(e){
-		if(b <= MaxMeil){
+		if(b < MaxMeil){
 			
 			var clone = $('#mail div#clone2').clone(true);
 			
 			clone.attr('id','parent');
 			
-			$('#aux2').attr('value', b );
-		    $('.email',clone).attr('name','mail_'+b);
+			$('#aux2').attr('value', (b+1) );
+		    $('.email',clone).attr('name','mail_'+(b+1));
 		    
 		    $(clone).appendTo('#mail').show('1500');
 		    
@@ -512,7 +608,7 @@ $(document).ready(function() {
 	
 	$("body").on("click",".delete2", function(e){
 		
-		if( b > 1 ) {
+		if( b > 0 ) {
 			$(this).parent('div').hide("1500", function(){ $(this).remove(); });
 			$('#aux2').attr('value', $('#aux2').attr('value')-1 );
 			b--;
@@ -556,7 +652,7 @@ $(document).ready(function() {
 	
 // Validate
 	
-	var myForm = $('#adviser_contratos');
+	var myForm = $('#adviser_editarAsoc');
 	
 	$.validator.setDefaults({
 		errorClass: 'form_error',
@@ -603,51 +699,22 @@ $(document).ready(function() {
 	
 	myForm.validate({
 		rules:{
-			tipoPersona_id:		"required",			
-			dni:{
-				required: 		true,
-				//remote: 		BASE_URL + "partners/remoteQuery", 
-			},
-			nombres:{
-				required: 		true,
-				minlength: 		2,
-				maxlength: 		30,
-				lettersonly: 	true,
-			},
-			apellidos:{
-				required: 		true,
-				minlength: 		2,
-				maxlength: 		30,
-				lettersonly: 	true,				
-			},
-			estado:				"required",
-			municipio:			"required",
-			parroquia_id:		"required",
-			direccion:			"required",
-			tipo_1:				"required",
-			num_Telf:			"required",
 			marca:				"required",
 			modelo_id:			"required",
 			tipoTrans_id:		"required",
 			anio:				"required",
-			color:{
-				required: 		true,
-				lettersonly: 	true,				
-			},
+			color:				"required",
 			placa:{
 				required: 		true,
 				serial: 		true,
-				remote:			BASE_URL + 'select/remote'
 			},
 			serial_c:{
 				required: 		true, 
 				serial: 		true,
-				remote:			BASE_URL + 'select/remote'
 			},
 			serial_m:{
 				required: 		true,
 				serial: 		true,
-				remote:			BASE_URL + 'select/remote'
 			},
 			claseVehiculo:		"required",
 			tipoVehiculo:		"required",
@@ -663,56 +730,26 @@ $(document).ready(function() {
 			usoVehiculo_id:		"required",
 		},
 		messages: {
-			tipoPersona_id:		"Selección requerida",
-			dni:{
-				required: 		"Campo requerido",
-				number: 		"Introduzca un número válido.",
-				remote: 		"Cédula ya está registrada.",
-			},
-			nombres:{
-				required: 		"Campo requerido",
-				minlength: 		"Mínimo 2 carácteres",
-				maxlength: 		"Máximo 30 carácteres",
-				lettersonly: 	"Introduzca caracteres válidos.",
-			},
-			apellidos:{
-				required:		"Campo requerido",
-				minlength: 		"Mínimo 2 carácteres",
-				maxlength: 		"Máximo 30 carácteres",
-				lettersonly: 	"Introduzca caracteres válidos.",
-			},
-			estado:				"Selección requerida",
-			municipio:			"Selección requerida",
-			parroquia_id:		"Selección requerida",
-			direccion: 			"Campo requerido",
-			tipo_1:				"Selección requerida",
-			num_Telf:			"Campo requerido",
 			marca:				"Selección requerida",
 			modelo_id:			"Selección requerida",
 			tipoTrans_id:		"Selección requerida",
 			anio:				"Selección requerida",
-			color:{
-				required: 		"Campo requerido",
-				lettersonly: 	"Introduzca caracteres válidos.",				
-			},
+			color:				"Campo requerido",
 			placa:{
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
-				remote:			"Placa asociada a un contrato"
 			},
 			serial_c:{
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
-				remote:			"Serial asociada a un contrato"
 			},
 			serial_m:{
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
-				remote:			"Serial asociada a un contrato"
 			},
 			claseVehiculo:		"Selección requerida",
 			tipoVehiculo:		"Selección requerida",
-			numPuesto:			"Selección requerida",//peso
+			numPuesto:			"Selección requerida",//
 			tipoPago:			"Selección requerida",
 			cobertura:			"Selección requerida",
 			uso:				"Selección requerida",
@@ -728,7 +765,7 @@ $(document).ready(function() {
 			//location.reload();
 			bootbox.confirm(
 					'<div class="alert alert-dark bootbox-text">'+
-						'<h4><strong><i class="fa fa-exclamation-triangle"></i> ¡Precaución!</strong> ¿La información Cargada es la correcta?.</h4>'+
+						'<h4><strong><i class="fa fa-exclamation-triangle"></i> ¡Precaución!</strong> ¿Se han correjido los datos correctamente?</h4>'+
 					'</div>',
 				function(result) {
 				if (result == true) {
@@ -738,11 +775,13 @@ $(document).ready(function() {
 			            data:	myForm.serialize(),
 			            success: function(response) {
 			                //console.log(response);
+			               
 			                if (response == true) {
-			                	$(location).attr('href', BASE_URL+'adviser/procesoImp');
+			                	$(location).attr('href', BASE_URL+'adviser/procesoImp2');
 							}else {
 								alert(response);
 							}
+							
 			            }            
 			        });
 				}

@@ -352,7 +352,7 @@
 				    <td>'.$data['usoVehiculo'].'</td>
 				  </tr>
 				  <tr>
-				    <td><strong>'.utf8_encode('S./CARRO:').'</strong></td>
+				    <td><strong>'.utf8_encode('S./CARROC:').'</strong></td>
 				    <td>'.$data['serial_c'].'</td>
 				    <td><strong>'.utf8_encode('S./MOTOR:').'</strong></td>
 				    <td>'.$data['serial_m'].'</td>
@@ -435,7 +435,7 @@
 				</table>
 				</div>
 					<div id="hora">'
-						.utf8_encode('Fecha y Hora de Impresión: ').$fecha.' - '.$hora.' 
+						.utf8_encode('Fecha y Hora de Impresión: ').$fecha.' --- '.$hora.' 
 					</div>
 			';
 			
@@ -447,8 +447,7 @@
 		public function carnetPdf() {
 			
 			$model 	= $this->loadModel('adviser');
-			$data 	= $model->getContrato(Session::get('lastContrato'));
-			//$data 	= $model->getContrato('1');
+			$data 	= $model->getContrato(Session::get('lastContrato'), '2');
 			$telf 	= $model->getTelefonos(Session::get('lastTitular'));			
 			$correo = $model->getCorreos(Session::get('lastTitular'));
 			$fecha	= $model->getFecha();
@@ -462,9 +461,148 @@
 		     ';
 			
 			$content ='
+				<link href="'.PUBLIC_URL.'css/report.css" rel="stylesheet" type="text/css">
+						
 				<div style="height: 99.8%; width: 100%; border: 0px solid #ccc; margin: 0px;">
-					
-					
+					<table>
+					  <tr>
+					    <th>
+							<div class="box">		
+								<table class="tg_carnet">
+								  <tr>
+								    <th class="boxLogo"><img src="'.PUBLIC_URL.'img/logo.png" class="logo1"></th>
+								    <th class="boxLogo2" colspan="3">
+								    		<img src="'.PUBLIC_URL.'img/M&M2.jpg" class="logo2"><br>
+								    		<p class="">INTERNACIONAL DE COMPROMISO M&M c.a. <br> <span class="rif">RIF. J-29810090-7</span></p>
+								    </th>
+								  </tr>
+								  <tr>
+								    <td colspan="4" class="title">
+								    	<strong>'.utf8_encode('RESPONSABILIDAD CIVIL DE VEHÍCULOS (R.C.V.)').'</strong>
+								    	<br>'.utf8_encode('COD. CARNET: <strong>').Session::get('identificador').'-'.$data['id'].'</strong>
+								    </td>
+								  </tr>
+								  <tr>
+								    <td colspan="2">
+								    	<strong>'.utf8_encode('VIGENCIA DESDE:').'</strong> '.App::showDate($data['fecha_exp']).'
+								    </td>
+								    <td colspan="2">
+								    	<strong>'.utf8_encode('HASTA:').'</strong> '.App::showDate($data['fecha_ven']).'
+								    </td>					    
+								  </tr>
+								  <tr>
+								    <td colspan="3"><strong>'.utf8_encode('AFILIADO:').'</strong> '.$data['nombres'].', '.$data['apellidos'].'</td>
+								    <td><strong>RIF/C.I.</strong>&nbsp;&nbsp;'.$data['dni'].'</td>
+								  </tr>
+								  <tr>
+								    <td colspan="4"><strong>'.utf8_encode('DIRECCIÓN:').'</strong> '.$data['direccion'].',<br>'.$data['estado'].', '.$data['municipio'].', '.$data['parroquia'].'</td>
+								  </tr>
+								  <tr>
+								    <td class="txt1"><strong>'.utf8_encode('MARCA:').'</strong></td>
+								    <td>'.$data['marca'].'</td>
+								    <td class="txt1"><strong>'.utf8_encode('MODELO:').'</strong></td>
+								    <td>'.$data['modelo'].'</td>
+								  </tr>
+								  <tr>
+								    <td class="txt1"><strong>'.utf8_encode('CLASE:').'</strong></td>
+								    <td>'.$data['claseVehiculo'].'</td>
+								    <td class="txt1"><strong>'.utf8_encode('TIPO:').'</strong></td>
+								    <td>'.$data['tipoVehiculo'].'</td>
+								  </tr>
+								  <tr>
+								    <td class="txt1"><strong>'.utf8_encode('COLOR:').'</strong></td>
+								    <td>'.$data['color'].'</td>
+								    <td class="txt1"><strong>'.utf8_encode('USO:').'</strong></td>
+								    <td>'.$data['usoVehiculo'].'</td>
+								  </tr>
+								  <tr>
+								    <td class="txt1"><strong>'.utf8_encode('S./CARROC:').'</strong></td>
+								    <td>'.$data['serial_c'].'</td>
+								    <td class="txt1"><strong>'.utf8_encode('S./MOTOR:').'</strong></td>
+								    <td>'.$data['serial_m'].'</td>
+								  </tr>
+								  <tr>
+								    <td class="txt1"><strong>'.utf8_encode('PLACA:').'</strong></td>
+								    <td>'.$data['placa'].'</td>
+								    <td class="txt1"><strong>'.utf8_encode('AÑO:').'</strong></td>
+								    <td>'.$data['anio'].'</td>
+								  </tr>
+								  <tr>
+								    <td class="txt1"><strong>'.utf8_encode('PUESTOS:').'</strong></td>
+								    <td>'.$data['numPuesto'].'</td>
+								    <td class="txt1"><strong>'.utf8_encode('PESO:').'</strong></td>
+								    <td>'.$data['peso'].'</td>
+								  </tr>
+								  <tr>
+								    <td colspan="4" class="tg_footer">'.utf8_encode('ESTE CARNET ES VALIDO SI PRESENTA EL SELLO DE LA COMPAÑIA Y FIRMA AUTORIZADA').'</td>
+								  </tr>
+								</table>
+							</div>
+						</th>
+								    		
+					    <th>
+							<div class="box">		
+								<table class="tg_carnet">
+								  <tr>
+								    <th></th>
+								    <th></th>
+								    <th></th>
+								    <th></th>
+								  </tr>
+								  <tr>
+								    <td colspan="4" class="titleBack">
+								    	<strong>'.utf8_encode('RESPONSABILIDAD CIVIL DE VEHÍCULOS (R.C.V.)').'</strong>								    	
+								    </td>
+								  </tr>
+								  <tr>
+								    <td colspan="4" class="borde-none">
+								    	<div class="txt2"><br>
+								    		MONTO DE LA AFILIACION RCV <strong>Bs.F '.number_format( $data['precio'],2,",","." ).'</strong><br>
+								    		COBERTURA <strong>Bs.F '.number_format( $data['cobertura'] ,2,",",".").'</strong>
+								    		SEGUN CONTRATO: <strong>'.Session::get('identificador').'-'.$data['id'].'</strong><br><br>
+								    		<strong>'.utf8_encode('
+								    			Daños a Personas Víctimas de Accidente de Tránsito. 
+								    			Daños a Personas Ocupantes del Vehículo. 
+								    			Daños a Propiedad. 
+								    			Grúa y Estacionamiento (<i>Solo Procederá en Caso de Choque</i>). 
+								    			Indemnización Semanal (<i>Máximo 3 Semanas</i>). 
+								    			Asistencia Legal.
+								    		').'</strong>
+								    	</div>								    	
+								    </td>
+								  </tr>
+								   
+								  <tr>
+								    <td colspan="2" class="txt3">___________________________</td>
+								    <td colspan="2" class="txt3">___________________________</td>
+								  </tr>
+								  
+								  <tr>
+								    <td colspan="2" class="txt3">'.utf8_encode('POR LA COMPAÑIA').'</td>
+								    <td colspan="2" class="txt3">'.utf8_encode('AFILIADO').'</td>
+								  </tr>
+								  
+								  <tr>
+								    <td colspan="2" class="txt3"></td>
+								    <td colspan="2" class="txt3"></td>
+								  </tr>
+								  
+								  <tr>
+								    <td colspan="4" class="tg_footer">'.utf8_encode('							
+											<strong>Oficina:</strong> Av. Sur 4, Entre Esq.	Angelito a Quebrados, Parcela 034, Nro. S/N San Juan, Z.P. 1010, Caracas<br>
+											Telfs.: (0212) 481.94.07 - (0212) 416.29.22 						  
+										').'</td>
+								  </tr>
+								</table>
+							</div>
+						</th>
+								    		
+					  </tr>
+					</table>
+						
+						
+						
+						    		
 				</div>
 			';
 			

@@ -199,7 +199,7 @@ $(document).ready(function() {
 			            	if (res == 1) {
 			            		$(location).attr('href', BASE_URL + 'adviser/impFact');
 							}else if (res == 2) {
-								$(location).attr('href', BASE_URL + 'adviser/procesoImp');
+								$(location).attr('href', BASE_URL + 'adviser/procesoImp2');
 							}else if (res == 3) {
 			            		$(location).attr('href', BASE_URL + 'adviser/');
 							}else if (res == 4) {
@@ -229,7 +229,7 @@ $(document).ready(function() {
 								url:	myForm.attr('action'),
 						        async: 	false,
 					            success: function(res) {
-					            						            	
+					            					            	
 					            	if (res == 1) {
 					            		$(location).attr('href', BASE_URL + 'adviser/impFact');
 									}else if (res == 2) {
@@ -271,7 +271,7 @@ $(document).ready(function() {
 									}else if (res == 2) {
 										$(location).attr('href', BASE_URL + 'adviser/procesoImp2');
 									}else if (res == 3) {
-					            		$(location).attr('href', BASE_URL + 'adviser/editAsoc');
+					            		$(location).attr('href', BASE_URL + 'adviser/editarAsoc2');
 									}else if (res == 4) {
 					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp2');
 									}else if (res == 5) {
@@ -279,6 +279,7 @@ $(document).ready(function() {
 									}else{
 										alert(res);
 									}
+					            	
 					            }            
 					        });
 						}
@@ -310,7 +311,7 @@ $(document).ready(function() {
 									}else if (res == 3) {
 					            		$(location).attr('href', BASE_URL + 'adviser/editContrato');
 									}else if (res == 4) {
-					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp');
+					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp2');
 									}else if (res == 5) {
 					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp');
 									}else{
@@ -349,7 +350,7 @@ $(document).ready(function() {
 									}else if (res == 4) {
 					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp');
 									}else if (res == 5) {
-					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp');
+					            		$(location).attr('href', BASE_URL + 'adviser/procesoImp2');
 									}else{
 										alert(res);
 									}
