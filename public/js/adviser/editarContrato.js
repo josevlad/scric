@@ -180,10 +180,74 @@ $(document).ready(function() {
 				}
 			}, "json"
 		);
-		/*
-		$(this).val($(this).val().toUpperCase());
-		*/
 	});
+	
+	var placaSaved = $('#placa').attr('data');
+	$('#placa').focusout(function(event){
+		$.post(		
+	 		BASE_URL+'adviser/ajaxAuto', 
+			{ placa: $(this).val() }, 
+			function(data){
+				//console.log(data);
+				if ( data.length > 0 ) {
+					if ( data['0'].placa != placaSaved ) {
+						bootbox.alert(
+							'<div class="alert alert-danger alert-dark" style="text-align: center;">'+
+								'<h4><strong>!ERROR¡</strong> Esta placa pertenece a un contrato existente</h4>'+
+							'</div>', 
+							function() {
+								$('#placa').val(placaSaved);
+						});
+					} 
+				}
+			}, "json"
+		);
+	});
+	
+	var serialcSaved = $('#serial_c').attr('data');
+	$('#serial_c').focusout(function(event){
+		$.post(		
+	 		BASE_URL+'adviser/ajaxAuto', 
+			{ serial_c: $(this).val() }, 
+			function(data){
+				//console.log(data);
+				if ( data.length > 0 ) {
+					if ( data['0'].serial_c != serialcSaved ) {
+						bootbox.alert(
+							'<div class="alert alert-danger alert-dark" style="text-align: center;">'+
+								'<h4><strong>!ERROR¡</strong> Este Serial pertenece a un contrato existente</h4>'+
+							'</div>', 
+							function() {
+								$('#serial_c').val(serialcSaved);
+						});
+					} 
+				}
+			}, "json"
+		);
+	});
+	
+	var serialmSaved = $('#serial_m').attr('data');
+	$('#serial_m').focusout(function(event){
+		$.post(		
+	 		BASE_URL+'adviser/ajaxAuto', 
+			{ serial_m: $(this).val() }, 
+			function(data){
+				//console.log(data);
+				if ( data.length > 0 ) {
+					if ( data['0'].serial_m != serialmSaved ) {
+						bootbox.alert(
+							'<div class="alert alert-danger alert-dark" style="text-align: center;">'+
+								'<h4><strong>!ERROR¡</strong> Este Serial pertenece a un contrato existente</h4>'+
+							'</div>', 
+							function() {
+								$('#serial_m').val(serialmSaved);
+						});
+					} 
+				}
+			}, "json"
+		);
+	});
+	
 	
 // Section of Content Select
 	
@@ -638,8 +702,7 @@ $(document).ready(function() {
 		rules:{
 			tipoPersona_id:		"required",			
 			dni:{
-				required: 		true,
-				//remote: 		BASE_URL + "partners/remoteQuery", 
+				required: 		true, 
 			},
 			nombres:{
 				required: 		true,
@@ -667,17 +730,14 @@ $(document).ready(function() {
 			placa:{
 				required: 		true,
 				serial: 		true,
-				remote:			BASE_URL + 'select/remote'
 			},
 			serial_c:{
 				required: 		true, 
 				serial: 		true,
-				remote:			BASE_URL + 'select/remote'
 			},
 			serial_m:{
 				required: 		true,
 				serial: 		true,
-				remote:			BASE_URL + 'select/remote'
 			},
 			claseVehiculo:		"required",
 			tipoVehiculo:		"required",
@@ -697,7 +757,6 @@ $(document).ready(function() {
 			dni:{
 				required: 		"Campo requerido",
 				number: 		"Introduzca un número válido.",
-				remote: 		"Cédula ya está registrada.",
 			},
 			nombres:{
 				required: 		"Campo requerido",
@@ -725,17 +784,14 @@ $(document).ready(function() {
 			placa:{
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
-				remote:			"Placa asociada a un contrato"
 			},
 			serial_c:{
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
-				remote:			"Serial asociada a un contrato"
 			},
 			serial_m:{
 				required: 		"Campo requerido",
 				serial: 		"Introduzca un serial válido.",
-				remote:			"Serial asociada a un contrato"
 			},
 			claseVehiculo:		"Selección requerida",
 			tipoVehiculo:		"Selección requerida",

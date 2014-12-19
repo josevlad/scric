@@ -35,6 +35,16 @@
 			}
 		}
 		
+		protected function redirect($view = FALSE) {
+			if ($view) {
+				header('location:' . BASE_URL . $view);
+				exit();
+			}else {
+				header('location:' . BASE_URL );
+				exit();
+			};
+		}
+		
 		protected function getLibrary($library) {
 			$library_route = ROOT . 'libs' . DS . $library . '.php';
 				
@@ -68,16 +78,16 @@
 												'id'	=>'newContract',
 												'title'	=>'Nuevo Contrato',
 												'link'	=> BASE_URL.'adviser/contratos'
-											),
+											),/*
 											array(
 												'id'	=>'renewContract',
 												'title'	=>'Renovar Contrato',
-												'link'	=> BASE_URL
-											),
+												'link'	=> BASE_URL.'adviser/renovarContrato'
+											),*/
 											array(
 												'id'	=>'cancelContract',
 												'title'	=>'Anular Contrato',
-												'link'	=> BASE_URL
+												'link'	=> BASE_URL.'adviser/anularContrato'
 											),
 										)
 						),
@@ -91,17 +101,7 @@
 												'id'	=>'formatos',
 												'title'	=>'Registrar Formatos',
 												'link'	=> BASE_URL.'adviser/formatos'
-											),
-											array(
-												'id'	=>'renewContract',
-												'title'	=>'Renovar Contrato',
-												'link'	=> BASE_URL
-											),
-											array(
-												'id'	=>'cancelContract',
-												'title'	=>'Anular Contrato',
-												'link'	=> BASE_URL
-											),
+											)
 										)
 						),
 						array(
@@ -129,12 +129,7 @@
 												'id'	=>'numPuesto',
 												'title'	=>utf8_encode('Número de Puestos'),
 												'link'	=> BASE_URL.'config/numPuesto'
-											),
-											array(
-												'id'	=>'',
-												'title'	=>utf8_encode(''),
-												'link'	=> BASE_URL
-											),
+											)
 										)
 						),
 						array(
@@ -157,12 +152,7 @@
 												'id'	=>'asignarPrecio',
 												'title'	=>utf8_encode('Asignación de Precios'),
 												'link'	=> BASE_URL.'config/asignarPrecio'
-											),
-											array(
-												'id'	=>'',
-												'title'	=>utf8_encode(''),
-												'link'	=> BASE_URL
-											),
+											)
 										)
 						),
 						array(
@@ -186,66 +176,167 @@
 					);										
 				break;
 				
-				case 'ADMIN_DB':
-					$this->_menu = array(
-						array(
-							'id'	=>'index',
-							'title'	=>'Inicio',
-							'link'	=> BASE_URL,
-							'icon'	=> ''
-						),
-						array(
-							'id'	=>'AdminDB',
-							'title'	=>'Listado de Personas',
-							'link'	=> '#',
-							'icon'	=> '',
-							'sub'	=> 	array(
-											array(
-												'id'	=>'index',
-												'title'	=>'Inicio',
-												'link'	=> BASE_URL,
-												'icon'	=> ''
-											),
-											array(
-												'id'	=>'index',
-												'title'	=>'Inicio',
-												'link'	=> BASE_URL,
-												'icon'	=> ''
-											),
-										)
-						)				
-					);										
-				break;
-
 				case 'ASESOR':
 					$this->_menu = array(
 						array(
 							'id'	=>'index',
 							'title'	=>'Inicio',
-							'link'	=> BASE_URL,
-							'icon'	=> ''
+							'link'	=> BASE_URL.'adviser',
+							'icon'	=> 'fa-home'
 						),
 						array(
-							'id'	=>'AdminDB',
-							'title'	=>'Listado de Personas',
+							'id'	=>'contracts',
+							'title'	=>'Contratos',
 							'link'	=> '#',
-							'icon'	=> '',
+							'icon'	=> 'fa-folder-open-o',
 							'sub'	=> 	array(
 											array(
-												'id'	=>'index',
-												'title'	=>'Inicio',
-												'link'	=> BASE_URL,
-												'icon'	=> ''
-											),
+												'id'	=>'newContract',
+												'title'	=>'Nuevo Contrato',
+												'link'	=> BASE_URL.'adviser/contratos'
+											),/*
 											array(
-												'id'	=>'index',
-												'title'	=>'Inicio',
-												'link'	=> BASE_URL,
-												'icon'	=> ''
+												'id'	=>'renewContract',
+												'title'	=>'Renovar Contrato',
+												'link'	=> BASE_URL.'adviser/renovarContrato'
+											),*/
+											array(
+												'id'	=>'cancelContract',
+												'title'	=>'Anular Contrato',
+												'link'	=> BASE_URL.'adviser/anularContrato'
 											),
 										)
+						),
+						array(
+							'id'	=>'forms',
+							'title'	=>'Formatos',
+							'link'	=> '#',
+							'icon'	=> 'fa-file-text-o',
+							'sub'	=> 	array(
+											array(
+												'id'	=>'formatos',
+												'title'	=>'Registrar Formatos',
+												'link'	=> BASE_URL.'adviser/formatos'
+											)
+										)
 						)				
-					);										
+					);											
+				break;
+
+				case 'ADMIN_DB':
+					$this->_menu = array(
+						array(
+							'id'	=>'index',
+							'title'	=>'Inicio',
+							'link'	=> BASE_URL.'config',
+							'icon'	=> 'fa-home'
+						),
+						array(
+							'id'	=>'contracts',
+							'title'	=>'Contratos',
+							'link'	=> '#',
+							'icon'	=> 'fa-folder-open-o',
+							'sub'	=> 	array(
+											array(
+												'id'	=>'newContract',
+												'title'	=>'Nuevo Contrato',
+												'link'	=> BASE_URL.'adviser/contratos'
+											),
+											array(
+												'id'	=>'renewContract',
+												'title'	=>'Renovar Contrato',
+												'link'	=> BASE_URL.'adviser/renovarContrato'
+											),
+											array(
+												'id'	=>'cancelContract',
+												'title'	=>'Anular Contrato',
+												'link'	=> BASE_URL.'adviser/anularContrato'
+											),
+										)
+						),
+						array(
+							'id'	=>'forms',
+							'title'	=>'Formatos',
+							'link'	=> '#',
+							'icon'	=> 'fa-file-text-o',
+							'sub'	=> 	array(
+											array(
+												'id'	=>'formatos',
+												'title'	=>'Registrar Formatos',
+												'link'	=> BASE_URL.'adviser/formatos'
+											)
+										)
+						),
+						array(
+							'id'	=>'adminDB',
+							'title'	=>'Adm. del Sistema',
+							'link'	=> '#',
+							'icon'	=> 'fa-database',
+							'sub'	=> 	array(
+											array(
+												'id'	=>'claseVehiculo',
+												'title'	=>'Clases de Vehiculo',
+												'link'	=> BASE_URL.'config/claseVehiculo'
+											),
+											array(
+												'id'	=>'usoVehiculo',
+												'title'	=>'Uso de Vehiculo',
+												'link'	=> BASE_URL.'config/usoVehiculo'
+											),
+											array(
+												'id'	=>'tipoVehiculo',
+												'title'	=>utf8_encode('Tipos de Vehículos'),
+												'link'	=> BASE_URL.'config/tipoVehiculo'
+											),
+											array(
+												'id'	=>'numPuesto',
+												'title'	=>utf8_encode('Número de Puestos'),
+												'link'	=> BASE_URL.'config/numPuesto'
+											)
+										)
+						),
+						array(
+							'id'	=>'adminDB',
+							'title'	=>'Precios y Coberturas',
+							'link'	=> '#',
+							'icon'	=> 'fa-money',
+							'sub'	=> 	array(
+											array(
+												'id'	=>'cobertura',
+												'title'	=>utf8_encode('Coberturas'),
+												'link'	=> BASE_URL.'config/cobertura'
+											),
+											array(
+												'id'	=>'asignarConcepto',
+												'title'	=>utf8_encode('Conceptos de Poliza'),
+												'link'	=> BASE_URL.'config/asignarConcepto'
+											),
+											array(
+												'id'	=>'asignarPrecio',
+												'title'	=>utf8_encode('Asignación de Precios'),
+												'link'	=> BASE_URL.'config/asignarPrecio'
+											)
+										)
+						),
+						array(
+							'id'	=>'user',
+							'title'	=>'Adm. de Usuarios',
+							'link'	=> '#',
+							'icon'	=> 'fa-users',
+							'sub'	=> 	array(
+											array(
+												'id'	=>'agencias',
+												'title'	=>'Agencias',
+												'link'	=> BASE_URL.'config/agencias'
+											),
+											array(
+												'id'	=>'usuarios',
+												'title'	=>'Usuarios',
+												'link'	=> BASE_URL.'config/usuarios'
+											)
+										)
+						)				
+					);											
 				break;
 			}
 			

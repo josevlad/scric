@@ -64,15 +64,48 @@
 			
 			switch ($type) {
 				case 'placa':
-					$this->_query = 'SELECT contratos.placa FROM contratos WHERE contratos.placa =  "'.$var.'"';
+					$this->_query = '
+						SELECT
+							contratos.placa,	planillas.agencias_id
+						FROM
+							contratos
+						INNER JOIN planillas ON contratos.planillas_id = planillas.id 
+						WHERE 
+							contratos.statusCont_id = "2" 
+						AND 
+							contratos.placa =  "'.$var.'"
+						AND
+							planillas.agencias_id ="'.Session::get('idAgencia').'"';
 				break;
 				
 				case 'serial_c':
-					$this->_query = 'SELECT contratos.serial_c FROM contratos WHERE contratos.serial_c =  "'.$var.'"';
+					$this->_query = '
+						SELECT 
+							contratos.serial_c,	planillas.agencias_id
+						FROM
+							contratos
+						INNER JOIN planillas ON contratos.planillas_id = planillas.id 
+						WHERE 
+							contratos.statusCont_id = "2" 
+						AND 
+							contratos.placa =  "'.$var.'"
+						AND
+							planillas.agencias_id ="'.Session::get('idAgencia').'"';
 				break;
 				
 				case 'serial_m':
-					$this->_query = 'SELECT contratos.serial_m FROM contratos WHERE contratos.serial_m =  "'.$var.'"';
+					$this->_query = '
+						SELECT
+							contratos.serial_m,	planillas.agencias_id
+						FROM
+							contratos
+						INNER JOIN planillas ON contratos.planillas_id = planillas.id 
+						WHERE 
+							contratos.statusCont_id = "2" 
+						AND 
+							contratos.placa =  "'.$var.'"
+						AND
+							planillas.agencias_id ="'.Session::get('idAgencia').'"';
 				break;
 				
 			}

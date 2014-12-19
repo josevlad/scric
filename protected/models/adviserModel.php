@@ -787,7 +787,9 @@
 					concepto.invalidez2,			concepto.muerte2,
 					concepto.daniosPropiedad,		concepto.grua,
 					concepto.estacionamiento,		concepto.indemnizacionSem,
-					concepto.asistenciaLegal
+					concepto.asistenciaLegal,		tipopersona.tipoPersona,
+					contratos.titulares_id,			tipotrans.tipoTrans,
+					planillas.agencias_id
 				FROM
 					titulares
 					INNER JOIN contratos ON contratos.titulares_id = titulares.id
@@ -803,10 +805,15 @@
 					INNER JOIN modelo ON contratos.modelo_id = modelo.id
 					INNER JOIN marca ON modelo.marca_id = marca.id
 					INNER JOIN concepto ON concepto.cobertura_id = cobertura.id
+					INNER JOIN tipopersona ON titulares.tipoPersona_id = tipopersona.id
+					INNER JOIN tipotrans ON contratos.tipoTrans_id = tipotrans.id
+					INNER JOIN planillas ON contratos.planillas_id = planillas.id
 				WHERE
 					statusCont_id = '.$st.'
 				AND
-					contratos.id = '.$id;
+					contratos.id = '.$id.'
+				AND
+					planillas.agencias_id ="'.Session::get('idAgencia').'"';
 			
 			$data = $this->_db->query($this->_query);
 				
@@ -822,6 +829,191 @@
 			}
 							
 			return array_shift( $result );
+		}
+		
+		public function getDataRenovacion($id) {
+			
+			$data = array();
+				
+			$this->_query 	= '
+					SELECT
+						contratos.id,
+						contratos.placa,
+						contratos.anio,
+						contratos.color,
+						contratos.serial_c,
+						contratos.serial_m,
+						contratos.peso,
+						contratos.fecha_exp,
+						contratos.hora_ven,
+						contratos.fecha_ven,
+						contratos.hora_exp,
+						contratos.tipoTrans_id,
+						contratos.usoVehiculo_id,
+						contratos.precio_id,
+						contratos.statusCont_id,
+						contratos.titulares_id,
+						contratos.planillas_id,
+						contratos.modelo_id,
+						modelo.marca_id,
+						precio.numPuesto_id,
+						precio.cobertura_id,
+						numpuesto.tipoVehiculo_id,
+						tipovehiculo.claseVehiculo_id
+					FROM
+						contratos
+						INNER JOIN modelo ON contratos.modelo_id = modelo.id
+						INNER JOIN precio ON contratos.precio_id = precio.id
+						INNER JOIN numpuesto ON precio.numPuesto_id = numpuesto.id
+						INNER JOIN tipovehiculo ON numpuesto.tipoVehiculo_id = tipovehiculo.id
+					WHERE
+						contratos.id ='.$id;			
+			$result			= $this->_db->query($this->_query);
+			$array_data		= $result->fetchAll(PDO::FETCH_ASSOC);
+			$contrato 		= array_shift($array_data);
+			Session::set('lastContrato',$id);
+			
+			$this->_query 	= '
+					SELECT
+						titulares.id,
+						titulares.dni,
+						titulares.nombres,
+						titulares.apellidos,
+						titulares.direccion,
+						titulares.tipoPersona_id,
+						titulares.parroquia_id,
+						municipio.estado_id,
+						parroquia.municipio_id
+					FROM
+						estado
+						INNER JOIN municipio ON municipio.estado_id = estado.id
+						INNER JOIN parroquia ON parroquia.municipio_id = municipio.id
+						INNER JOIN titulares ON titulares.parroquia_id = parroquia.id
+					WHERE 
+						titulares.id ='.$contrato['titulares_id'];
+			$result			= $this->_db->query($this->_query);
+			$array_data		= $result->fetchAll(PDO::FETCH_ASSOC);
+			$titular 		= array_shift($array_data);
+			Session::set('lastTitular', $titular['id']);
+						
+			$this->_query 	= 'SELECT * FROM telefonos WHERE titulares_id ='.$titular['id'];
+			$result			= $this->_db->query($this->_query);
+			$array_data		= $result->fetchAll(PDO::FETCH_ASSOC);
+			$telefonos 		= $array_data;
+
+			$this->_query 	= 'SELECT * FROM correos WHERE titulares_id ='.$titular['id'];
+			$result			= $this->_db->query($this->_query);
+			$array_data		= $result->fetchAll(PDO::FETCH_ASSOC);
+			$correos 		= $array_data;
+			
+			$data['tipoPersona_id'] 	= $titular['tipoPersona_id'];
+			$data['dni'] 				= $titular['dni'];
+			$data['nombres'] 			= $titular['nombres'];
+			$data['apellidos'] 			= $titular['apellidos'];
+			$data['estado'] 			= $titular['estado_id'];
+			$data['municipio'] 			= $titular['municipio_id'];
+			$data['parroquia_id'] 		= $titular['parroquia_id'];
+			$data['direccion']	 		= $titular['direccion'];
+			$data['aux']		 		= count($telefonos);
+			
+			for ($i = 0; $i < count($telefonos); $i++) {
+				$temp = $i + 1;
+				$data['tipo_'.$temp]		= $telefonos[$i]['tipoTelf_id'];
+				$data['telf_'.$temp]		= $telefonos[$i]['numTelf'];
+			}
+			$data['aux2']		 		= count($correos);
+			
+			for ($i = 0; $i < count($correos); $i++) {
+				$temp = $i + 1;
+				$data['mail_'.$temp]		= $correos[$i]['correo'];
+			}
+
+			$data['marca']		 		= $contrato['marca_id'];
+			$data['modelo_id']		 	= $contrato['modelo_id'];
+			$data['tipoTrans_id']		= $contrato['tipoTrans_id'];
+			$data['anio']		 		= $contrato['anio'];
+			$data['color']		 		= $contrato['color'];
+			$data['placa']		 		= $contrato['placa'];
+			$data['serial_c']			= $contrato['serial_c'];
+			$data['serial_m']			= $contrato['serial_m'];
+			$data['claseVehiculo']		= $contrato['claseVehiculo_id'];
+			$data['tipoVehiculo']		= $contrato['tipoVehiculo_id'];
+			$data['numPuesto']			= $contrato['numPuesto_id'];
+			$data['tipoPago']			= '1';
+			$data['cobertura']			= $contrato['cobertura_id'];
+			$data['precio_id']			= $contrato['precio_id'];
+			$data['usoVehiculo_id']		= $contrato['usoVehiculo_id'];
+			$data['peso']		 		= $contrato['peso'];
+			$data['fecha_exp']		 	= $contrato['fecha_exp'];
+			$data['hora_exp']		 	= $contrato['hora_exp'];
+			
+			return $data;
+		}
+		
+		public function getContratos($st = '> 0') {
+				
+				
+			$this->_query = '
+				SELECT
+					titulares.dni,
+					titulares.nombres,				titulares.apellidos,
+					titulares.direccion,			numpuesto.numPuesto,
+					parroquia.parroquia,			municipio.municipio,
+					estado.estado,					contratos.placa,
+					contratos.anio,					contratos.color,
+					contratos.serial_c,				contratos.serial_m,
+					contratos.peso,					contratos.fecha_exp,
+					contratos.hora_ven,				contratos.fecha_ven,
+					contratos.hora_exp,				contratos.statusCont_id,
+					contratos.id,					precio.precio,
+					usovehiculo.usoVehiculo,		cobertura.cobertura,
+					clasevehiculo.claseVehiculo,	tipovehiculo.tipoVehiculo,
+					modelo.modelo,					marca.marca,
+					concepto.gastosMedicos1,		concepto.invalidez1,
+					concepto.muerte1,				concepto.gastosMedicos2,
+					concepto.invalidez2,			concepto.muerte2,
+					concepto.daniosPropiedad,		concepto.grua,
+					concepto.estacionamiento,		concepto.indemnizacionSem,
+					concepto.asistenciaLegal,		tipopersona.tipoPersona,
+					contratos.titulares_id,			tipotrans.tipoTrans,
+					planillas.agencias_id
+				FROM
+					titulares
+					INNER JOIN contratos ON contratos.titulares_id = titulares.id
+					INNER JOIN precio ON contratos.precio_id = precio.id
+					INNER JOIN usovehiculo ON contratos.usoVehiculo_id = usovehiculo.id
+					INNER JOIN cobertura ON precio.cobertura_id = cobertura.id
+					INNER JOIN clasevehiculo ON usovehiculo.claseVehiculo_id = clasevehiculo.id AND cobertura.claseVehiculo_id = clasevehiculo.id
+					INNER JOIN tipovehiculo ON tipovehiculo.claseVehiculo_id = clasevehiculo.id
+					INNER JOIN numpuesto ON numpuesto.tipoVehiculo_id = tipovehiculo.id AND precio.numPuesto_id = numpuesto.id
+					INNER JOIN parroquia ON titulares.parroquia_id = parroquia.id
+					INNER JOIN municipio ON parroquia.municipio_id = municipio.id
+					INNER JOIN estado ON municipio.estado_id = estado.id
+					INNER JOIN modelo ON contratos.modelo_id = modelo.id
+					INNER JOIN marca ON modelo.marca_id = marca.id
+					INNER JOIN concepto ON concepto.cobertura_id = cobertura.id
+					INNER JOIN tipopersona ON titulares.tipoPersona_id = tipopersona.id
+					INNER JOIN tipotrans ON contratos.tipoTrans_id = tipotrans.id
+					INNER JOIN planillas ON contratos.planillas_id = planillas.id
+				WHERE
+					statusCont_id '.$st.'
+				AND
+					planillas.agencias_id ="'.Session::get('idAgencia').'"';
+				
+			$data = $this->_db->query($this->_query);
+		
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+				
+			return $result;
 		}
 		
 		public function getTelefonos($id) {
@@ -1032,7 +1224,25 @@
 		
 		public function getAjaxTitular($dni) {
 			$this->_query = '
-				SELECT * FROM titulares WHERE dni = "'.$dni.'"';
+				SELECT
+					titulares.id,
+					titulares.dni,
+					titulares.nombres,
+					titulares.apellidos,
+					titulares.direccion,
+					titulares.tipoPersona_id,
+					titulares.parroquia_id,
+					contratos.planillas_id,
+					planillas.agencias_id
+				FROM
+					titulares
+				INNER JOIN contratos ON contratos.titulares_id = titulares.id
+				INNER JOIN planillas ON contratos.planillas_id = planillas.id
+				
+				WHERE 
+					titulares.dni = "'.$dni.'"
+				AND
+					planillas.agencias_id ="'.Session::get('idAgencia').'"';
 				
 			$data = $this->_db->query($this->_query);
 		

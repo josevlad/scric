@@ -5,7 +5,6 @@
 		private $_config;
 		
 		public function __construct() {
-			Session::accessRole(array('SUPER_U'));
 			parent::__construct();
 			$this->_config = $this->loadModel('config');
 			$this->_menuSB = $this->createMenu();
@@ -18,6 +17,8 @@
 		}
 		
 		public function remote() {
+
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
 			
 			foreach ($_GET as $key => $value){
 				$field 	= $key;
@@ -43,6 +44,8 @@
 		
 		//Administracion de la tabla agencias
 		public function agencias() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
@@ -86,7 +89,9 @@
 		
 		//Administracion de la tabla claseVehiculo
 		public function claseVehiculo() {
-		
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
+			
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
 			$this->_view->titleHead = 'Administracion de Base de datos';
@@ -106,7 +111,9 @@
 		
 		//Administracion de la tabla estado
 		public function estado() {
-		
+			
+			Session::accessRole(array('SUPER_U'));
+			
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
 			$this->_view->titleHead = 'Administracion de Base de datos';
@@ -126,6 +133,8 @@
 		
 		//Administracion de la tabla marca
 		public function marca() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -146,7 +155,9 @@
 		
 		//Administracion de la tabla perfilUsuario
 		public function perfilUsuario() {
-		
+			
+			Session::accessRole(array('SUPER_U'));
+			
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
 			$this->_view->titleHead = 'Administracion de Base de datos';
@@ -166,6 +177,8 @@
 		
 		//Administracion de la tabla pregunta
 		public function pregunta() {
+			
+			Session::accessRole(array('SUPER_U'));
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -186,6 +199,8 @@
 		
 		//Administracion de la tabla statusCont
 		public function statusCont() {
+			
+			Session::accessRole(array('SUPER_U'));
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -206,7 +221,9 @@
 		
 		//Administracion de la tabla statusFormat
 		public function statusFormat() {
-		
+			
+			Session::accessRole(array('SUPER_U'));
+			
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
 			$this->_view->titleHead = 'Administracion de Base de datos';
@@ -226,7 +243,9 @@
 		
 		//Administracion de la tabla statusUsuarios
 		public function statusUsuarios() {
-		
+			
+			Session::accessRole(array('SUPER_U'));
+			
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
 			$this->_view->titleHead = 'Administracion de Base de datos';
@@ -246,7 +265,9 @@
 				
 		//Administracion de la tabla tipoPago
 		public function tipoPago() {
-		
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
+			
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
 			$this->_view->titleHead = 'Administracion de Base de datos';
@@ -266,6 +287,8 @@
 		
 		//Administracion de la tabla tipoPersona
 		public function tipoPersona() {
+			
+			Session::accessRole(array('SUPER_U'));
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -286,7 +309,9 @@
 		
 		//Administracion de la tabla tipoTelf
 		public function tipoTelf() {
-		
+			
+			Session::accessRole(array('SUPER_U'));
+			
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
 			$this->_view->titleHead = 'Administracion de Base de datos';
@@ -306,6 +331,8 @@
 		
 		//Administracion de la tabla tipoTrans
 		public function tipoTrans() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -331,6 +358,8 @@
 		
 		//Administracion de la tabla cobertura
 		public function cobertura() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -351,6 +380,8 @@
 		
 		//Administracion de la tabla tipoVehiculo
 		public function tipoVehiculo() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -371,6 +402,8 @@
 		
 		//Administracion de la tabla modelo
 		public function modelo() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -391,6 +424,8 @@
 		
 		//Administracion de la tabla municipio
 		public function municipio() {
+			
+			Session::accessRole(array('SUPER_U'));
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -411,6 +446,8 @@
 		
 		//Administracion de la tabla numPuesto
 		public function numPuesto() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -431,6 +468,8 @@
 		
 		//Administracion de la tabla parroquia
 		public function parroquia() {
+			
+			Session::accessRole(array('SUPER_U'));
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -451,6 +490,8 @@
 
 		//Administracion de la tabla usoVehiculo
 		public function usoVehiculo() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
 		
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
@@ -471,6 +512,8 @@
 
 		//Administracion de la tabla precio
 		public function edithPrecio() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
@@ -521,6 +564,9 @@
 		}
 		
 		public function asignarPrecio() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 				//print_r($_POST);
@@ -572,6 +618,8 @@
 		//Administracion de la tabla usuarios
 		public function usuarios() {
 			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 				if ($_POST['tpAction'] == '0') {
@@ -622,6 +670,9 @@
 		}
 
 		public function getRegistro() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 				$id = $_POST['id'];
@@ -654,6 +705,8 @@
 		
 		//Administracion de la tabla asignarConcepto
 		public function asignarConcepto() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
 		
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -718,6 +771,8 @@
 		
 		public function getReference( $type ) {
 			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			$data = array();
 		
 			$cases = array(
@@ -758,6 +813,8 @@
 		}
 		
 		public function actionReference() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
@@ -813,6 +870,8 @@
 		}
 		
 		public function actionDependence() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
@@ -892,6 +951,8 @@
 		}
 		
 		public function actionNumPuesto() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB'));
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {				
 				

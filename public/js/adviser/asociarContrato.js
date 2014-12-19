@@ -506,7 +506,12 @@ $(document).ready(function() {
 			            type:	myForm.attr('method'),
 			            data:	myForm.serialize(),
 			            success: function(response) {
-			                $(location).attr('href', BASE_URL+'adviser/procesoImp2');
+			            	console.log(response);
+			            	if(response == true){
+			            		$(location).attr('href', BASE_URL+'adviser/procesoImp2');
+			            	}else{
+			            		alert(response);
+			            	}
 			            }            
 			        });
 				}

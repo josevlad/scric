@@ -40,9 +40,17 @@
 											<i class="fa fa-map-marker list-group-icon"></i>
 											<?php echo utf8_encode('Dirección: ')?> <strong><?php echo $this->data['direccion'].', '.$this->data['parroquia'].', '.$this->data['municipio'].', '.$this->data['estado'];?></strong>
 										</div>
+										<div class="list-group-item">
+											<i class="fa fa-phone list-group-icon"></i>
+											<?php echo utf8_encode('Teñefonos: ')?> <strong><?php echo $this->telefonos ;?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-envelope-o list-group-icon"></i>
+											<?php echo utf8_encode('Correo: ')?> <strong><?php echo utf8_encode( $this->Correo );?></strong>
+										</div>
 										
 									</div>
-								</div> 
+								</div>
 
 				
 							</div>
@@ -312,6 +320,7 @@
 <!-- ================================== PANEL ================================== -->
 							
 				<div class="text-right">
+					<a href="javascript:history.back(1)" class="btn btn-danger"><i class="fa fa-undo"></i> Cancelar</a>
 					<button type="submit" class="btn btn-primary">Guardar</button>
 				</div>
 			</form>

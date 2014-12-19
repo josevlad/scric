@@ -1,0 +1,132 @@
+<!-- content -->	
+	<div class="row">
+		<div class="col-md-12">
+			
+			<form id="adviser_asociarContrato" action="<?php echo BASE_URL.'adviser/anulacion'; ?>" method="post" class="form-horizontal">
+				<?php //echo Session::get('idAgencia');?>
+<!-- ================================== PANEL ================================== -->
+				<?php echo App::boxMessage('Anular Contrato', '¿Seguro que desea anular el siguente contrato?', 'warning')?>
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">Datos del Titular</span>
+					</div>
+					
+					<div class="panel-body">
+						<?php //App::varDump($this->data); App::varDump($this->telefonos); ?>
+						<div class="col-md-12">
+
+								<div class="panel panel-success panel-dark widget-profile">
+									<div class="panel-heading">
+										<div class="widget-profile-bg-icon"><i class="fa fa-user"></i></div>
+										<div class="widget-profile-header">
+											<h5><span><?php echo $this->data['nombres'].', '.$this->data['apellidos'];?></span></h5>
+										</div>
+									</div>
+									<div class="list-group">
+										<div class="list-group-item">
+											<i class="fa fa-credit-card list-group-icon"></i>
+											RIF/CI: <strong><?php echo $this->data['dni']?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-user list-group-icon"></i>
+												Tipo de Persona: <strong><?php echo $this->data['tipoPersona']?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-map-marker list-group-icon"></i>
+											<?php echo utf8_encode('Dirección: ')?> <strong><?php echo $this->data['direccion'].', '.$this->data['parroquia'].', '.$this->data['municipio'].', '.$this->data['estado'];?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-phone list-group-icon"></i>
+											<?php echo utf8_encode('Teñefonos: ')?> <strong><?php echo $this->telefonos ;?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-envelope-o list-group-icon"></i>
+											<?php echo utf8_encode('Correo: ')?> <strong><?php echo utf8_encode( $this->Correo );?></strong>
+										</div>
+										
+									</div>
+								</div> 
+								
+								<div class="panel panel-success panel-dark widget-profile">
+									<div class="panel-heading">
+										<div class="widget-profile-bg-icon"><i class="fa fa-car"></i></div>
+										<div class="widget-profile-header">
+											<h5><span><?php echo $this->data['marca'].', '.$this->data['modelo'];?></span></h5>
+										</div>
+									</div>
+									<div class="list-group">
+										<div class="list-group-item">
+											<i class="fa fa-cogs list-group-icon"></i>
+											<?php echo utf8_encode('Tipo de Transmisión: ')?> <strong><?php echo $this->data['tipoTrans']?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-car  list-group-icon"></i>
+												<?php echo utf8_encode('Año del Vehículo: ')?> <strong><?php echo $this->data['anio']?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-paint-brush list-group-icon"></i>
+											<?php echo utf8_encode('Color: ')?> <strong><?php echo $this->data['color'];?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-list-alt list-group-icon"></i>
+											<?php echo utf8_encode('Placa: ')?> <strong><?php echo $this->data['placa'];?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-barcode list-group-icon"></i>
+											<?php echo utf8_encode('S/Carroceria: ')?> <strong><?php echo utf8_encode( $this->data['serial_c'] );?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-barcode list-group-icon"></i>
+											<?php echo utf8_encode('S/Motor: ')?> <strong><?php echo utf8_encode( $this->data['serial_m'] );?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-bookmark-o list-group-icon"></i>
+											<?php echo utf8_encode('Clase de Vehículo: ')?> <strong><?php echo utf8_encode( $this->data['claseVehiculo'] );?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-tasks list-group-icon"></i>
+											<?php echo utf8_encode('Tipo de Vehículo: ')?> <strong><?php echo utf8_encode( $this->data['tipoVehiculo'] );?></strong>
+										</div>
+										
+										<div class="list-group-item">
+											<i class="fa fa-sort-numeric-asc list-group-icon"></i>
+											<?php echo utf8_encode('Número de Puesto: ')?> <strong><?php echo utf8_encode( $this->data['numPuesto'] );?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-list list-group-icon"></i>
+											<?php echo utf8_encode('Cobertura: ')?> <strong><?php echo utf8_encode( $this->data['tipoVehiculo'] );?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-money list-group-icon"></i>
+											<?php echo utf8_encode('Precio: ')?> <strong><?php echo utf8_encode( $this->data['precio'] );?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-check-square-o list-group-icon"></i>
+											<?php echo utf8_encode('Uso: ')?> <strong><?php echo utf8_encode( $this->data['usoVehiculo'] );?></strong>
+										</div>
+										<div class="list-group-item">
+											<i class="fa fa-download list-group-icon"></i>
+											<?php echo utf8_encode('Peso: ')?> <strong><?php echo utf8_encode( $this->data['peso'] );?></strong>
+										</div>
+										
+									</div>
+								</div> 
+
+				
+							</div>
+						
+					</div>
+				
+				</div>
+				
+<!-- ================================== PANEL ================================== -->
+							
+				<div class="text-right">
+					<a href="javascript:history.back(1)" class="btn btn-danger"><i class="fa fa-undo"></i> Cancelar</a>					
+					<button type="submit" class="btn btn-primary"><i class="fa fa-times"></i> Anular</button>
+				</div>
+			</form>
+			
+		</div>
+	</div>
+<!-- end content -->

@@ -12,6 +12,8 @@
 		
 		function index() {
 			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			//Content page-hader
 			$this->_view->icon_fa = 'fa-database';
 			$this->_view->titleHead = 'Administracion de Base de datos';
@@ -26,6 +28,9 @@
 		}
 		
 		public function getPrecio() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		
 				$data = array();
@@ -41,6 +46,9 @@
 		}
 		
 		public function formatos() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 				$fecha_reg 	= App::saveDate( $_POST['fecha_reg'] );
@@ -90,6 +98,8 @@
 		}
 		
 		public function contratos($dataForm = false) {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
@@ -186,6 +196,8 @@
 		
 		public function reallocateForm() {
 			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			$data = Session::get('data');
 			
 			for ($i = 0; $i < '3'; $i++) {
@@ -208,6 +220,8 @@
 		
 		public function reallocateForm2() {
 			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			$data = Session::get('contrato');
 			$data[':statusCont_id'] = '1';
 			
@@ -222,6 +236,8 @@
 		}
 						
 		public function procesoImp() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
 			
 			if (Session::get('print')) {
 				
@@ -286,6 +302,8 @@
 		}
 		
 		public function procesoImp2() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
 				
 			if (Session::get('print')) {
 		
@@ -351,6 +369,8 @@
 		}
 		
 		public function impFact() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
 				
 			if (Session::get('print')) {
 		
@@ -440,6 +460,8 @@
 		}
 		
 		public function impCarnet() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
 		
 			if (Session::get('print')) {
 		
@@ -511,6 +533,9 @@
 		}
 		
 		public function editContrato() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 				Session::destroy('dataForm');
@@ -604,6 +629,9 @@
 		}
 		
 		public function editarContrato() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		
 				Session::destroy('dataForm');
@@ -707,6 +735,8 @@
 		
 		public function reimpresion() {
 			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			if (Session::get('contadorImp')){
 				
 				if (Session::get('contadorImp') == '1') {
@@ -730,6 +760,9 @@
 		}
 		
 		public function ajaxTitular() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 				$dni = $_POST['dni'];
@@ -740,6 +773,9 @@
 		}
 		
 		public function ajaxAuto() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 				if (isset($_POST['placa'])) {
@@ -758,6 +794,8 @@
 		}
 		
 		public function asociarContrato($id = false) {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {			
 				
@@ -816,6 +854,10 @@
 				Session::set('lastTitular', $id);
 				$this->_view->data = $this->_adviser->getTitular($id);
 				
+				
+				$this->_view->telefonos = $this->_adviser->getTelefonos($id);
+				$this->_view->Correo = $this->_adviser->getCorreos($id);
+				
 				$this->_view->stPlanillas = count( $this->_adviser->getPlanilla() );
 				$this->_view->stFacturas  = count( $this->_adviser->getFactura() );
 				
@@ -827,6 +869,9 @@
 		}
 		
 		public function editarAsoc() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 				Session::destroy('contrato');
@@ -893,6 +938,9 @@
 		}
 		
 		public function editarAsoc2() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		
 				Session::destroy('contrato');
@@ -956,6 +1004,124 @@
 				$this->_view->data = Session::get('dataForm');
 					
 				$this->_view->render('editarAsoc2',$this->_menuSB);
+			}
+		}
+		
+		public function renovarContrato() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				
+				$dataForm = $this->_adviser->getDataRenovacion($_POST['idContrato']);
+				
+			}else {
+		
+				//Content page-hader
+				$this->_view->icon_fa = 'fa-check-square-o';
+				$this->_view->titleHead = 'Renovación de Contratos';
+			
+				//dataTable
+				$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+					
+				//printPage js
+				$this->_view->setJs(array('plugins/bootbox/bootbox'));
+			
+				//data de la tb tipo de persona
+				//$this->_view->np = $this->getReference( 'numPuesto' );
+				$this->_view->data = $this->_adviser->getContratos( '3' );
+			
+				//custom config js
+				$this->_view->setJs(array('adviser/renovarContrato'));
+			
+				$this->_view->render('renovarContrato',$this->_menuSB);
+			
+			}
+		}
+		
+		public function anularContrato() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			
+				$dataForm = $this->_adviser->getDataRenovacion($_POST['idContrato']);
+				
+				//Content page-hader
+				$this->_view->icon_fa = 'fa-times';
+				$this->_view->titleHead = 'Anulación de Contrato';
+					
+				//dataTable
+				$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+					
+				//printPage js
+				$this->_view->setJs(array('plugins/bootbox/bootbox'));
+					
+				//data de la tb tipo de persona
+				//$this->_view->np = $this->getReference( 'numPuesto' );
+				$data = $this->_adviser->getContrato( $_POST['idContrato'], '2' );
+				$this->_view->data = $data;
+				$this->_view->telefonos = $this->_adviser->getTelefonos($data['titulares_id']);
+				$this->_view->Correo = $this->_adviser->getCorreos($data['titulares_id']);
+				Session::set('idContrato', $_POST['idContrato']);
+					
+				//custom config js
+				$this->_view->setJs(array('adviser/pregunta'));
+					
+				$this->_view->render('pregunta',$this->_menuSB);
+			
+			}else {
+			
+				//Content page-hader
+				$this->_view->icon_fa = 'fa-check-square-o';
+				$this->_view->titleHead = 'Anulación de Contratos';
+					
+				//dataTable
+				$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+					
+				//printPage js
+				$this->_view->setJs(array('plugins/bootbox/bootbox'));
+					
+				//data de la tb tipo de persona
+				$this->_view->data = $this->_adviser->getContratos('= 2');
+					
+				//custom config js
+				$this->_view->setJs(array('adviser/anularContrato'));
+					
+				$this->_view->render('anularContrato',$this->_menuSB);
+					
+			}
+		}
+		
+		public function anulacion() {
+			
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				
+				$this->_adviser->updateStatusContrato('3',Session::get('idContrato'));
+				$this->_view->redirect('adviser/anularContrato');
+				
+			}else {
+			
+				//Content page-hader
+				$this->_view->icon_fa = 'fa-check-square-o';
+				$this->_view->titleHead = 'Anulación de Contratos';
+					
+				//dataTable
+				$this->_view->setJs(array('plugins/datatables/jquery.dataTables.min'));
+					
+				//printPage js
+				$this->_view->setJs(array('plugins/bootbox/bootbox'));
+					
+				//data de la tb tipo de persona
+				$this->_view->data = $this->_adviser->getContratos('= 2');
+					
+				//custom config js
+				$this->_view->setJs(array('adviser/anularContrato'));
+					
+				$this->_view->render('anularContrato',$this->_menuSB);
+					
 			}
 		}
 	}

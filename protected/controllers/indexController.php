@@ -14,11 +14,11 @@
 					break;
 					
 					case 'ASESOR':
-						$this->_view->redirect('contracts/index');
+						$this->_view->redirect('adviser/');
 					break;
 					
-					case 'AUDITOR':
-						$this->_view->redirect('contracts/index');
+					case 'ADMIN_DB':
+						$this->_view->redirect('config');
 					break;
 					
 					default:
