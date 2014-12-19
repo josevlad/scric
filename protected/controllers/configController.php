@@ -3,16 +3,22 @@
 		
 		protected $_menuSB;
 		private $_config;
+		private $_adviser;
 		
 		public function __construct() {
 			parent::__construct();
 			$this->_config = $this->loadModel('config');
+			$this->_adviser = $this->loadModel('adviser');
 			$this->_menuSB = $this->createMenu();
 		}
 		
 		function index() {
 			$this->_view->icon_fa = 'fa-database';
 			$this->_view->titleHead = 'Administracion de Base de datos';
+			$this->_view->vencidos = count( $this->_adviser->getContratos('= 5') );
+			$this->_view->vigentes = count( $this->_adviser->getContratos('= 2') );
+			$this->_view->anulados = count( $this->_adviser->getContratos('= 3') );
+			$this->_view->dañados  = count( $this->_adviser->getContratos('= 4') );
 			$this->_view->render('index',$this->_menuSB);
 		}
 		

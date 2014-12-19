@@ -1,22 +1,30 @@
 <!-- content -->	
 	<div class="row">
 		<div class="col-md-12">
-		
+			
+			<?php if (isset($this->msg)):?>
+				<div class="row">
+					<div class="col-xs-12">
+						<?php echo $this->msg;?>
+					</div>
+				</div>
+			<?php endif;?>
+			
 			<div class="row">
 			
-				<div class="col-xs-4">				
+				<div class="col-xs-3">				
 					<div class="stat-panel text-center">
 						
 						<div class="stat-row">
 							<div class="stat-cell bg-dark-gray padding-sm text-xs text-semibold">
-								<i class="fa fa-globe"></i>&nbsp;&nbsp;BANDWIDTH
+								<i class="fa fa-check"></i>&nbsp;&nbsp;<?php echo utf8_encode('Contratos Vigentes')?>
 							</div>
 						</div>
 						
 						<div class="stat-row">
 							<div class="stat-cell bordered no-border-t no-padding-hr">
 								<div class="pie-chart" data-percent="43" id="easy-pie-chart-1">
-									<div class="pie-chart-label">12.3TB</div>
+									<div><h2><?php echo $this->vigentes; ?></h2></div>
 								</div>
 							</div>
 						</div>
@@ -24,46 +32,66 @@
 					</div>					
 				</div>
 				
-				<div class="col-xs-4">
+				<div class="col-xs-3">				
 					<div class="stat-panel text-center">
-					
-						<div class="stat-row">
 						
+						<div class="stat-row">
 							<div class="stat-cell bg-dark-gray padding-sm text-xs text-semibold">
-								<i class="fa fa-flash"></i>&nbsp;&nbsp;PICK LOAD
+								<i class="fa fa-times"></i>&nbsp;&nbsp;<?php echo utf8_encode('Contratos Vencidos')?>
 							</div>
-						</div> 
-
+						</div>
+						
 						<div class="stat-row">
 							<div class="stat-cell bordered no-border-t no-padding-hr">
-								<div class="pie-chart" data-percent="93" id="easy-pie-chart-2">
-									<div class="pie-chart-label">93%</div>
+								<div class="pie-chart" data-percent="43" id="easy-pie-chart-1">
+									<div><h2><?php echo $this->vencidos; ?></h2></div>
 								</div>
 							</div>
 						</div>
 						
-					</div> 
+					</div>					
 				</div>
 				
-				<div class="col-xs-4">
+				<div class="col-xs-3">				
 					<div class="stat-panel text-center">
-										
-						<div class="stat-row">						
+						
+						<div class="stat-row">
 							<div class="stat-cell bg-dark-gray padding-sm text-xs text-semibold">
-								<i class="fa fa-cloud"></i>&nbsp;&nbsp;USED RAM
+								<i class="fa fa-ban"></i>&nbsp;&nbsp;<?php echo utf8_encode('Contratos Anulados')?>
 							</div>
 						</div>
 						
 						<div class="stat-row">
 							<div class="stat-cell bordered no-border-t no-padding-hr">
-								<div class="pie-chart" data-percent="75" id="easy-pie-chart-3">
-									<div class="pie-chart-label">12GB</div>
+								<div class="pie-chart" data-percent="43" id="easy-pie-chart-1">
+									<div><h2><?php echo $this->anulados; ?></h2></div>
 								</div>
 							</div>
 						</div>
 						
-					</div> 
+					</div>					
 				</div>
+				
+				<div class="col-xs-3">				
+					<div class="stat-panel text-center">
+						
+						<div class="stat-row">
+							<div class="stat-cell bg-dark-gray padding-sm text-xs text-semibold">
+								<i class="fa fa-trash"></i>&nbsp;&nbsp;<?php echo utf8_encode('Contratos Dañados')?>
+							</div>
+						</div>
+						
+						<div class="stat-row">
+							<div class="stat-cell bordered no-border-t no-padding-hr">
+								<div class="pie-chart" data-percent="43" id="easy-pie-chart-1">
+									<div><h2><?php echo $this->dañados; ?></h2></div>
+								</div>
+							</div>
+						</div>
+						
+					</div>					
+				</div>
+				
 			</div>
 			
 		</div>

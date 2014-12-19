@@ -8,6 +8,7 @@
 			parent::__construct();
 			$this->_adviser = $this->loadModel('adviser');
 			$this->_menuSB = $this->createMenu();
+			$this->vencimientoContratos();
 		}
 		
 		function index() {
@@ -15,14 +16,20 @@
 			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
 			
 			//Content page-hader
-			$this->_view->icon_fa = 'fa-database';
-			$this->_view->titleHead = 'Administracion de Base de datos';
+			$this->_view->icon_fa = 'fa-file-text-o';
+			$this->_view->titleHead = 'Modulo de Contratos';
 			
 			if (Session::get('print')) {
 				$this->_view->msg = App::boxMessage('Registro exitoso', "El contrato fue creado con exito!", "success");
 			}
 			//Session::set('print', true);
 			Session::destroy('print');
+			
+			$this->_view->vencidos = count( $this->_adviser->getContratos('= 5') );
+			$this->_view->vigentes = count( $this->_adviser->getContratos('= 2') );
+			$this->_view->anulados = count( $this->_adviser->getContratos('= 3') );
+			$this->_view->dañados  = count( $this->_adviser->getContratos('= 4') );
+			
 			
 			$this->_view->render('index',$this->_menuSB);		
 		}
@@ -1123,6 +1130,70 @@
 				$this->_view->render('anularContrato',$this->_menuSB);
 					
 			}
+		}
+		
+		public function vencimientoContratos() {
+			
+			$data = $this->_adviser->getContratos('= 2');
+			$hoy = App::saveDate( $this->_adviser->getFecha() )  ;
+			
+			for ($i = 0; $i < count($data); $i++) {
+				$fecha_ven = $data[$i]['fecha_ven'];
+				
+				$today = strtotime($hoy);
+				$date_exp = strtotime($fecha_ven);
+				
+				if($today > $date_exp){					
+					$this->_adviser->updateStatusContrato('5',$data[$i]['id']);
+				}
+				
+			}
+			
+		}
+		
+		public function ventasAsesor() {
+				
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				
+				//content page-hader
+				$this->_view->icon_fa = 'fa-print';
+				$this->_view->titleHead = 'Impresión de Relación de Ventas';
+				
+				//pdf js
+				$this->_view->setJs(array('plugins/pdf/pdfobject'));
+				
+				//printPage js
+				$this->_view->setJs(array('plugins/printPage/printPage'));
+					
+				//printPage js
+				$this->_view->setJs(array('plugins/bootbox/bootbox'));
+					
+				//custom config js
+				$this->_view->setJs(array('adviser/ventasAsesor'));
+					
+				$this->_view->render('ventasAsesor',$this->_menuSB);	
+						
+			}else {
+				//content page-hader
+				$this->_view->icon_fa = 'fa-print';
+				$this->_view->titleHead = 'Impresión de Relación de Ventas';
+	
+				//pdf js
+				$this->_view->setJs(array('plugins/pdf/pdfobject'));
+	
+				//printPage js
+				$this->_view->setJs(array('plugins/printPage/printPage'));
+					
+				//printPage js
+				$this->_view->setJs(array('plugins/bootbox/bootbox'));
+					
+				//custom config js
+				$this->_view->setJs(array('adviser/ventasAsesor'));
+					
+				$this->_view->render('ventasAsesor',$this->_menuSB);
+			}		
 		}
 	}
 ?>

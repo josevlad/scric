@@ -219,6 +219,19 @@
 												'link'	=> BASE_URL.'adviser/formatos'
 											)
 										)
+						),
+						array(
+							'id'	=>'report',
+							'title'	=>'Reportes',
+							'link'	=> '#',
+							'icon'	=> 'fa-print',
+							'sub'	=> 	array(
+											array(
+												'id'	=>'ventas',
+												'title'	=>'Relacion de Ventas',
+												'link'	=> BASE_URL.'adviser/ventasAsesor'
+											)
+										)
 						)				
 					);											
 				break;
@@ -333,6 +346,19 @@
 												'id'	=>'usuarios',
 												'title'	=>'Usuarios',
 												'link'	=> BASE_URL.'config/usuarios'
+											)
+										)
+						),
+						array(
+							'id'	=>'report',
+							'title'	=>'Reportes',
+							'link'	=> '#',
+							'icon'	=> 'fa-print',
+							'sub'	=> 	array(
+											array(
+												'id'	=>'ventas',
+												'title'	=>'Relacion de Ventas',
+												'link'	=> BASE_URL.'adviser/ventasAsesor'
 											)
 										)
 						)				
