@@ -10710,7 +10710,8 @@ body:not(.right-to-left) .no-border-l {
 .ui-datepicker-title select {
     background: 0 0;
     border: none;
-    color: #fff
+    color: #000;
+    font-weight: bold;
 }
 .ui-datepicker-title select:first-child {
     margin-right: 5px

@@ -368,7 +368,47 @@ $(document).ready(function() {
 	
 	
 		
-// datepicker 
+// modal:
+	
+	var addMarca = $('#addMarca');
+
+	$(addMarca).click(function() {
+		$.fancybox.open({
+			href : BASE_URL + "modal/marca",
+			type : 'iframe',
+			//autoSize: false,
+	        //width: 1024,
+	        //height: 490,
+			afterClose : function(){				
+				loadSelect({
+					selector:	'#marca', 
+					url:		BASE_URL + "select/loadSelect"
+				});
+				$('#modelo_id').empty();
+				$('#modelo_id').append('<option value="">Seleccione...</option>');
+			}
+		});
+	});
+	
+	var addModelo = $('#addModelo');
+
+	$(addModelo).click(function() {
+		$.fancybox.open({
+			href : BASE_URL + "modal/modelo",
+			type : 'iframe',
+			//autoSize: false,
+	        //width: 1024,
+	        //height: 490,
+			afterClose : function(){				
+				loadSelect({
+					selector:	'#marca', 
+					url:		BASE_URL + "select/loadSelect"
+				});
+				$('#modelo_id').empty();
+				$('#modelo_id').append('<option value="">Seleccione...</option>');
+			}
+		});
+	});
 	
 // maskedinput 
 	// =============================================== dni ===========================================

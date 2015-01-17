@@ -96,14 +96,6 @@ label.valid{
 	margin: 0px 10px 0px 10px;
 }
 
-
-iframe {
-    position: absolute;
-    left: 40%;
-    top: 10000%;
-}
-
-
 #pdf {
 	width: 100%;
 	height: 300px;
