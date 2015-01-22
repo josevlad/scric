@@ -1,0 +1,65 @@
+<!-- content -->	
+	<div class="row">
+		<div class="col-md-12">
+		
+			<form id="modal_modelo" action="<?php echo BASE_URL.'modal/modelo'; ?>" method="post" class="form-horizontal">
+
+<!-- ================================== PANEL ================================== -->
+				<div id="init">
+				</div>	
+				<!-- For dinamic fields -->			
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title"><?php echo utf8_encode('Insertar o Editar Modelo de Vehículo')?></span>
+					</div>
+				
+					<div class="panel-body">
+						<!-- ------------------------------------------------------------------------------------------- -->
+						<div class="row clone">
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Marca de Vehículo'); ?></label>
+									<select 
+										class="form-control"
+										id="marca_id" 
+										name="marca_id"
+										table="marca"
+									></select>
+								</div>
+							</div>
+						
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Modelo de Vehículo'); ?></label>
+									<input 
+										type="text" 
+										class="form-control" 
+										id="modelo" 
+										name="modelo"
+									>
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr" style="padding-top: 22px;">
+									<button type="submit" class="form-control btn btn-primary">Guardar</button>
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr" style="padding-top: 22px;">
+									<div class="form-control btn btn-danger" id="cancel">Cancelar</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				
+				</div>
+			</form>	
+<!-- ================================== PANEL ================================== -->
+			
+		
+		</div>
+	</div>
+<!-- end content -->

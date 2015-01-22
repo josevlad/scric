@@ -612,6 +612,10 @@ $(document).ready(function() {
 	  return this.optional(element) || /^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ]+$/i.test(value);
 	}, "Serial only please");
 	
+	jQuery.validator.addMethod("serial2", function(value, element) {
+		  return this.optional(element) || /^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ\-\s]+$/i.test(value);
+		}, "Serial only please");
+	
 	jQuery.validator.addMethod("minage", function(value, element, min) {
 		var today = new Date();
 		var DD 		= Number(today.getDate());
@@ -652,13 +656,13 @@ $(document).ready(function() {
 				required: 		true,
 				minlength: 		2,
 				maxlength: 		30,
-				lettersonly: 	true,
+				//lettersonly: 	true,
 			},
 			apellidos:{
 				required: 		true,
 				minlength: 		2,
 				maxlength: 		30,
-				lettersonly: 	true,				
+				//lettersonly: 	true,				
 			},
 			estado:				"required",
 			municipio:			"required",
@@ -686,7 +690,7 @@ $(document).ready(function() {
 			},
 			serial_m:{
 				required: 		true,
-				serial: 		true,
+				serial2: 		true,
 				remote:			BASE_URL + 'select/remote'
 			},
 			claseVehiculo:		"required",

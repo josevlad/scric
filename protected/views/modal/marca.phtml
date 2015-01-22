@@ -1,0 +1,56 @@
+<!-- content -->	
+	<div class="row">
+		<div class="col-md-12">
+		
+			<form id="modal_marca" action="<?php echo BASE_URL.'modal/marca'; ?>" method="post" class="form-horizontal">
+
+<!-- ================================== PANEL ================================== -->
+				<div id="init">
+				</div>			
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title"><?php echo utf8_encode('Insertar o Editar Marca de Vehículo')?></span>
+					</div>
+				
+					<div class="panel-body">
+						<!-- ------------------------------------------------------------------------------------------- -->
+						<div class="row clone">
+							
+							<div class="col-sm-6">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Marca de Vehículo'); ?></label>
+									<input 
+										type="text" 
+										class="form-control data" 
+										id="marca" 
+										name="marca"
+									>
+								</div>
+							</div>
+													
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr" style="padding-top: 22px;">
+									<button type="submit" class="form-control btn btn-primary">Guardar</button>
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr" style="padding-top: 22px;">
+									<div class="form-control btn btn-danger" id="cancel">Cancelar</div>
+								</div>
+							</div>
+							
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+					</div>
+				
+				</div>
+			</form>	
+<!-- ================================== PANEL ================================== -->
+			
+		
+		
+		</div>
+	</div>
+<!-- end content -->

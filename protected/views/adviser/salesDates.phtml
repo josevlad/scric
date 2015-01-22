@@ -1,0 +1,100 @@
+<!-- content -->	
+	<div class="row">
+		<div class="col-md-12">
+			
+			<form id="adviser_salesDates" action="<?php echo BASE_URL.'adviser/salesDates'; ?>" method="post" class="form-horizontal">
+
+<!-- ================================== PANEL ================================== -->
+				<div id="init">
+				</div>			
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">Insertar o Editar Agencias</span>
+					</div>
+				
+					<div class="panel-body">
+						<!-- ------------------------------------------------------------------------------------------- -->
+						<div class="row clone">
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Fecha desde'); ?></label>
+									<input 
+										type="text" 
+										class="form-control dateP" 
+										id="from" 
+										name="from"
+										value="<?php echo (isset ($this->from)) ? $this->from:""; ?>"
+									>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group no-margin-hr">
+									<label><?php echo utf8_encode('Hasta'); ?></label>
+									<input 
+										type="text" 
+										class="form-control dateP" 
+										id="to" 
+										name="to"
+										value="<?php echo (isset ($this->to)) ? $this->to:""; ?>"
+									>
+								</div>
+							</div>
+													
+							<div class="col-sm-2">
+								<div class="form-group no-margin-hr" style="padding-top: 22px;">
+									<button type="submit" class="form-control btn btn-primary">Generar Reporte</button>
+								</div>
+							</div>
+							
+						</div>
+						<!-- ------------------------------------------------------------------------------------------- -->
+						
+					</div>
+				
+				</div>
+			</form>	
+			
+			<?php if (isset($this->preview)): ?>
+			
+			<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title"><?php echo utf8_encode('Relacion de Ventas')?></span>
+					</div>
+					
+					<div class="panel-body">
+						<!-- ------------------------------------------------------------------------------------------- -->
+						<div class="row">
+											
+							<div class="col-sm-12">
+								<div class="form-group no-margin-hr">
+									<div id="pdf"></div>										
+									<div id="disableSelect"></div>
+								</div>
+							</div><!-- col-sm-6 -->
+						</div>
+						
+						
+						<div class="row">
+							<div class="col-sm-4">
+									
+								<div class="form-group no-margin-hr">
+									<button id="printbtn" class="btn btn-success" >
+										<i class="fa fa-print"></i> 
+										Imprimir
+									</button>
+								</div>
+								
+							</div>
+							
+						</div>
+						
+					</div>
+			</div>
+			
+			<?php endif;?>				
+			
+		</div>
+	</div>
+<!-- end content -->

@@ -119,7 +119,7 @@ $(document).ready(function() {
         return false;
     });
 	
-	alert($('#from').val());
+	//alert($('#from').val());
 	
 	$('#viewerPDF').printPage({
     	url: 		BASE_URL+'report/salesDatesPdf/'+$('#from').val()+'/'+$('#to').val(),

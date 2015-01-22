@@ -172,7 +172,25 @@
 												'link'	=> BASE_URL.'config/usuarios'
 											)
 										)
-						)				
+						),
+						array(
+							'id'	=>'report',
+							'title'	=>'Reportes',
+							'link'	=> '#',
+							'icon'	=> 'fa-print',
+							'sub'	=> 	array(
+											array(
+												'id'	=>'ventas',
+												'title'	=>'Reporte Diario',
+												'link'	=> BASE_URL.'adviser/ventasAsesor'
+											),
+											array(
+													'id'	=>'relación',
+													'title'	=>'Relacion de Ventas',
+													'link'	=> BASE_URL.'adviser/salesDates'
+											)
+										)
+						)					
 					);										
 				break;
 				
@@ -228,8 +246,13 @@
 							'sub'	=> 	array(
 											array(
 												'id'	=>'ventas',
-												'title'	=>'Relacion de Ventas',
+												'title'	=>'Reporte Diario',
 												'link'	=> BASE_URL.'adviser/ventasAsesor'
+											),
+											array(
+													'id'	=>'relación',
+													'title'	=>'Relacion de Ventas',
+													'link'	=> BASE_URL.'adviser/salesDates'
 											)
 										)
 						)				
@@ -357,8 +380,13 @@
 							'sub'	=> 	array(
 											array(
 												'id'	=>'ventas',
-												'title'	=>'Relacion de Ventas',
+												'title'	=>'Reporte Diario',
 												'link'	=> BASE_URL.'adviser/ventasAsesor'
+											),
+											array(
+													'id'	=>'relación',
+													'title'	=>'Relacion de Ventas',
+													'link'	=> BASE_URL.'adviser/salesDates'
 											)
 										)
 						)				

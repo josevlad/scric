@@ -26,11 +26,13 @@
 									<span><?php echo Session::get('name')." ".Session::get('last_name') ; ?></span>
 								</a>
 								<ul class="dropdown-menu">
+									<!-- 
 									<li><a href="pages-blank.html#"><span class="label label-warning pull-right">New</span>Profile</a></li>
 									<li><a href="pages-blank.html#"><span class="badge badge-primary pull-right">New</span>Account</a></li>
 									<li><a href="pages-blank.html#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Settings</a></li>
 									<li class="divider"></li>
-									<li><a href="<?php echo BASE_URL; ?>login/close"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+									 -->
+									<li><a href="<?php echo BASE_URL; ?>login/close"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;<?php echo utf8_encode('Cerrar Sesión')?></a></li>
 								</ul>
 							</li>
 						</ul>

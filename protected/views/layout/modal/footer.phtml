@@ -1,0 +1,38 @@
+<!-- footer -->	
+	
+</div> <!-- / #main-wrapper -->
+
+<!-- Get jQuery from Google CDN -->
+<!--[if !IE]> -->
+	<script type="text/javascript"> window.jQuery || document.write('<script src="<?php echo PUBLIC_URL; ?>js/jquery.min.js">'+"<"+"/script>"); </script>
+<!-- <![endif]-->
+<!--[if lte IE 9]>
+	<script type="text/javascript"> window.jQuery || document.write('<script src="<?php echo PUBLIC_URL; ?>js/jquery.min.2.js">'+"<"+"/script>"); </script>
+<![endif]-->
+
+
+<!-- Pixel Admin's javascripts -->
+<script src="<?php echo PUBLIC_URL; ?>js/bootstrap.min.js"></script>
+<script src="<?php echo PUBLIC_URL; ?>js/pixel-admin.min.js"></script>
+		
+		<!-- archivos js  modulares-->		     
+		<?php  if (isset($_view_params['js']) && count($_view_params['js'])): ?>
+		<?php  	for ($i = 0; $i < count($_view_params['js']); $i++):  ?>		     
+		<script src="<?php echo $_view_params['js'][$i]; ?>"></script>		     
+		<?php  	endfor; ?>
+		<?php  endif;?>
+		
+<script type="text/javascript">
+	
+	init.push(function () {
+		// Javascript code here
+	});
+	window.PixelAdmin.start(init);
+	
+</script>
+
+</body>
+</html>
+		
+
+<!-- end footer -->

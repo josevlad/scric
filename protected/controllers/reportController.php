@@ -158,7 +158,7 @@
 				<div class="box">  			
 					<table class="tg2">				  
 					  <tr>
-					    <td style="width: 50%;"><strong>'.utf8_encode('CLIENTE:').'</strong> '.$data['nombres'].', '.$data['apellidos'].'</td>
+					    <td style="width: 50%;"><strong>'.utf8_encode('CLIENTE:').'</strong> '.$data['nombres'].' '.$data['apellidos'].'</td>
 					    <td style="width: 50%;"><strong>'.utf8_encode('TELÉFONOS:').'</strong> '.$telf.'</td>
 					  </tr>					  
 					  <tr>
@@ -300,11 +300,11 @@
 				<table class="tg2">
 				  
 				  <tr>
-				    <td style="width: 50%;"><strong>'.utf8_encode('EL AFILIADO:').'</strong> '.$data['nombres'].', '.$data['apellidos'].'</td>
+				    <td style="width: 50%;"><strong>'.utf8_encode('EL AFILIADO:').'</strong> '.$data['nombres'].' '.$data['apellidos'].'</td>
 				    <td><strong>RIF/C.I.</strong>&nbsp;&nbsp;'.$data['dni'].'</td>
 				  </tr>
 				  <tr>
-				    <td colspan="2"><strong>'.utf8_encode('DIRECCIÓN:').'</strong> '.$data['direccion'].', '.$data['estado'].', '.$data['municipio'].', '.$data['parroquia'].'</td>
+				    <td colspan="2"><strong>'.utf8_encode('DIRECCIÓN:').'</strong> '.$data['direccion'].', '.$data['estado'].'</td>
 				   
 				  </tr>
 				  <tr>
@@ -491,7 +491,7 @@
 								    </td>					    
 								  </tr>
 								  <tr>
-								    <td colspan="3"><strong>'.utf8_encode('AFILIADO:').'</strong> '.$data['nombres'].', '.$data['apellidos'].'</td>
+								    <td colspan="3"><strong>'.utf8_encode('AFILIADO:').'</strong> '.$data['nombres'].' '.$data['apellidos'].'</td>
 								    <td><strong>RIF/C.I.</strong>&nbsp;&nbsp;'.$data['dni'].'</td>
 								  </tr>
 								  <tr>
@@ -632,10 +632,11 @@
 			
 		}
 		
-		public function ventasAsesorPdf($date = FALSE) {
+		public function ventasAsesorPdf() {
 				
 			$model 	= $this->loadModel('adviser');
 			$data 	= $model->reporteAsesor();
+			
 			$fecha 	= $model->getFecha();
 			$hora 	= $model->getHora();
 			
@@ -660,7 +661,7 @@
 						  </tr>
 						  <tr>
 						    <td colspan="3">
-								'.utf8_encode('ASESOR: <strong>').' '.Session::get('name').' '.Session::get('last_name').'</strong>
+								'.utf8_encode('ASESOR: <strong>').' '.Session::get('name').' '.Session::get('last_name').', </strong> '.utf8_encode('AGENCIA: <strong>').' '.Session::get('nombre_ag').'</strong> 
 							</td>
 						  </tr>
 						  
@@ -673,58 +674,84 @@
 				<link href="'.PUBLIC_URL.'css/report.css" rel="stylesheet" type="text/css">
 		
 				<div style="height: 98.8%; width: 100%; border: 0px solid #ccc; margin: 0px;">
-				
+				<div>'.$model->getFecha().'</div>
 					<table class="tg_relacion">
 					  <tr>
 					    <th>'.utf8_encode('Contrato').'</th>
 					    <th>'.utf8_encode('rif/cedula').'</th>
-					    <th  class="name">'.utf8_encode('Clientes').'</th>
+					    <th  class="name">'.utf8_encode('Clientes').'</th>					    
+					    <th  class="name">'.utf8_encode('Telefonos').'</th>
 					    <th>'.utf8_encode('Puestos').'</th>
 					    <th>'.utf8_encode('Estatus').'</th>
 					    <th>'.utf8_encode('Clase').'</th>
 					    <th>'.utf8_encode('Placa').'</th>
-					    <th>'.utf8_encode('%').'</th>
-					    <th>'.utf8_encode('Venta').'</th>
-					    <th>'.utf8_encode('M&M').'</th>
-					    <th>'.utf8_encode('Asesor').'</th>
+					    
+					    <th>'.utf8_encode('Venta Total').'</th>
 					  </tr>
 					';
 					$ttAsesor = 0;
 					$ttMM = 0;
 					$ttVentas = 0;
 					for ($i = 0; $i < count($data); $i++) {
-				
-						$gnAsesro = ($data[$i]['porcentaje'] * $data[$i]['precio'] ) / 100;
-						$gnMM = $data[$i]['precio'] - $gnAsesro;
-						$ttAsesor = $ttAsesor + $gnAsesro;
-						$ttMM = $ttMM + $gnMM;
-						$ttVentas = $ttVentas + $data[$i]['precio'];
 						
-						$content .='
-							  <tr>
-							    <td>'.Session::get('identificador').'-'.$data[$i]['id'].'</td>
-							    <td>'.$data[$i]['dni'].'</td>
-							    <td>'.$data[$i]['nombres'].', '.$data[$i]['apellidos'].'</td>
-							    <td>'.$data[$i]['numPuesto'].'</td>
-							    <td>'.$data[$i]['statusCont'].'</td>
-							    <td>'.$data[$i]['claseVehiculo'].'</td>
-							    <td>'.$data[$i]['placa'].'</td>
-							    <td>'.$data[$i]['porcentaje'].' %</td>
-							    <td class="money">'.number_format( $data[$i]['precio'] ,2,",",".").'</td>
-							    <td class="money">'.number_format( $gnMM ,2,",",".").'</td>
-							    <td class="money">'.number_format( $gnAsesro ,2,",",".").'</td>
-							  </tr>
-						';
+						$nombres = explode(" ", $data[$i]['nombres']);
+						$apellidos = explode(" ", $data[$i]['apellidos']);
+						
+						if ($data[$i]['statusCont'] == 'VIGENTE') {
+							
+							$telf 	= $model->getTelefonos($data[$i]['idTitular']);
+							
+							$gnAsesro = ($data[$i]['porcentaje'] * $data[$i]['precio'] ) / 100;
+							$gnMM = $data[$i]['precio'] - $gnAsesro;
+							$ttAsesor = $ttAsesor + $gnAsesro;
+							$ttMM = $ttMM + $gnMM;
+							$ttVentas = $ttVentas + $data[$i]['precio'];
+							
+							
+							$content .='
+								  <tr>
+								    <td>'.Session::get('identificador').'-'.$data[$i]['id'].'</td>
+								    <td>'.$data[$i]['dni'].'</td>
+								    <td>'.$nombres[0].' '.substr( $nombres[0], 0, 1 ).'. '.$apellidos[0].' '.substr( $apellidos[0], 0, 1 ).'.</td>
+								    <td>'.substr( $telf, 0, 16 ).'</td>
+								    <td>'.$data[$i]['numPuesto'].'</td>
+								    <td>'.$data[$i]['statusCont'].'</td>
+								    <td>'.$data[$i]['claseVehiculo'].'</td>
+								    <td>'.$data[$i]['placa'].'</td>
+								    
+								    <td class="money">'.number_format( $data[$i]['precio'] ,2,",",".").'</td>
+								  </tr>
+							';
+							
+						}else{
+							
+							$telf 	= $model->getTelefonos($data[$i]['idTitular']);
+							
+							$content .='
+								  <tr>
+								    <td>'.Session::get('identificador').'-'.$data[$i]['id'].'</td>
+								    <td>'.$data[$i]['dni'].'</td>
+								    <td>'.$nombres[0].' '.substr( $nombres[0], 0, 1 ).'. '.$apellidos[0].' '.substr( $apellidos[0], 0, 1 ).'.</td>
+								    <td>'.substr( $telf, 0, 16 ).'</td>								    
+								    <td>'.$data[$i]['numPuesto'].'</td>
+								    <td>'.$data[$i]['statusCont'].'</td>
+								    <td>'.$data[$i]['claseVehiculo'].'</td>
+								    <td>'.$data[$i]['placa'].'</td>
+								    
+								    <td class="money">'.number_format( '0' ,2,",",".").'</td>
+								  </tr>
+							';
+						}
+				
+						
 						
 					}
 			
 					$content .='
 								<tr>
-								  <td colspan="5">Contratos vendidos: <strong>'.count($data).'</strong></td>
+								  <td colspan="5">Total de Registro: <strong>'.count($data).'</strong></td>
 								  <td colspan="3" class="money"><strong>Total: </strong></td>
 								  <td class="money"><strong>'.number_format( $ttVentas ,2,",",".").'</strong></td>
-								  <td class="money"><strong>'.number_format( $ttMM ,2,",",".").'</strong></td>
-								  <td class="money"><strong>'.number_format( $ttAsesor ,2,",",".").'</strong></td>
 								</tr>
 								
 							</table>
@@ -756,6 +783,203 @@
 			//$pdf->Output('ejemplo.pdf', 'D');  //forzar descarga
 				
 				
+		}
+		
+		public function salesDatesPdf($begin, $end) {
+			
+			$model 	= $this->loadModel('adviser');
+			$data 	= $model->salesDatesSQL(App::saveDate($begin),App::saveDate($end));
+				
+			$fecha 	= $model->getFecha();
+			$hora 	= $model->getHora();
+				
+			//App::varDump($data);
+				
+			$header= '
+			    <page_header>
+					<div style="height: 0%; width: 100%; border: 0px solid #ccc; margin: 0px 0px 0px 0px; padding: 0px 0px 0px px;">
+						<table class="tg_asesor_heat">
+						  <tr>
+						    <th class="leftBox">
+								<img src="'.PUBLIC_URL.'img/logo.png" class="logo1Ventas">
+							</th>
+						    <th class="centerBox">
+								<img src="'.PUBLIC_URL.'img/M&M2.jpg" class="logo2"><br><br>
+								<h3>Internacional de Compromiso, C.A.</h3>
+								<h5>Cierres de Contratos</h5>
+							</th>
+						    <th class="rightBox">
+								'.utf8_encode('Fecha de Impresión: ').'<br><br> '.$fecha.'<br>'.$hora.'
+							</th>
+						  </tr>
+						  <tr>
+						    <td colspan="3">
+								'.utf8_encode('ASESOR: <strong>').' '.Session::get('name').' '.Session::get('last_name').', </strong> '.utf8_encode('AGENCIA: <strong>').' '.Session::get('nombre_ag').'</strong>
+							</td>
+						  </tr>
+		
+						</table>
+					</div>
+			    </page_header>
+		     ';
+		
+			$content ='
+				<link href="'.PUBLIC_URL.'css/report.css" rel="stylesheet" type="text/css">
+		
+				<div style="height: 98.8%; width: 100%; border: 0px solid #ccc; margin: 0px;">
+				
+					<table class="tg_relacion">
+					  <tr>
+					    <th>'.utf8_encode('Contrato').'</th>
+					    <th>'.utf8_encode('rif/cedula').'</th>
+					    <th  class="name">'.utf8_encode('Clientes').'</th>
+					    <th  class="name">'.utf8_encode('Telefonos').'</th>
+					    <th>'.utf8_encode('Puestos').'</th>
+					    <th>'.utf8_encode('Estatus').'</th>
+					    <th>'.utf8_encode('Clase').'</th>
+					    <th>'.utf8_encode('Placa').'</th>
+					
+					    <th>'.utf8_encode('Venta Total').'</th>
+					  </tr>
+					';
+			$ttAsesor = 0;
+			$ttMM = 0;
+			$ttVentas = 0;
+			$dates = '';
+			for ($i = 0; $i < count($data); $i++) {
+					
+				$nombres = explode(" ", $data[$i]['nombres']);
+				$apellidos = explode(" ", $data[$i]['apellidos']);
+				
+				if ($data[$i]['statusCont'] == 'VIGENTE') {
+						
+					$telf 	= $model->getTelefonos($data[$i]['idTitular']);
+						
+					$gnAsesro = ($data[$i]['porcentaje'] * $data[$i]['precio'] ) / 100;
+					$gnMM = $data[$i]['precio'] - $gnAsesro;
+					$ttAsesor = $ttAsesor + $gnAsesro;
+					$ttMM = $ttMM + $gnMM;
+					$ttVentas = $ttVentas + $data[$i]['precio'];
+						
+					if ($dates != $data[$i]['fecha_exp']) {
+						$dates = $data[$i]['fecha_exp'];
+						$content .='
+								  <tr>
+								    <td colspan="9" class="date">'.App::showDate($data[$i]['fecha_exp']).'</td>								    
+								  </tr>
+								    		
+								  <tr>
+								    <td>'.Session::get('identificador').'-'.$data[$i]['id'].'</td>
+								    <td>'.$data[$i]['dni'].'</td>
+								    <td>'.$nombres[0].' '.substr( $nombres[0], 0, 1 ).'. '.$apellidos[0].' '.substr( $apellidos[0], 0, 1 ).'.</td>
+								    <td>'.substr( $telf, 0, 16 ).'</td>
+								    <td>'.$data[$i]['numPuesto'].'</td>
+								    <td>'.$data[$i]['statusCont'].'</td>
+								    <td>'.$data[$i]['claseVehiculo'].'</td>
+								    <td>'.$data[$i]['placa'].'</td>
+		
+								    <td class="money">'.number_format( $data[$i]['precio'] ,2,",",".").'</td>
+								  </tr>
+							';
+					}else {	
+						$content .='
+								  <tr>
+								    <td>'.Session::get('identificador').'-'.$data[$i]['id'].'</td>
+								    <td>'.$data[$i]['dni'].'</td>
+								    <td>'.$nombres[0].' '.substr( $nombres[0], 0, 1 ).'. '.$apellidos[0].' '.substr( $apellidos[0], 0, 1 ).'.</td>
+								    <td>'.substr( $telf, 0, 16 ).'</td>
+								    <td>'.$data[$i]['numPuesto'].'</td>
+								    <td>'.$data[$i]['statusCont'].'</td>
+								    <td>'.$data[$i]['claseVehiculo'].'</td>
+								    <td>'.$data[$i]['placa'].'</td>
+		
+								    <td class="money">'.number_format( $data[$i]['precio'] ,2,",",".").'</td>
+								  </tr>
+							';
+					}
+						
+				}else{
+						
+					$telf 	= $model->getTelefonos($data[$i]['idTitular']);
+						
+					if ($dates != $data[$i]['fecha_exp']) {
+						$dates = $data[$i]['fecha_exp'];
+						$content .='
+								  <tr>
+								    <td colspan="9" class="date">'.App::showDate($data[$i]['fecha_exp']).'</td>								    
+								  </tr>
+								    		
+								  <tr>
+								    <td>'.Session::get('identificador').'-'.$data[$i]['id'].'</td>
+								    <td>'.$data[$i]['dni'].'</td>
+								    <td>'.$nombres[0].' '.substr( $nombres[0], 0, 1 ).'. '.$apellidos[0].' '.substr( $apellidos[0], 0, 1 ).'.</td>
+								    <td>'.substr( $telf, 0, 16 ).'</td>
+								    <td>'.$data[$i]['numPuesto'].'</td>
+								    <td>'.$data[$i]['statusCont'].'</td>
+								    <td>'.$data[$i]['claseVehiculo'].'</td>
+								    <td>'.$data[$i]['placa'].'</td>
+		
+								    <td class="money">'.number_format( '0' ,2,",",".").'</td>
+								  </tr>
+							';
+					}else {
+						$content .='
+								  <tr>
+								    <td>'.Session::get('identificador').'-'.$data[$i]['id'].'</td>
+								    <td>'.$data[$i]['dni'].'</td>
+								    <td>'.$nombres[0].' '.substr( $nombres[0], 0, 1 ).'. '.$apellidos[0].' '.substr( $apellidos[0], 0, 1 ).'.</td>
+								    <td>'.substr( $telf, 0, 16 ).'</td>
+								    <td>'.$data[$i]['numPuesto'].'</td>
+								    <td>'.$data[$i]['statusCont'].'</td>
+								    <td>'.$data[$i]['claseVehiculo'].'</td>
+								    <td>'.$data[$i]['placa'].'</td>
+						
+								    <td class="money">'.number_format( '0' ,2,",",".").'</td>
+								  </tr>
+							';
+					}
+				}
+		
+		
+		
+			}
+				
+			$content .='
+								<tr>
+								  <td colspan="5">Total de Registro: <strong>'.count($data).'</strong></td>
+								  <td colspan="3" class="money"><strong>Total: </strong></td>
+								  <td class="money"><strong>'.number_format( $ttVentas ,2,",",".").'</strong></td>
+								</tr>
+		
+							</table>
+			
+		
+			</div>';
+		
+			$footer = '
+				<page_footer>
+			        <div style="height: 0%; width: 100%; border: 0px solid #ccc; margin: 0px; font-size:12px;">
+					</div>
+			    </page_footer>
+			';
+		
+			//ob_start();
+			echo '
+				<page backleft="0mm" backtop="30mm" backright="0mm" backbottom="0mm">'
+					.$header
+					.$footer
+					.$content.'
+            	</page>
+			';
+		
+			$this->getLibrary('html2pdf/html2pdf.class');
+			$this->_pdf = new HTML2PDF(SHEET_ORIENTATION,'Letter',LANGUAJE_PDF,TRUE,CHARSET_PDF);
+			$this->_pdf->writeHTML(ob_get_clean());
+		
+			$this->_pdf->Output('carnet'.'.pdf'); // mostrar agregandole la extenciÃ³n .pdf
+			//$pdf->Output('ejemplo.pdf', 'D');  //forzar descarga
+		
+		
 		}
 	}
 ?>

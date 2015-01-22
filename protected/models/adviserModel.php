@@ -1042,7 +1042,7 @@
 			$telf = '';
 			
 			for ($i = 0; $i < count($result); $i++) {
-				$telf .= $result[$i]['numTelf'].'&nbsp;&nbsp;&nbsp;&nbsp;';
+				$telf .= $result[$i]['numTelf'].'&nbsp;&nbsp;';
 			}
 			
 			return $telf;
@@ -1075,7 +1075,7 @@
 			if (count($result) > 0) {
 				$correo = $result[0]['correo'];
 			}else {
-				$correo = '<i>SIN CORREO ELECTRÓNICO</i>';
+				$correo = '<i>SIN CORREO ELECTRONICO</i>';
 			}
 				
 			return $correo;
@@ -1396,13 +1396,15 @@
 			return array_shift( $result );
 		}
 		
-		public function reporteAsesor($date = FALSE) {
+		public function reporteAsesor() {
 			
 			if (isset($data)) {
 				$between = 'AND contratos.fecha_exp BETWEEN '.$date;
 			}else{
 				$between = '';
 			} 
+			
+			//
 			
 			$this->_query = '
 				SELECT
@@ -1411,7 +1413,8 @@
 					numpuesto.numPuesto, 			statuscont.statusCont,
 					clasevehiculo.claseVehiculo,	contratos.placa,
 					precio.precio,					porcentajes.porcentaje,
-					planillas.agencias_id,			contratos.fecha_exp
+					planillas.agencias_id,			contratos.fecha_exp,					
+					titulares.id AS idTitular
 				FROM
 					titulares
 						INNER JOIN contratos ON contratos.titulares_id = titulares.id
@@ -1423,7 +1426,7 @@
 						INNER JOIN porcentajes ON contratos.porcentajes_id = porcentajes.id
 						INNER JOIN planillas ON contratos.planillas_id = planillas.id
 				WHERE
-					statusCont_id = 2
+					contratos.fecha_exp = "'.App::saveDate( $this->getFecha() ).'"
 				AND
 					planillas.agencias_id ="'.Session::get('idAgencia').'" '.$between;
 				
@@ -1440,6 +1443,51 @@
 				exit();
 			}
 				
+			return $result;
+		}
+		
+		public function salesDatesSQL($begin, $end) {
+				
+				
+			$this->_query = '
+				SELECT
+					contratos.id, 					titulares.dni,
+					titulares.nombres, 				titulares.apellidos,
+					numpuesto.numPuesto, 			statuscont.statusCont,
+					clasevehiculo.claseVehiculo,	contratos.placa,
+					precio.precio,					porcentajes.porcentaje,
+					planillas.agencias_id,			contratos.fecha_exp,
+					titulares.id AS idTitular
+				FROM
+					titulares
+						INNER JOIN contratos ON contratos.titulares_id = titulares.id
+						INNER JOIN statuscont ON contratos.statusCont_id = statuscont.id
+						INNER JOIN precio ON contratos.precio_id = precio.id
+						INNER JOIN numpuesto ON precio.numPuesto_id = numpuesto.id
+						INNER JOIN usovehiculo ON contratos.usoVehiculo_id = usovehiculo.id
+						INNER JOIN clasevehiculo ON usovehiculo.claseVehiculo_id = clasevehiculo.id
+						INNER JOIN porcentajes ON contratos.porcentajes_id = porcentajes.id
+						INNER JOIN planillas ON contratos.planillas_id = planillas.id
+				WHERE
+					planillas.agencias_id ="'.Session::get('idAgencia').'" 
+				AND 
+					contratos.fecha_exp BETWEEN "'.$begin.'" 
+				AND 
+					"'.$end.'"';
+		
+			$data = $this->_db->query($this->_query);
+		
+			try {
+				$this->_db->beginTransaction();
+				$result = $data->fetchAll(PDO::FETCH_ASSOC);
+				$this->_db->commit();
+			}
+			catch (Exception $e) {
+				$this->_db->rollBack();
+				echo "Error :: ".$e->getMessage();
+				exit();
+			}
+		
 			return $result;
 		}
 		

@@ -175,6 +175,11 @@
 				//saveContract
 				
 			}else {
+				//FancyBox
+				$this->_view->setJs(array('plugins/fancyBox/source/mousewheel'));
+				$this->_view->setJs(array('plugins/fancyBox/source/jquery.fancybox'));
+				$this->_view->setCss(array('plugins/fancyBox/source/jquery.fancybox'));
+				
 				//content page-hader
 				$this->_view->icon_fa = 'fa-users';
 				$this->_view->titleHead = 'Clientes y Contratos';
@@ -845,6 +850,11 @@
 				echo $this->_adviser->asocContract($contrato);
 				
 			}else {
+				//FancyBox
+				$this->_view->setJs(array('plugins/fancyBox/source/mousewheel'));
+				$this->_view->setJs(array('plugins/fancyBox/source/jquery.fancybox'));
+				$this->_view->setCss(array('plugins/fancyBox/source/jquery.fancybox'));
+				
 				//content page-hader
 				$this->_view->icon_fa = 'fa-users';
 				$this->_view->titleHead = 'Asociación de Contrato Nuevo';
@@ -1178,7 +1188,7 @@
 			}else {
 				//content page-hader
 				$this->_view->icon_fa = 'fa-print';
-				$this->_view->titleHead = 'Impresión de Relación de Ventas';
+				$this->_view->titleHead = 'Impresión de Reporte Diario';
 	
 				//pdf js
 				$this->_view->setJs(array('plugins/pdf/pdfobject'));
@@ -1188,12 +1198,46 @@
 					
 				//printPage js
 				$this->_view->setJs(array('plugins/bootbox/bootbox'));
+
 					
 				//custom config js
 				$this->_view->setJs(array('adviser/ventasAsesor'));
 					
 				$this->_view->render('ventasAsesor',$this->_menuSB);
 			}		
+		}
+		
+		public function salesDates() {
+			Session::accessRole(array('SUPER_U','ADMIN_DB','ASESOR'));
+			
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+				$this->_view->preview = 'true';
+
+				$this->_view->from = $_POST['from'];
+				$this->_view->to = $_POST['to'];
+			}
+				//content page-hader
+				$this->_view->icon_fa = 'fa-print';
+				$this->_view->titleHead = 'Impresión de Relación de Ventas';
+				
+				//pdf js
+				$this->_view->setJs(array('plugins/pdf/pdfobject'));
+				
+				//printPage js
+				$this->_view->setJs(array('plugins/printPage/printPage'));
+					
+				//printPage js
+				$this->_view->setJs(array('plugins/bootbox/bootbox'));
+				
+				//jquery ui
+				$this->_view->setJs(array('plugins/jquery-ui/jquery-ui'));
+				//$this->_view->setCss(array('plugins/jquery-ui/jquery-ui'));
+					
+				//custom config js
+				$this->_view->setJs(array('adviser/salesDates'));
+				
+				$this->_view->render('salesDates',$this->_menuSB);
+			
 		}
 	}
 ?>
